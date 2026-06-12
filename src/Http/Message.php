@@ -1,0 +1,136 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Darflen\Framework\Http;
+
+use Override;
+use Psr\Http\Message\MessageInterface;
+use Psr\Http\Message\StreamInterface;
+
+final class Message implements MessageInterface
+{
+    private array $headerNames = [];
+
+    private array $headers = [];
+
+    private string $protocol = '1.1';
+
+    private const array AVAILABLE_PROTOCOL_VERSIONS = ['1.0', '1.1', '2.0', '2', '3.0', '3'];
+
+    private StreamInterface $body;
+
+    #[Override]
+    public function getProtocolVersion(): string
+    {
+        return $this->protocol;
+    }
+
+    #[Override]
+    public function withProtocolVersion(string $version): MessageInterface
+    {
+        $clone = clone $this;
+        $this->validateProtocolVersion($version);
+        $clone->protocol = $version;
+        return $clone;
+    }
+
+    #[Override]
+    public function getHeaders(): array
+    {
+        $result = [];
+        foreach ($this->headerNames as $key => $name) {
+            $result[$name] = $this->headers[$key];
+        }
+        return $result;
+    }
+
+    #[Override]
+    public function getHeader(string $name): array
+    {
+        $name = strtolower($name);
+        return isset($this->headerNames[$name]) ? $this->headers[$name] : [];
+    }
+
+    #[Override]
+    public function getHeaderLine(string $name): string
+    {
+        $headers = $this->getHeader($name);
+        return implode(',', $headers);
+    }
+
+    #[Override]
+    public function hasHeader(string $name): bool
+    {
+        return $this->getHeader($name) !== [];
+    }
+
+    #[Override]
+    public function withHeader(string $name, $value): MessageInterface
+    {
+        $clone = clone $this;
+        $this->validateHeaderName($name);
+        $this->validateHeaderValue($value);
+        $lowerName = strtolower($name);
+        $clone->headerNames[$lowerName] = $name;
+        $clone->headers[$lowerName] = (array) $value;
+        return $clone;
+    }
+
+    #[Override]
+    public function withoutHeader(string $name): MessageInterface
+    {
+        $clone = clone $this;
+        $lowerName = strtolower($name);
+        unset($clone->headerNames[$lowerName]);
+        unset($clone->headers[$lowerName]);
+        return $clone;
+    }
+
+    #[Override]
+    public function withAddedHeader(string $name, $value): MessageInterface
+    {
+        $clone = clone $this;
+        $this->validateHeaderName($name);
+        $this->validateHeaderValue($value);
+        $lowerName = strtolower($name);
+        $clone->headerNames[$lowerName] = $name;
+        $clone->headers[$lowerName] = array_merge($clone->headers[$lowerName] ?? [], (array) $value);
+        return $clone;
+    }
+
+    #[Override]
+    public function getBody(): StreamInterface
+    {
+        return $this->body;
+    }
+
+    #[Override]
+    public function withBody(StreamInterface $body): MessageInterface
+    {
+        $clone = clone $this;
+        $clone->body = $body;
+        return $clone;
+    }
+
+    private function validateProtocolVersion(string $version): void
+    {
+        if (!in_array($version, self::AVAILABLE_PROTOCOL_VERSIONS)) {
+            throw new \InvalidArgumentException(sprintf('Invalid HTTP protocol version: "%s"', $version));
+        }
+    }
+
+    private function validateHeaderValue(string $value): void
+    {
+        if (preg_match('/[\x00\x0D\x0A]/', $value)) {
+            throw new \InvalidArgumentException(sprintf('Invalid character in header value: "%s"', $value));
+        }
+    }
+
+    private function validateHeaderName(string $name): void
+    {
+        if (preg_match('/[\x00-\x20]/', $name)) {
+            throw new \InvalidArgumentException(sprintf('Invalid character in header name: "%s"', $name));
+        }
+    }
+}

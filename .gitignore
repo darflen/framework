@@ -1,8 +1,7 @@
 .env
-.rr.yaml
 composer.lock
 /vendor/*
 /.phpunit.cache
 .phpunit.result.cache
-rr.exe
+phpstan.neon
 .vscode/*
