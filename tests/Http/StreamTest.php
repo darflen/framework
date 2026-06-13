@@ -14,7 +14,7 @@ class StreamTest extends TestCase
     private string $file;
 
     #[Override]
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $this->file = tempnam(sys_get_temp_dir(), 'tmp_');
@@ -22,7 +22,7 @@ class StreamTest extends TestCase
     }
 
     #[Override]
-    protected function tearDown(): void
+    public function tearDown(): void
     {
         parent::tearDown();
         @unlink($this->file);
@@ -150,7 +150,7 @@ class StreamTest extends TestCase
         $stream->write("Hello, Planet!");
         $stream->rewind();
 
-        $this->assertSame("Hello, Planet!", $stream->read(112));
+        $this->assertSame("Hello, Planet!", $stream->read(14));
     }
 
     public function testWriteThrowsWhenNoStream()
@@ -180,7 +180,7 @@ class StreamTest extends TestCase
         $this->assertFalse($stream->isWritable());
     }
 
-    public function testIsReadableIsWritableIsSeekableGetSizeCache()
+    public function testGetters()
     {
         $stream = new Stream($this->file, 'r+');
 
@@ -202,7 +202,7 @@ class StreamTest extends TestCase
         $stream = new Stream($this->file, 'r');
 
         $stream->detach();
-        $stream->read(104);
+        $stream->read(13);
     }
 
     public function testReadThrowsExceptionWhenWriteOnly()
@@ -211,7 +211,7 @@ class StreamTest extends TestCase
 
         $stream = new Stream($this->file, 'w');
 
-        $stream->read(100);
+        $stream->read(10);
     }
 
     public function testGetContents()

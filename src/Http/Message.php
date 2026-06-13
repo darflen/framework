@@ -8,7 +8,7 @@ use Override;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\StreamInterface;
 
-final class Message implements MessageInterface
+class Message implements MessageInterface
 {
     private array $headerNames = [];
 
@@ -18,7 +18,7 @@ final class Message implements MessageInterface
 
     private const array AVAILABLE_PROTOCOL_VERSIONS = ['1.0', '1.1', '2.0', '2', '3.0', '3'];
 
-    private StreamInterface $body;
+    private ?StreamInterface $body;
 
     #[Override]
     public function getProtocolVersion(): string
@@ -132,5 +132,38 @@ final class Message implements MessageInterface
         if (preg_match('/[\x00-\x20]/', $name)) {
             throw new \InvalidArgumentException(sprintf('Invalid character in header name: "%s"', $name));
         }
+    }
+
+    protected function setProtocolVersion(string $version): void
+    {
+        $this->validateProtocolVersion($version);
+        $this->protocol = $version;
+    }
+
+    protected function setHeaders(array $headers): void
+    {
+        foreach ($headers as $name => $values) {
+            $lowerName = strtolower($name);
+            $this->validateHeaderName($name);
+            $this->headerNames[$lowerName] = $name;
+            foreach ($values as $value) {
+                $this->validateHeaderValue($value);
+                $this->headers[$lowerName] = array_merge($this->headers[$lowerName] ?? [], (array) $value);
+            }
+        }
+    }
+
+    protected function setHeader(string $name, string $value): void
+    {
+        $this->validateHeaderName($name);
+        $this->validateHeaderValue($value);
+        $lowerName = strtolower($name);
+        $this->headerNames[$lowerName] = $name;
+        $this->headers[$lowerName] = (array) $value;
+    }
+
+    public function setStream(?StreamInterface $body)
+    {
+        $this->body = $body;
     }
 }

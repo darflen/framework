@@ -28,7 +28,7 @@ class MessageTest extends TestCase
         $this->assertEquals('1.1', $message->getProtocolVersion());
     }
 
-    public function testWithProtocolVersionException()
+    public function testWithProtocolVersionThrowsExceptionWhenBadValue()
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -108,7 +108,7 @@ class MessageTest extends TestCase
         $this->assertEquals('', $clone->getHeaderLine('X-foo'));
     }
 
-    public function testWithHeaderNameException()
+    public function testWithHeaderNameThrowsExceptionWhenBadName()
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -117,7 +117,7 @@ class MessageTest extends TestCase
         $message->withHeader("x-foo\x0A", 'failure');
     }
 
-    public function testWithHeaderValueException()
+    public function testWithHeaderValueThrowsExceptionWhenBadValue()
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -136,7 +136,7 @@ class MessageTest extends TestCase
         $this->assertEquals('foo,bar', $clone->getHeaderLine('X-foo'));
     }
 
-    public function testWithAddedHeaderNameException()
+    public function testWithAddedHeaderNameThrowsExceptionWhenBadName()
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -146,7 +146,7 @@ class MessageTest extends TestCase
         $message->withAddedHeader("x-foo\x0A", 'fizz');
     }
 
-    public function testWithAddedHeaderValueException()
+    public function testWithAddedHeaderValueThrowsExceptionWhenBadValue()
     {
         $this->expectException(InvalidArgumentException::class);
 

@@ -9,7 +9,7 @@ use Override;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
 
-final class Stream implements StreamInterface
+class Stream implements StreamInterface
 {
     private ?int $size = null;
 
