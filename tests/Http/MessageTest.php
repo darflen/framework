@@ -94,8 +94,10 @@ class MessageTest extends TestCase
 
         $clone = $message->withHeader('X-foo', 'failure');
         $clone = $clone->withHeader('X-foo', 'bar');
+        $clone = $clone->withHeader('X-bar', ['fizz', 'buzz']);
 
         $this->assertEquals('bar', $clone->getHeaderLine('X-foo'));
+        $this->assertEquals('fizz,buzz', $clone->getHeaderLine('X-bar'));
     }
 
     public function testWithoutHeader()
@@ -132,8 +134,11 @@ class MessageTest extends TestCase
 
         $clone = $message->withAddedHeader('X-foo', 'foo');
         $clone = $clone->withAddedHeader('X-foo', 'bar');
+        $clone = $clone->withAddedHeader('X-bar', ['fizz', 'foo']);
+        $clone = $clone->withAddedHeader('X-bar', ['bar', 'buzz']);
 
         $this->assertEquals('foo,bar', $clone->getHeaderLine('X-foo'));
+        $this->assertEquals('fizz,foo,bar,buzz', $clone->getHeaderLine('X-bar'));
     }
 
     public function testWithAddedHeaderNameThrowsExceptionWhenBadName()

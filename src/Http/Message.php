@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Http;
 
+use InvalidArgumentException;
 use Override;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\StreamInterface;
@@ -70,10 +71,21 @@ class Message implements MessageInterface
     {
         $clone = clone $this;
         $this->validateHeaderName($name);
-        $this->validateHeaderValue($value);
+        if (is_string($value)) {
+            $value = [$value];
+        }
+        if (!is_string($value) && !is_array($value) || (is_array($value) && empty($value)) || (is_string($value) && $value === '')) {
+            throw new InvalidArgumentException('Value must be a non-empty array or a string');
+        }
+        if ($name === '') {
+            throw new InvalidArgumentException("Name must not be empty");
+        }
         $lowerName = strtolower($name);
         $clone->headerNames[$lowerName] = $name;
-        $clone->headers[$lowerName] = (array) $value;
+        foreach ($value as $singleValue) {
+            $this->validateHeaderValue($singleValue);
+        }
+        $clone->headers[$lowerName] = $value;
         return $clone;
     }
 
@@ -92,10 +104,21 @@ class Message implements MessageInterface
     {
         $clone = clone $this;
         $this->validateHeaderName($name);
-        $this->validateHeaderValue($value);
+        if (is_string($value)) {
+            $value = [$value];
+        }
+        if (!is_string($value) && !is_array($value) || (is_array($value) && empty($value)) || (is_string($value) && $value === '')) {
+            throw new InvalidArgumentException('Value must be a non-empty array or a string');
+        }
+        if ($name === '') {
+            throw new InvalidArgumentException("Name must not be empty");
+        }
         $lowerName = strtolower($name);
         $clone->headerNames[$lowerName] = $name;
-        $clone->headers[$lowerName] = array_merge($clone->headers[$lowerName] ?? [], (array) $value);
+        foreach ($value as $singleValue) {
+            $this->validateHeaderValue($singleValue);
+        }
+        $clone->headers[$lowerName] = array_merge($clone->headers[$lowerName] ?? [], $value);
         return $clone;
     }
 

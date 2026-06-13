@@ -36,16 +36,6 @@ class RequestTest extends TestCase
         $this->assertSame('GET', $request->getMethod());
     }
 
-    public function testWithMethodThrowsExceptionWhenBadMethod()
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        $uri = $this->createStub(Uri::class);
-        $body = $this->createStub(Stream::class);
-
-        new Request('SUCCESS', $uri, [], $body);
-    }
-
     public function testGetRequestTarget()
     {
         $uri = $this->createMock(Uri::class);

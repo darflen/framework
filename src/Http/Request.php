@@ -16,18 +16,12 @@ class Request extends Message implements RequestInterface
 
     private string $method = 'GET';
 
-    private const array AVAILABLE_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS', 'PURGE', 'TRACE', 'CONNECT'];
-
     private ?string $requestTarget = null;
 
     public function __construct(string $method, string|UriInterface $uri, array $headers = [], ?StreamInterface $body = null, string $version = '1.1')
     {
-        if (!($uri instanceof UriInterface)) {
-            $uri = new Uri($uri);
-        }
-        $this->uri = $uri;
-        $this->validateHTTPMethod($method);
-        $this->method = $method;
+        $this->setUri($uri);
+        $this->setMethod($method);
         $this->setProtocolVersion($version);
         $this->setHeaders($headers);
         if (!$this->hasHeader('host')) {
@@ -42,9 +36,9 @@ class Request extends Message implements RequestInterface
         if (!is_null($this->requestTarget)) {
             return $this->requestTarget;
         }
-        $this->requestTarget = $this->uri->getPath();
-        $this->requestTarget = $this->requestTarget === '' ? '/' : $this->requestTarget . '?' . $this->uri->getQuery();
-        return $this->requestTarget;
+        $target = $this->uri->getPath();
+        $target = $target === '' ? '/' : $target . '?' . $this->uri->getQuery();
+        return $target;
     }
 
     #[Override]
@@ -65,7 +59,9 @@ class Request extends Message implements RequestInterface
     public function withMethod(string $method): RequestInterface
     {
         $clone = clone $this;
-        $this->validateHTTPMethod($method);
+        if ($method === '') {
+            throw new InvalidArgumentException("Method string must not be empty");
+        }
         $clone->method = $method;
         return $clone;
     }
@@ -87,11 +83,16 @@ class Request extends Message implements RequestInterface
         return $clone;
     }
 
-    public function validateHTTPMethod(string $method): void
+    protected function setUri(string|UriInterface $uri): void
     {
-        $method = strtoupper($method);
-        if (!in_array($method, self::AVAILABLE_METHODS)) {
-            throw new InvalidArgumentException("Invalid method");
+        if (!($uri instanceof UriInterface)) {
+            $uri = new Uri($uri);
         }
+        $this->uri = $uri;
+    }
+
+    protected function setMethod(string $method): void
+    {
+        $this->method = $method;
     }
 }

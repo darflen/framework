@@ -43,7 +43,7 @@ class Uri implements UriInterface
     #[Override]
     public function getAuthority(): string
     {
-        return (!empty($this->getUserInfo()) && $this->getUserInfo() !== '0' ? $this->getUserInfo() . '@' : '') . $this->getHost() . (!is_null($this->getPort()) ? ':' . $this->getPort() : '');
+        return ($this->getUserInfo() !== '' ? $this->getUserInfo() . '@' : '') . $this->getHost() . (!is_null($this->getPort()) ? ':' . $this->getPort() : '');
     }
 
     #[Override]
