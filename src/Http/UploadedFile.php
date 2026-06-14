@@ -58,6 +58,8 @@ class UploadedFile implements UploadedFileInterface
         $this->validateGood();
         if (is_uploaded_file($this->fileStream->getMetadata('uri'))) {
             $this->isMoved = @move_uploaded_file($this->fileStream->getMetadata('uri'), $targetPath);
+        } else {
+            $this->isMoved = @rename($this->fileStream->getMetadata('uri'), $targetPath);
         }
         if (!$this->isMoved) {
             throw new RuntimeException("Move failed");

@@ -63,7 +63,7 @@ class RequestTest extends TestCase
     {
         $uri = $this->createMock(Uri::class);
         $body = $this->createStub(Stream::class);
-        $uri->expects($this->exactly(4))->method('getHost')->willReturnOnConsecutiveCalls('example.com', 'example.com', 'example.com', 'fizzbuzz.com');
+        $uri->expects($this->exactly(5))->method('getHost')->willReturnOnConsecutiveCalls('example.com', 'example.com', 'example.com', 'example.com', 'fizzbuzz.com');
 
         $request = new Request('GET', $uri, [], $body);
         $clone = $request->withUri($uri);

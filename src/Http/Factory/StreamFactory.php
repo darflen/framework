@@ -14,24 +14,22 @@ class StreamFactory implements StreamFactoryInterface
     #[Override]
     public function createStream(string $content = ''): StreamInterface
     {
-        // TODO FIX STREAM (ADD SUPPORT)!
-        $stream = new Stream('php://temp', 'r+');
-        $stream->write($content);
-        $stream->rewind();
-        return $stream;
+        $resource = fopen('php://memory', 'r+');
+        fwrite($resource, $content);
+        fseek($resource, 0);
+        return new Stream($resource);
     }
 
     #[Override]
     public function createStreamFromFile(string $filename, string $mode = 'r'): StreamInterface
     {
-        return new Stream($filename, $mode);
+        $resource = fopen($filename, $mode);
+        return new Stream($resource);
     }
 
     #[Override]
     public function createStreamFromResource($resource): StreamInterface
     {
-        // TODO FIX STREAM (ADD SUPPORT)!
-        $metadata = stream_get_meta_data($resource);
-        return new Stream($metadata['uri'], $metadata['mode']);
+        return new Stream($resource);
     }
 }

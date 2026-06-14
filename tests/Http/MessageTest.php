@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Tests\Http;
 
+use Darflen\Framework\Http\Factory\StreamFactory;
 use Darflen\Framework\Http\Message;
-use Darflen\Framework\Http\Stream;
 use PHPUnit\Framework\TestCase;
 use InvalidArgumentException;
 
@@ -165,9 +165,8 @@ class MessageTest extends TestCase
     {
         $message = new Message();
 
-        $stream = new Stream("php://temp", "r+");
-        $stream->write("Hello, World!");
-        $stream->rewind();
+        $stream = new StreamFactory();
+        $stream = $stream->createStream('Hello, World!');
 
         $clone = $message->withBody($stream);
 

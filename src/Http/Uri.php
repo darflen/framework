@@ -14,9 +14,17 @@ class Uri implements UriInterface
 {
     private PHPUri $parser;
 
+    private string $placeholderHost = 'placeholder.local';
+
+    private const array AVAILABLE_SCHEMES = ['' => null, "http" => 80, "https" => 443];
+
     public function __construct(string $uri)
     {
+        $uri = $this->urlEncodeUri($uri);
         $this->parser = $this->wrapException(fn () => new PHPUri($uri));
+        if (is_null($this->parser->getHost())) {
+            $this->parser = $this->parser->withHost($this->placeholderHost);
+        }
     }
 
     private function wrapException(callable $function): PHPUri
@@ -55,13 +63,19 @@ class Uri implements UriInterface
     #[Override]
     public function getHost(): string
     {
-        return $this->parser->getHost() ?? '';
+        $host = $this->parser->getHost() ?? '';
+        $host = $host === $this->placeholderHost ? '' : $host;
+        return $host;
     }
 
     #[Override]
     public function getPort(): ?int
     {
-        return $this->parser->getPort();
+        $port = $this->parser->getPort();
+        if ((self::AVAILABLE_SCHEMES[$this->getScheme()] ?? '') === $port) {
+            $port = null;
+        }
+        return $port;
     }
 
     #[Override]
@@ -79,7 +93,9 @@ class Uri implements UriInterface
     #[Override]
     public function getPath(): string
     {
-        return $this->parser->getPath();
+        $path = $this->parser->getPath();
+        $path = preg_replace('#(?<!/)//(?!/)#', '/', $path);
+        return $path;
     }
 
     #[Override]
@@ -94,6 +110,10 @@ class Uri implements UriInterface
     public function withUserInfo(string $user, ?string $password = null): UriInterface
     {
         $clone = clone $this;
+        $user = $this->urlEncodeUserInfo($user);
+        if (!is_null($password)) {
+            $password = $this->urlEncodeUserInfo($password);
+        }
         $userInfo = $user . (!empty($password) || $password === '0' ? ':' . $password : '');
         $clone->parser = $clone->wrapException(fn () => $clone->parser->withUserInfo($userInfo));
         return $clone;
@@ -137,5 +157,27 @@ class Uri implements UriInterface
         $clone = clone $this;
         $clone->parser = $clone->wrapException(fn () => $clone->parser->withFragment($fragment));
         return $clone;
+    }
+
+    private function urlEncodeUserInfo(string $value)
+    {
+        return preg_replace_callback(
+            '/(?:[^%a-zA-Z0-9_\-\.\~]+|%(?![A-Fa-f0-9]{2}))/',
+            function ($matches) {
+                return rawurlencode($matches[0]);
+            },
+            $value
+        );
+    }
+
+    private function urlEncodeUri(string $value)
+    {
+        return preg_replace_callback(
+            '/(?:[^%a-zA-Z0-9\_\-\.\~\!\$\&\'\*\+\,\;\=\:\?\#\@\/\\\\]+|%(?![A-Fa-f0-9]{2}))/',
+            function ($matches) {
+                return rawurlencode($matches[0]);
+            },
+            $value
+        );
     }
 }

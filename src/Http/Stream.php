@@ -40,10 +40,18 @@ class Stream implements StreamInterface
         return $this->getContents();
     }
 
-    public function __construct(string $stream, string $mode)
+    /**
+     * __construct
+     *
+     * @param  resource $stream
+     * @return void
+     */
+    public function __construct($stream)
     {
-        $stream = fopen($stream, $mode);
-        $this->stream = !$stream ? null : $stream;
+        if (!is_resource($stream)) {
+            throw new InvalidArgumentException("Stream must be a valid resource");
+        }
+        $this->stream = $stream;
     }
 
     #[Override]
@@ -74,23 +82,6 @@ class Stream implements StreamInterface
         $clone = $this->stream;
         $this->stream = null;
         return $clone;
-    }
-
-    /**
-     * attach
-     *
-     * @param  resource $stream
-     * @return void
-     */
-    public function attach($stream): void
-    {
-        if (!is_resource($stream)) {
-            throw new InvalidArgumentException("Must be a valid PHP resource");
-        }
-        if ($this->stream) {
-            $this->detach();
-        }
-        $this->stream = $stream;
     }
 
     #[Override]

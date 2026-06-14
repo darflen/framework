@@ -57,7 +57,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     public function withCookieParams(array $cookies): ServerRequestInterface
     {
         $clone = clone $this;
-        $this->cookiesParams = $cookies;
+        $clone->cookiesParams = $cookies;
         return $clone;
     }
 
@@ -71,7 +71,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     public function withQueryParams(array $query): ServerRequestInterface
     {
         $clone = clone $this;
-        $this->queryParams = $query;
+        $clone->queryParams = $query;
         return $clone;
     }
 
@@ -85,7 +85,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     public function withUploadedFiles(array $uploadedFiles): ServerRequestInterface
     {
         $clone = clone $this;
-        $this->uploadedFiles = $uploadedFiles;
+        $clone->uploadedFiles = $uploadedFiles;
         return $clone;
     }
 
@@ -99,7 +99,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     public function withParsedBody($data): ServerRequestInterface
     {
         $clone = clone $this;
-        $this->parsedBody = $data;
+        $clone->parsedBody = $data;
         return $clone;
     }
 
@@ -119,7 +119,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     public function withAttribute(string $name, $value): ServerRequestInterface
     {
         $clone = clone $this;
-        $this->attributes[$name] = $value;
+        $clone->attributes[$name] = $value;
         return $clone;
     }
 
@@ -127,7 +127,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     public function withoutAttribute(string $name): ServerRequestInterface
     {
         $clone = clone $this;
-        unset($this->attributes[$name]);
+        unset($clone->attributes[$name]);
         return $clone;
     }
 }

@@ -76,9 +76,8 @@ class Request extends Message implements RequestInterface
     public function withUri(UriInterface $uri, bool $preserveHost = false): RequestInterface
     {
         $clone = clone $this;
-        $clone->uri = $uri;
-        if (!$preserveHost) {
-            $this->setHeader('host', $uri->getHost());
+        if (!$preserveHost && $uri->getHost() !== '') {
+            $clone->setHeader('Host', $uri->getHost());
         }
         return $clone;
     }

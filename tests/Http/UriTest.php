@@ -43,16 +43,16 @@ class UriTest extends TestCase
 
         $clone = $uri->withScheme('https')
             ->withHost('example.com')
-            ->withUserInfo('buzz', 'hunter12')
-            ->withPort(8080)
+            ->withUserInfo('buzz @+%/-_.~', 'hunter12')
+            ->withPort(80)
             ->withPath("/fizz/buzz/data")
             ->withQuery('key=value')
             ->withFragment('%3Dfoobar%3D');
 
         $this->assertSame('https', $clone->getScheme());
         $this->assertSame('example.com', $clone->getHost());
-        $this->assertSame('buzz:hunter12', $clone->getUserInfo());
-        $this->assertSame(8080, $clone->getPort());
+        $this->assertSame('buzz%20%40%2B%25%2F-_.~:hunter12', $clone->getUserInfo());
+        $this->assertSame(80, $clone->getPort());
         $this->assertSame('/fizz/buzz/data', $clone->getPath());
         $this->assertSame('key=value', $clone->getQuery());
         $this->assertSame('%3Dfoobar%3D', $clone->getFragment());
