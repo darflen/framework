@@ -125,7 +125,7 @@ class Response extends Message implements ResponseInterface
         return $this->reasonPhrase;
     }
 
-    private function validateStatusCode(int $code)
+    private function validateStatusCode(int $code): void
     {
         if ($code < 100 || $code > 599) {
             throw new InvalidArgumentException("Invalid status code");

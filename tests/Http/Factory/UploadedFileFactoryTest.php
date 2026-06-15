@@ -10,7 +10,7 @@ use Darflen\Framework\Http\Stream;
 
 class UploadedFileFactoryTest extends TestCase
 {
-    public function testUploadedFileFactory()
+    public function testUploadedFileFactory(): void
     {
         $stream = $this->createStub(Stream::class);
         $uploadedFileFactory = new UploadedFileFactory();

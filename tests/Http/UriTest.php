@@ -9,7 +9,7 @@ use Darflen\Framework\Http\Uri;
 
 class UriTest extends TestCase
 {
-    public function testGetters()
+    public function testGetters(): void
     {
         $uri = new Uri('abcd://username:password@example.com:123/path/data?key=value#fragment%26');
 
@@ -23,7 +23,7 @@ class UriTest extends TestCase
         $this->assertSame('username:password@example.com:123', $uri->getAuthority());
     }
 
-    public function testEmptyGetters()
+    public function testEmptyGetters(): void
     {
         $uri = new Uri('');
 
@@ -37,7 +37,7 @@ class UriTest extends TestCase
         $this->assertEmpty($uri->getAuthority());
     }
 
-    public function testWithSetters()
+    public function testWithSetters(): void
     {
         $uri = new Uri('');
 
@@ -58,7 +58,7 @@ class UriTest extends TestCase
         $this->assertSame('%3Dfoobar%3D', $clone->getFragment());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $uri = new Uri('abcd://username:password@example.com:123/path/data?key=value#fragment%26');
 

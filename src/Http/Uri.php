@@ -163,7 +163,7 @@ class Uri implements UriInterface
         return $clone;
     }
 
-    private function urlEncodeUserInfo(string $value)
+    private function urlEncodeUserInfo(string $value): string
     {
         return preg_replace_callback(
             '/(?:[^%a-zA-Z0-9_\-\.\~]+|%(?![A-Fa-f0-9]{2}))/',
@@ -174,7 +174,7 @@ class Uri implements UriInterface
         );
     }
 
-    private function urlEncodeUri(string $value)
+    private function urlEncodeUri(string $value): string
     {
         return preg_replace_callback(
             '/(?:[^%a-zA-Z0-9\_\-\.\~\!\$\&\'\*\+\,\;\=\:\?\#\@\/\\\\]+|%(?![A-Fa-f0-9]{2}))/',

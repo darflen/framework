@@ -11,14 +11,14 @@ use InvalidArgumentException;
 
 class MessageTest extends TestCase
 {
-    public function testGetProtocolVersion()
+    public function testGetProtocolVersion(): void
     {
         $message = new Message();
 
         $this->assertEquals('1.1', $message->getProtocolVersion());
     }
 
-    public function testWithProtocolVersion()
+    public function testWithProtocolVersion(): void
     {
         $message = new Message();
 
@@ -28,7 +28,7 @@ class MessageTest extends TestCase
         $this->assertEquals('1.1', $message->getProtocolVersion());
     }
 
-    public function testWithProtocolVersionThrowsExceptionWhenBadValue()
+    public function testWithProtocolVersionThrowsExceptionWhenBadValue(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -37,7 +37,7 @@ class MessageTest extends TestCase
         $message->withProtocolVersion('0.0');
     }
 
-    public function testGetHeaders()
+    public function testGetHeaders(): void
     {
         $message = new Message();
 
@@ -54,7 +54,7 @@ class MessageTest extends TestCase
 
     }
 
-    public function testGetHeader()
+    public function testGetHeader(): void
     {
         $message = new Message();
 
@@ -66,7 +66,7 @@ class MessageTest extends TestCase
         $this->assertEquals([], $clone->getHeader('X-fizz'));
     }
 
-    public function testGetHeaderLine()
+    public function testGetHeaderLine(): void
     {
         $message = new Message();
 
@@ -78,7 +78,7 @@ class MessageTest extends TestCase
         $this->assertEquals('', $clone->getHeaderLine('X-fizz'));
     }
 
-    public function testHasHeader()
+    public function testHasHeader(): void
     {
         $message = new Message();
 
@@ -88,7 +88,7 @@ class MessageTest extends TestCase
         $this->assertFalse($clone->hasHeader('X-bar'));
     }
 
-    public function testWithHeader()
+    public function testWithHeader(): void
     {
         $message = new Message();
 
@@ -100,7 +100,7 @@ class MessageTest extends TestCase
         $this->assertEquals('fizz,buzz', $clone->getHeaderLine('X-bar'));
     }
 
-    public function testWithoutHeader()
+    public function testWithoutHeader(): void
     {
         $message = new Message();
 
@@ -110,7 +110,7 @@ class MessageTest extends TestCase
         $this->assertEquals('', $clone->getHeaderLine('X-foo'));
     }
 
-    public function testWithHeaderNameThrowsExceptionWhenBadName()
+    public function testWithHeaderNameThrowsExceptionWhenBadName(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -119,7 +119,7 @@ class MessageTest extends TestCase
         $message->withHeader("x-foo\x0A", 'failure');
     }
 
-    public function testWithHeaderValueThrowsExceptionWhenBadValue()
+    public function testWithHeaderValueThrowsExceptionWhenBadValue(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -128,7 +128,7 @@ class MessageTest extends TestCase
         $message->withHeader('x-foo', "failure\x0A");
     }
 
-    public function testWithAddedHeader()
+    public function testWithAddedHeader(): void
     {
         $message = new Message();
 
@@ -144,7 +144,7 @@ class MessageTest extends TestCase
         $this->assertEquals('text/html,text/plain,application/json', $clone->getHeaderLine('content-type'));
     }
 
-    public function testWithAddedHeaderNameThrowsExceptionWhenBadName()
+    public function testWithAddedHeaderNameThrowsExceptionWhenBadName(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -154,7 +154,7 @@ class MessageTest extends TestCase
         $message->withAddedHeader("x-foo\x0A", 'fizz');
     }
 
-    public function testWithAddedHeaderValueThrowsExceptionWhenBadValue()
+    public function testWithAddedHeaderValueThrowsExceptionWhenBadValue(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -164,7 +164,7 @@ class MessageTest extends TestCase
         $message->withAddedHeader('x-foo', "fizz\x0A");
     }
 
-    public function testWithBody()
+    public function testWithBody(): void
     {
         $message = new Message();
 

@@ -33,7 +33,7 @@ class UploadedFileTest extends TestCase
         @unlink($fileFinal);
     }
 
-    public function testMultipleMoveToThrowsException()
+    public function testMultipleMoveToThrowsException(): void
     {
         $this->expectException(RuntimeException::class);
 
@@ -53,7 +53,7 @@ class UploadedFileTest extends TestCase
         @unlink($fileFinal);
     }
 
-    public function testGetters()
+    public function testGetters(): void
     {
         $stream = $this->createStub(Stream::class);
 
@@ -66,7 +66,7 @@ class UploadedFileTest extends TestCase
         $this->assertSame(9471032, $uploadedFile->getSize());
     }
 
-    public function testBadErrorNumberThrowsException()
+    public function testBadErrorNumberThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -74,7 +74,7 @@ class UploadedFileTest extends TestCase
         new UploadedFile($stream, 13, 32);
     }
 
-    public function testGetStreamThrowsExceptionWhenBadUpload()
+    public function testGetStreamThrowsExceptionWhenBadUpload(): void
     {
         $this->expectException(RuntimeException::class);
 

@@ -9,7 +9,7 @@ use Darflen\Framework\Http\Factory\ResponseFactory;
 
 class ResponseFactoryTest extends TestCase
 {
-    public function testResponseFactory()
+    public function testResponseFactory(): void
     {
         $responseFactory = new ResponseFactory();
 

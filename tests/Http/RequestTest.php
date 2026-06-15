@@ -12,7 +12,7 @@ use InvalidArgumentException;
 
 class RequestTest extends TestCase
 {
-    public function testGettersWithStubs()
+    public function testGettersWithStubs(): void
     {
         $uri = $this->createStub(Uri::class);
         $body = $this->createStub(Stream::class);
@@ -24,7 +24,7 @@ class RequestTest extends TestCase
         $this->assertSame('/', $request->getRequestTarget());
     }
 
-    public function testWithMethod()
+    public function testWithMethod(): void
     {
         $uri = $this->createStub(Uri::class);
         $body = $this->createStub(Stream::class);
@@ -36,7 +36,7 @@ class RequestTest extends TestCase
         $this->assertSame('GET', $request->getMethod());
     }
 
-    public function testGetRequestTarget()
+    public function testGetRequestTarget(): void
     {
         $uri = $this->createMock(Uri::class);
         $body = $this->createStub(Stream::class);
@@ -48,7 +48,7 @@ class RequestTest extends TestCase
         $this->assertSame('/fizz/buzz?key=value', $request->getRequestTarget());
     }
 
-    public function testWithRequestTarget()
+    public function testWithRequestTarget(): void
     {
         $uri = $this->createStub(Uri::class);
         $body = $this->createStub(Stream::class);
@@ -59,7 +59,7 @@ class RequestTest extends TestCase
         $this->assertSame('https://example.com/data/', $clone->getRequestTarget());
     }
 
-    public function testWithUri()
+    public function testWithUri(): void
     {
         $uri = $this->createMock(Uri::class);
         $body = $this->createStub(Stream::class);

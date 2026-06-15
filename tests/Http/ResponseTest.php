@@ -10,7 +10,7 @@ use InvalidArgumentException;
 
 class ResponseTest extends TestCase
 {
-    public function testGetters()
+    public function testGetters(): void
     {
         $response = new Response(200, 'OK');
 
@@ -18,7 +18,7 @@ class ResponseTest extends TestCase
         $this->assertSame('OK', $response->getReasonPhrase());
     }
 
-    public function testWithStatus()
+    public function testWithStatus(): void
     {
         $response = new Response(200, 'OK');
 
@@ -27,7 +27,7 @@ class ResponseTest extends TestCase
         $this->assertSame('Not Found', $clone->getReasonPhrase());
     }
 
-    public function testThrowsExceptionWhenBadStatusCode()
+    public function testThrowsExceptionWhenBadStatusCode(): void
     {
         $this->expectException(InvalidArgumentException::class);
 

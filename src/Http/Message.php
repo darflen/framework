@@ -152,7 +152,7 @@ class Message implements MessageInterface
         }
     }
 
-    private function validateHeaderData(string $name, string|array $value)
+    private function validateHeaderData(string $name, mixed $value): void
     {
         if (!is_string($value) && !is_array($value) || (is_array($value) && empty($value)) || (is_string($value) && $value === '')) {
             throw new InvalidArgumentException('Header value must be a non-empty array or a string');

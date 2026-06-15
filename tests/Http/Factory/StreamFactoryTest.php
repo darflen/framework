@@ -6,6 +6,7 @@ namespace Darflen\Framework\Tests\Http\Factory;
 
 use PHPUnit\Framework\TestCase;
 use Darflen\Framework\Http\Factory\StreamFactory;
+use Override;
 
 class StreamFactoryTest extends TestCase
 {
@@ -26,7 +27,7 @@ class StreamFactoryTest extends TestCase
         @unlink($this->file);
     }
 
-    public function testCreateFromFile()
+    public function testCreateFromFile(): void
     {
         $streamFactory = new StreamFactory();
 
@@ -35,7 +36,7 @@ class StreamFactoryTest extends TestCase
         $this->assertSame('Hello, World!', $stream->read(13));
     }
 
-    public function testCreateFromResource()
+    public function testCreateFromResource(): void
     {
         $streamFactory = new StreamFactory();
         $resource = fopen($this->file, 'r');
@@ -45,7 +46,7 @@ class StreamFactoryTest extends TestCase
         $this->assertSame('Hello, World!', $stream->read(13));
     }
 
-    public function testCreateStreamFromString()
+    public function testCreateStreamFromString(): void
     {
         $streamFactory = new StreamFactory();
 

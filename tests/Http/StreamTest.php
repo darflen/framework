@@ -28,7 +28,7 @@ class StreamTest extends TestCase
         @unlink($this->file);
     }
 
-    public function testToStringConversion()
+    public function testToStringConversion(): void
     {
         $stream = new StreamFactory();
         $stream = $stream->createStreamFromFile($this->file, 'r');
@@ -36,7 +36,7 @@ class StreamTest extends TestCase
         $this->assertSame("Hello, World!", (string) $stream);
     }
 
-    public function testDetach()
+    public function testDetach(): void
     {
         $stream = new StreamFactory();
         $stream = $stream->createStreamFromFile($this->file, 'r');
@@ -46,7 +46,7 @@ class StreamTest extends TestCase
         $this->assertTrue(is_resource($resource));
     }
 
-    public function testOperationsAfterDetachFail()
+    public function testOperationsAfterDetachFail(): void
     {
         $this->expectException(RuntimeException::class);
 
@@ -57,7 +57,7 @@ class StreamTest extends TestCase
         $stream->getContents();
     }
 
-    public function testGetSize()
+    public function testGetSize(): void
     {
         $stream = new StreamFactory();
         $stream = $stream->createStreamFromFile($this->file, 'r');
@@ -65,7 +65,7 @@ class StreamTest extends TestCase
         $this->assertEquals(13, $stream->getSize());
     }
 
-    public function testTell()
+    public function testTell(): void
     {
         $stream = new StreamFactory();
         $stream = $stream->createStreamFromFile($this->file, 'r');
@@ -73,7 +73,7 @@ class StreamTest extends TestCase
         $this->assertEquals(0, $stream->tell());
     }
 
-    public function testTellThrowsWhenNoStream()
+    public function testTellThrowsWhenNoStream(): void
     {
         $this->expectException(RuntimeException::class);
 
@@ -84,7 +84,7 @@ class StreamTest extends TestCase
         $stream->tell();
     }
 
-    public function testSeek()
+    public function testSeek(): void
     {
         $stream = new StreamFactory();
         $stream = $stream->createStreamFromFile($this->file, 'r');
@@ -94,7 +94,7 @@ class StreamTest extends TestCase
         $this->assertEquals(6, $stream->tell());
     }
 
-    public function testSeekThrowsWhenNoStream()
+    public function testSeekThrowsWhenNoStream(): void
     {
         $this->expectException(RuntimeException::class);
 
@@ -105,7 +105,7 @@ class StreamTest extends TestCase
         $stream->seek(6);
     }
 
-    public function testRewind()
+    public function testRewind(): void
     {
         $stream = new StreamFactory();
         $stream = $stream->createStreamFromFile($this->file, 'r');
@@ -116,7 +116,7 @@ class StreamTest extends TestCase
         $this->assertEquals(0, $stream->tell());
     }
 
-    public function testEof()
+    public function testEof(): void
     {
         $stream = new StreamFactory();
         $stream = $stream->createStreamFromFile($this->file, 'r');
@@ -128,7 +128,7 @@ class StreamTest extends TestCase
         $this->assertTrue($stream->eof());
     }
 
-    public function testIsWritableOnly()
+    public function testIsWritableOnly(): void
     {
         $stream = new StreamFactory();
         $stream = $stream->createStreamFromFile($this->file, 'w');
@@ -137,7 +137,7 @@ class StreamTest extends TestCase
         $this->assertFalse($stream->isReadable());
     }
 
-    public function testReadAndWrite()
+    public function testReadAndWrite(): void
     {
         $stream = new StreamFactory();
         $stream = $stream->createStreamFromFile($this->file, 'w+');
@@ -151,7 +151,7 @@ class StreamTest extends TestCase
 
     }
 
-    public function testWriteThrowsWhenNoStream()
+    public function testWriteThrowsWhenNoStream(): void
     {
         $this->expectException(RuntimeException::class);
 
@@ -162,7 +162,7 @@ class StreamTest extends TestCase
         $stream->write("Hello, Planet!");
     }
 
-    public function testWriteThrowsWhenReadOnly()
+    public function testWriteThrowsWhenReadOnly(): void
     {
         $this->expectException(RuntimeException::class);
 
@@ -172,7 +172,7 @@ class StreamTest extends TestCase
         $stream->write("This should not be written!");
     }
 
-    public function testIsReadableOnly()
+    public function testIsReadableOnly(): void
     {
         $stream = new StreamFactory();
         $stream = $stream->createStreamFromFile($this->file, 'r');
@@ -181,7 +181,7 @@ class StreamTest extends TestCase
         $this->assertFalse($stream->isWritable());
     }
 
-    public function testGetters()
+    public function testGetters(): void
     {
         $stream = new StreamFactory();
         $stream = $stream->createStreamFromFile($this->file, 'r+');
@@ -197,7 +197,7 @@ class StreamTest extends TestCase
         $this->assertSame($size, $stream->getSize());
     }
 
-    public function testReadThrowsWhenNoStream()
+    public function testReadThrowsWhenNoStream(): void
     {
         $this->expectException(RuntimeException::class);
 
@@ -208,7 +208,7 @@ class StreamTest extends TestCase
         $stream->read(13);
     }
 
-    public function testReadThrowsExceptionWhenWriteOnly()
+    public function testReadThrowsExceptionWhenWriteOnly(): void
     {
         $this->expectException(RuntimeException::class);
 
@@ -218,7 +218,7 @@ class StreamTest extends TestCase
         $stream->read(10);
     }
 
-    public function testGetContents()
+    public function testGetContents(): void
     {
         $stream = new StreamFactory();
         $stream = $stream->createStreamFromFile($this->file, 'r');
@@ -226,7 +226,7 @@ class StreamTest extends TestCase
         $this->assertSame("Hello, World!", $stream->getContents());
     }
 
-    public function testGetContentsThrowsExceptionWhenWriteOnly()
+    public function testGetContentsThrowsExceptionWhenWriteOnly(): void
     {
         $this->expectException(RuntimeException::class);
 
@@ -236,7 +236,7 @@ class StreamTest extends TestCase
         $stream->getContents();
     }
 
-    public function testGetMetadata()
+    public function testGetMetadata(): void
     {
         $stream = new StreamFactory();
         $stream = $stream->createStreamFromFile($this->file, 'r');
@@ -245,7 +245,7 @@ class StreamTest extends TestCase
         $this->assertSame(null, $stream->getMetadata('failure'));
     }
 
-    public function testGetMetadataWhenDetached()
+    public function testGetMetadataWhenDetached(): void
     {
         $stream = new StreamFactory();
         $stream = $stream->createStreamFromFile($this->file, 'r');

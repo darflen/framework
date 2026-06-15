@@ -10,7 +10,7 @@ use Darflen\Framework\Http\Uri;
 
 class ServerRequestFactoryTest extends TestCase
 {
-    public function testServerRequestFactory()
+    public function testServerRequestFactory(): void
     {
         $uri = $this->createStub(Uri::class);
         $serverRequestFactory = new ServerRequestFactory();

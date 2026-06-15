@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class ServerRequestTest extends TestCase
 {
-    public function testEmptyGetters()
+    public function testEmptyGetters(): void
     {
         $uri = $this->createStub(Uri::class);
         $serverRequest = new ServerRequest('GET', $uri);
@@ -23,7 +23,7 @@ class ServerRequestTest extends TestCase
         $this->assertEmpty($serverRequest->getUploadedFiles());
     }
 
-    public function testWithSetters()
+    public function testWithSetters(): void
     {
         $uri = $this->createStub(Uri::class);
         $uploadedFile = $this->createStub(UploadedFile::class);
@@ -40,7 +40,7 @@ class ServerRequestTest extends TestCase
         $this->assertSame(['foo' => 'bar'], $clone->getParsedBody());
     }
 
-    public function testWithAttribute()
+    public function testWithAttribute(): void
     {
         $uri = $this->createStub(Uri::class);
         $serverRequest = new ServerRequest('GET', $uri);
@@ -51,7 +51,7 @@ class ServerRequestTest extends TestCase
         $this->assertSame('success', $clone->getAttribute('failure', 'success'));
     }
 
-    public function testWithoutAttribute()
+    public function testWithoutAttribute(): void
     {
         $uri = $this->createStub(Uri::class);
         $serverRequest = new ServerRequest('GET', $uri);
@@ -63,7 +63,7 @@ class ServerRequestTest extends TestCase
         $this->assertNotSame('buzz', $clone->getAttribute('fizz', 'failure'));
     }
 
-    public function testGetAttributes()
+    public function testGetAttributes(): void
     {
         $uri = $this->createStub(Uri::class);
         $serverRequest = new ServerRequest('GET', $uri);
