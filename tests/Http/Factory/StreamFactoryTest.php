@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Darflen\Framework\Tests\Uri;
+namespace Darflen\Framework\Tests\Http\Factory;
 
 use PHPUnit\Framework\TestCase;
 use Darflen\Framework\Http\Factory\StreamFactory;

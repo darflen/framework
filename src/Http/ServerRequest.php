@@ -31,7 +31,7 @@ class ServerRequest extends Request implements ServerRequestInterface
         $this->setProtocolVersion($version);
         $this->setHeaders($headers);
         if (!$this->hasHeader('host')) {
-            $this->setHeader('host', $uri->getHost());
+            $this->setHeader('host', $this->getUri()->getHost());
         }
         $this->setStream($body);
         $this->serverParams = $serverParams;

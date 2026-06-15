@@ -59,10 +59,10 @@ class Request extends Message implements RequestInterface
     #[Override]
     public function withMethod(string $method): RequestInterface
     {
-        $clone = clone $this;
         if ($method === '') {
             throw new InvalidArgumentException("Method string must not be empty");
         }
+        $clone = clone $this;
         $clone->method = $method;
         return $clone;
     }
@@ -89,7 +89,7 @@ class Request extends Message implements RequestInterface
 
     protected function setUri(string|UriInterface $uri): void
     {
-        if (!($uri instanceof UriInterface)) {
+        if (is_string($uri)) {
             $uri = new Uri($uri);
         }
         $this->uri = $uri;
