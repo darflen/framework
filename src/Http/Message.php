@@ -74,12 +74,7 @@ class Message implements MessageInterface
         if (is_string($value)) {
             $value = [$value];
         }
-        if (!is_string($value) && !is_array($value) || (is_array($value) && empty($value)) || (is_string($value) && $value === '')) {
-            throw new InvalidArgumentException('Value must be a non-empty array or a string');
-        }
-        if ($name === '') {
-            throw new InvalidArgumentException("Name must not be empty");
-        }
+        $this->validateHeaderData($name, $value);
         $lowerName = strtolower($name);
         $clone->headerNames[$lowerName] = $name;
         foreach ($value as $singleValue) {
@@ -107,12 +102,7 @@ class Message implements MessageInterface
         if (is_string($value)) {
             $value = [$value];
         }
-        if (!is_string($value) && !is_array($value) || (is_array($value) && empty($value)) || (is_string($value) && $value === '')) {
-            throw new InvalidArgumentException('Value must be a non-empty array or a string');
-        }
-        if ($name === '') {
-            throw new InvalidArgumentException("Name must not be empty");
-        }
+        $this->validateHeaderData($name, $value);
         $lowerName = strtolower($name);
         $clone->headerNames[$lowerName] = $name;
         foreach ($value as $singleValue) {
@@ -157,6 +147,16 @@ class Message implements MessageInterface
         }
     }
 
+    private function validateHeaderData(string $name, string|array $value)
+    {
+        if (!is_string($value) && !is_array($value) || (is_array($value) && empty($value)) || (is_string($value) && $value === '')) {
+            throw new InvalidArgumentException('Header value must be a non-empty array or a string');
+        }
+        if ($name === '') {
+            throw new InvalidArgumentException("Header name must not be empty");
+        }
+    }
+
     protected function setProtocolVersion(string $version): void
     {
         $this->validateProtocolVersion($version);
@@ -185,7 +185,7 @@ class Message implements MessageInterface
         $this->headers[$lowerName] = (array) $value;
     }
 
-    public function setStream(?StreamInterface $body)
+    protected function setStream(?StreamInterface $body)
     {
         $this->body = $body;
     }

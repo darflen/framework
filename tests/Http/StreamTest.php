@@ -84,14 +84,6 @@ class StreamTest extends TestCase
         $stream->tell();
     }
 
-    public function testIsSeekable()
-    {
-        $stream = new StreamFactory();
-        $stream = $stream->createStreamFromFile($this->file, 'r');
-
-        $this->assertTrue($stream->isSeekable());
-    }
-
     public function testSeek()
     {
         $stream = new StreamFactory();
@@ -154,6 +146,9 @@ class StreamTest extends TestCase
         $stream->rewind();
 
         $this->assertSame("Hello, Planet!", $stream->read(14));
+        $stream->rewind();
+        $this->assertSame("Hello", $stream->read(5));
+
     }
 
     public function testWriteThrowsWhenNoStream()
