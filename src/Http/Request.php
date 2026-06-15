@@ -37,7 +37,8 @@ class Request extends Message implements RequestInterface
             return $this->requestTarget;
         }
         $target = $this->uri->getPath();
-        $target = $target === '' ? '/' : $target . '?' . $this->uri->getQuery();
+        $query = $this->uri->getQuery();
+        $target = $target === '' ? '/' : $target . ($query !== '' ? '?' . $query : '');
         return $target;
     }
 
@@ -76,7 +77,11 @@ class Request extends Message implements RequestInterface
     public function withUri(UriInterface $uri, bool $preserveHost = false): RequestInterface
     {
         $clone = clone $this;
+        $clone->uri = $uri;
         if (!$preserveHost && $uri->getHost() !== '') {
+            $clone->setHeader('Host', $uri->getHost());
+        }
+        if ($preserveHost && $uri->getHost() !== '' && $clone->getHeaderLine('Host') === '') {
             $clone->setHeader('Host', $uri->getHost());
         }
         return $clone;

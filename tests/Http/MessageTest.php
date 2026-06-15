@@ -136,9 +136,12 @@ class MessageTest extends TestCase
         $clone = $clone->withAddedHeader('X-foo', 'bar');
         $clone = $clone->withAddedHeader('X-bar', ['fizz', 'foo']);
         $clone = $clone->withAddedHeader('X-bar', ['bar', 'buzz']);
+        $clone = $clone->withAddedHeader('content-type', ['foo' => 'text/html']);
+        $clone = $clone->withAddedHeader('content-type', ['foo' => 'text/plain', 'bar' => 'application/json']);
 
         $this->assertEquals('foo,bar', $clone->getHeaderLine('X-foo'));
         $this->assertEquals('fizz,foo,bar,buzz', $clone->getHeaderLine('X-bar'));
+        $this->assertEquals('text/html,text/plain,application/json', $clone->getHeaderLine('content-type'));
     }
 
     public function testWithAddedHeaderNameThrowsExceptionWhenBadName()

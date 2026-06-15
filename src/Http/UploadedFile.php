@@ -56,10 +56,11 @@ class UploadedFile implements UploadedFileInterface
     public function moveTo(string $targetPath): void
     {
         $this->validateGood();
-        if (is_uploaded_file($this->fileStream->getMetadata('uri'))) {
-            $this->isMoved = @move_uploaded_file($this->fileStream->getMetadata('uri'), $targetPath);
+        $uri = $this->fileStream->getMetadata('uri');
+        if (is_uploaded_file($uri)) {
+            $this->isMoved = @move_uploaded_file($uri, $targetPath);
         } else {
-            $this->isMoved = @rename($this->fileStream->getMetadata('uri'), $targetPath);
+            $this->isMoved = @rename($uri, $targetPath);
         }
         if (!$this->isMoved) {
             throw new RuntimeException("Move failed");

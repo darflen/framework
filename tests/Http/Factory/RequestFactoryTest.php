@@ -12,7 +12,7 @@ class RequestFactoryTest extends TestCase
 {
     public function testRequestFactory()
     {
-        $uri = $this->createMock(Uri::class);
+        $uri = $this->createStub(Uri::class);
         $requestFactory = new RequestFactory();
 
         $request = $requestFactory->createRequest('CONNECT', $uri);

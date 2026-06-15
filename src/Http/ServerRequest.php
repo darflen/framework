@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Http;
 
+use InvalidArgumentException;
 use Override;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -19,11 +20,11 @@ class ServerRequest extends Request implements ServerRequestInterface
 
     private array $uploadedFiles = [];
 
-    private ?StreamInterface $parsedBody;
+    private array|object|null $parsedBody;
 
     private array $attributes = [];
 
-    public function __construct(string $method, string|UriInterface $uri, array $headers = [], ?StreamInterface $body = null, string $version = '1.1', array $serverParams = [], array $cookiesParams = [], array $queryParams = [], array $uploadedFiles = [], array $attributes = [], StreamInterface|null $parsedBody = null)
+    public function __construct(string $method, string|UriInterface $uri, array $headers = [], ?StreamInterface $body = null, string $version = '1.1', array $serverParams = [], array $cookiesParams = [], array $queryParams = [], array $uploadedFiles = [], array $attributes = [], array|object|null $parsedBody = null)
     {
         $this->setUri($uri);
         $this->setMethod($method);
@@ -90,7 +91,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     }
 
     #[Override]
-    public function getParsedBody(): ?StreamInterface
+    public function getParsedBody(): null|array|object
     {
         return $this->parsedBody;
     }
@@ -98,6 +99,9 @@ class ServerRequest extends Request implements ServerRequestInterface
     #[Override]
     public function withParsedBody($data): ServerRequestInterface
     {
+        if (!is_null($data) && !is_object($data) && !is_array($data)) {
+            throw new InvalidArgumentException("Parsed body must be either an array an object or null");
+        }
         $clone = clone $this;
         $clone->parsedBody = $data;
         return $clone;

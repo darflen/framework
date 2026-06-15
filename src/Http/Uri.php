@@ -39,7 +39,11 @@ class Uri implements UriInterface
     #[Override]
     public function __toString(): string
     {
-        return $this->parser->toString();
+        $clone = clone $this;
+        if ($clone->parser->getHost() === $this->placeholderHost) {
+            $clone->parser = $clone->parser->withHost(null);
+        }
+        return $clone->parser->toString();
     }
 
     #[Override]

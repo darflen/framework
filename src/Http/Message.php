@@ -57,6 +57,11 @@ class Message implements MessageInterface
     public function getHeaderLine(string $name): string
     {
         $headers = $this->getHeader($name);
+        foreach ($headers as $key => $header) {
+            if (is_array($headers[$key])) {
+                $headers[$key] = implode(',', $headers[$key]);
+            }
+        }
         return implode(',', $headers);
     }
 
@@ -108,7 +113,7 @@ class Message implements MessageInterface
         foreach ($value as $singleValue) {
             $this->validateHeaderValue($singleValue);
         }
-        $clone->headers[$lowerName] = array_merge($clone->headers[$lowerName] ?? [], $value);
+        $clone->headers[$lowerName] = array_merge_recursive($clone->headers[$lowerName] ?? [], $value);
         return $clone;
     }
 

@@ -7,7 +7,6 @@ namespace Darflen\Framework\Tests\Http;
 use Darflen\Framework\Http\ServerRequest;
 use Darflen\Framework\Http\UploadedFile;
 use Darflen\Framework\Http\Uri;
-use Darflen\Framework\Http\Stream;
 use PHPUnit\Framework\TestCase;
 
 class ServerRequestTest extends TestCase
@@ -27,19 +26,18 @@ class ServerRequestTest extends TestCase
     public function testWithSetters()
     {
         $uri = $this->createStub(Uri::class);
-        $body = $this->createStub(Stream::class);
         $uploadedFile = $this->createStub(UploadedFile::class);
         $serverRequest = new ServerRequest('GET', $uri);
 
         $clone = $serverRequest->withCookieParams(['foo' => 'bar'])
             ->withQueryParams(['fizz' => 'buzz'])
-            ->withParsedBody($body)
+            ->withParsedBody(['foo' => 'bar'])
             ->withUploadedFiles([$uploadedFile]);
 
         $this->assertArraysAreIdentical(['foo' => 'bar'], $clone->getCookieParams());
         $this->assertArraysAreIdentical(['fizz' => 'buzz'], $clone->getQueryParams());
         $this->assertArraysAreIdentical([$uploadedFile], $clone->getUploadedFiles());
-        $this->assertSame($body, $clone->getParsedBody());
+        $this->assertSame(['foo' => 'bar'], $clone->getParsedBody());
     }
 
     public function testWithAttribute()

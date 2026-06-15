@@ -9,7 +9,7 @@ use Darflen\Framework\Http\Factory\UriFactory;
 
 class UriFactoryTest extends TestCase
 {
-    public function testUploadedFIleFactory()
+    public function testUploadedFileFactory()
     {
         $uriFactory = new UriFactory();
 

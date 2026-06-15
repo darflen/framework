@@ -12,7 +12,7 @@ class ServerRequestFactoryTest extends TestCase
 {
     public function testServerRequestFactory()
     {
-        $uri = $this->createMock(Uri::class);
+        $uri = $this->createStub(Uri::class);
         $serverRequestFactory = new ServerRequestFactory();
 
         $request = $serverRequestFactory->createServerRequest('POST', $uri, ['REMOTE_ADDR' => '127.0.0.1']);
