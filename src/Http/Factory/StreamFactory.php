@@ -14,7 +14,7 @@ class StreamFactory implements StreamFactoryInterface
     #[Override]
     public function createStream(string $content = ''): StreamInterface
     {
-        $resource = fopen('php://memory', 'r+');
+        $resource = fopen('php://temp', 'r+');
         fwrite($resource, $content);
         fseek($resource, 0);
         return new Stream($resource);

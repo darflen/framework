@@ -7,16 +7,17 @@ namespace Darflen\Framework\Http\Client;
 use Darflen\Framework\Http\Exceptions\ClientException;
 use Darflen\Framework\Http\Exceptions\NetworkException;
 use Darflen\Framework\Http\Exceptions\RequestException;
-use Darflen\Framework\Http\Factory\ResponseFactory;
-use Darflen\Framework\Http\Factory\StreamFactory;
 use Override;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 
 class Client implements ClientInterface
 {
     private const array AVAILABLE_CURL_PROTOCOL_VERSIONS = [
+        '1' => CURL_HTTP_VERSION_1_0,
         '1.0' => CURL_HTTP_VERSION_1_0,
         '1.1' => CURL_HTTP_VERSION_1_1,
         '2' => CURL_HTTP_VERSION_2,
@@ -25,7 +26,18 @@ class Client implements ClientInterface
         '3.0' => CURL_HTTP_VERSION_3
     ];
 
-    private const string USER_AGENT = 'Darflen/1.0 (+https://darflen.com)';
+    private string $userAgent;
+
+    private ResponseFactoryInterface $responseFactory;
+
+    private StreamFactoryInterface $streamFactory;
+
+    public function __construct(ResponseFactoryInterface $responseFactory, StreamFactoryInterface $streamFactory, string $userAgent = 'Darflen/1.0 (+https://darflen.com)')
+    {
+        $this->responseFactory = $responseFactory;
+        $this->streamFactory = $streamFactory;
+        $this->userAgent = $userAgent;
+    }
 
     #[Override]
     public function sendRequest(RequestInterface $request): ResponseInterface
@@ -39,7 +51,10 @@ class Client implements ClientInterface
         $rawHeaders = $request->getHeaders();
         $body = $request->getBody();
         $body->rewind();
+        $size = $body->getSize();
+        $body->rewind();
         $bodyResource = $body->detach();
+        $userAgent = $request->getHeaderLine('User-Agent');
 
         $url = (string) $uri;
 
@@ -59,15 +74,18 @@ class Client implements ClientInterface
         }
         curl_setopt($curl, CURLOPT_HTTPHEADER, $parsedHeaders);
 
-        curl_setopt($curl, CURLOPT_UPLOAD, true);
-        curl_setopt($curl, CURLOPT_INFILE, $bodyResource);
-        if ($body->getSize() !== null) {
-            curl_setopt($curl, CURLOPT_INFILESIZE, $body->getSize());
+        if (!in_array($method, ['HEAD', 'GET'])) {
+            curl_setopt($curl, CURLOPT_UPLOAD, true);
+            curl_setopt($curl, CURLOPT_INFILE, $bodyResource);
+            if ($size !== null) {
+                curl_setopt($curl, CURLOPT_INFILESIZE, $size);
+            }
         }
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HEADER, true);
-        curl_setopt($curl, CURLOPT_USERAGENT, self::USER_AGENT);
+
+        curl_setopt($curl, CURLOPT_USERAGENT, $userAgent === '' ? $this->userAgent : $userAgent);
 
         $rawResponse = curl_exec($curl);
 
@@ -89,10 +107,10 @@ class Client implements ClientInterface
         $rawHeaders = substr($rawResponse, 0, $headerSize);
         $body = substr($rawResponse, $headerSize);
 
-        $responseBodyStream = new StreamFactory();
+        $responseBodyStream = $this->streamFactory;
         $responseBodyStream = $responseBodyStream->createStream($body);
 
-        $response = new ResponseFactory();
+        $response = $this->responseFactory;
         $response = $response->createResponse($responseCode, '');
         $response = $response->withBody($responseBodyStream);
         foreach (explode("\r\n", $rawHeaders) as $line) {

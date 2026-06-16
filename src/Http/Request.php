@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Http;
 
+use Darflen\Framework\Http\Factory\StreamFactory;
 use InvalidArgumentException;
 use Override;
 use Psr\Http\Message\RequestInterface;
@@ -25,7 +26,11 @@ class Request extends Message implements RequestInterface
         $this->setProtocolVersion($version);
         $this->setHeaders($headers);
         if (!$this->hasHeader('host')) {
-            $this->setHeader('host', $uri->getHost());
+            $this->setHeader('host', $this->uri->getHost());
+        }
+        if (is_null($body)) {
+            $body = new StreamFactory();
+            $body = $body->createStream('');
         }
         $this->setStream($body);
     }

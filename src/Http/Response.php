@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Http;
 
+use Darflen\Framework\Http\Factory\StreamFactory;
 use Override;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
@@ -100,6 +101,10 @@ class Response extends Message implements ResponseInterface
         $this->reasonPhrase = $reasonPhrase === '' ? self::AVAILABLE_STATUS_PHRASES[$code] ?? '' : $reasonPhrase;
         $this->setProtocolVersion($version);
         $this->setHeaders($headers);
+        if (is_null($body)) {
+            $body = new StreamFactory();
+            $body = $body->createStream('');
+        }
         $this->setStream($body);
     }
 
