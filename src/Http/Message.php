@@ -158,7 +158,7 @@ class Message implements MessageInterface
             throw new InvalidArgumentException('Header value must be a non-empty array or a string');
         }
         if ($name === '') {
-            throw new InvalidArgumentException("Header name must not be empty");
+            throw new InvalidArgumentException('Header name must not be empty');
         }
     }
 

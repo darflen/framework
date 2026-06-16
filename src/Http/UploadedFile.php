@@ -63,7 +63,7 @@ class UploadedFile implements UploadedFileInterface
             $this->isMoved = @rename($uri, $targetPath);
         }
         if (!$this->isMoved) {
-            throw new RuntimeException("Move failed");
+            throw new RuntimeException('Move failed');
         }
         $this->isMoved = true;
     }
@@ -95,17 +95,17 @@ class UploadedFile implements UploadedFileInterface
     private function validateGood(): void
     {
         if ($this->error !== \UPLOAD_ERR_OK) {
-            throw new RuntimeException("File has an error");
+            throw new RuntimeException('File has an error');
         }
         if ($this->isMoved) {
-            throw new RuntimeException("File is already moved");
+            throw new RuntimeException('File is already moved');
         }
     }
 
     private function validateError(int $error): void
     {
         if (!key_exists($error, self::AVAILABLE_ERRORS)) {
-            throw new InvalidArgumentException("Invalid error code");
+            throw new InvalidArgumentException('Invalid error code');
         }
     }
 }

@@ -49,7 +49,7 @@ class Stream implements StreamInterface
     public function __construct($stream)
     {
         if (!is_resource($stream)) {
-            throw new InvalidArgumentException("Stream must be a valid resource");
+            throw new InvalidArgumentException('Stream must be a valid resource');
         }
         $this->stream = $stream;
     }
@@ -98,7 +98,7 @@ class Stream implements StreamInterface
     public function tell(): int
     {
         if (!$this->stream) {
-            throw new RuntimeException("No stream available");
+            throw new RuntimeException('No stream available');
         }
         $result = ftell($this->stream);
         if ($result === false) {
@@ -127,7 +127,7 @@ class Stream implements StreamInterface
     public function seek(int $offset, int $whence = SEEK_SET): void
     {
         if (!$this->stream) {
-            throw new RuntimeException("No stream available");
+            throw new RuntimeException('No stream available');
         }
         if (!$this->isSeekable()) {
             throw new RuntimeException('Not seekable');
@@ -164,7 +164,7 @@ class Stream implements StreamInterface
     public function write(string $string): int
     {
         if (!$this->stream) {
-            throw new RuntimeException("No stream available");
+            throw new RuntimeException('No stream available');
         }
         if (!$this->isWritable()) {
             throw new RuntimeException('Not writable');
@@ -198,7 +198,7 @@ class Stream implements StreamInterface
     public function read(int $length): string
     {
         if (!$this->stream) {
-            throw new RuntimeException("No stream available");
+            throw new RuntimeException('No stream available');
         }
         if (!$this->isReadable()) {
             throw new RuntimeException('Not readable');
@@ -214,7 +214,7 @@ class Stream implements StreamInterface
     public function getContents(): string
     {
         if (!$this->stream) {
-            throw new RuntimeException("No stream available");
+            throw new RuntimeException('No stream available');
         }
         if (!$this->isReadable()) {
             throw new RuntimeException('Not readable');

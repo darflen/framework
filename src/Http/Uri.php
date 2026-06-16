@@ -16,7 +16,7 @@ class Uri implements UriInterface
 
     private string $placeholderHost = 'placeholder.local';
 
-    private const array AVAILABLE_SCHEMES = ['' => null, "http" => 80, "https" => 443];
+    private const array AVAILABLE_SCHEMES = ['' => null, 'http' => 80, 'https' => 443];
 
     public function __construct(string $uri)
     {

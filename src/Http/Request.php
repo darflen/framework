@@ -60,7 +60,7 @@ class Request extends Message implements RequestInterface
     public function withMethod(string $method): RequestInterface
     {
         if ($method === '') {
-            throw new InvalidArgumentException("Method string must not be empty");
+            throw new InvalidArgumentException('Method string must not be empty');
         }
         $clone = clone $this;
         $clone->method = $method;

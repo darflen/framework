@@ -97,7 +97,7 @@ class Response extends Message implements ResponseInterface
     {
         $this->validateStatusCode($code);
         $this->code = $code;
-        $this->reasonPhrase = $reasonPhrase;
+        $this->reasonPhrase = $reasonPhrase === '' ? self::AVAILABLE_STATUS_PHRASES[$code] ?? '' : $reasonPhrase;
         $this->setProtocolVersion($version);
         $this->setHeaders($headers);
         $this->setStream($body);
@@ -115,7 +115,7 @@ class Response extends Message implements ResponseInterface
         $clone = clone $this;
         $this->validateStatusCode($code);
         $clone->code = $code;
-        $clone->reasonPhrase = $reasonPhrase === '' ? self::AVAILABLE_STATUS_PHRASES[$code] : $reasonPhrase;
+        $clone->reasonPhrase = $reasonPhrase === '' ? self::AVAILABLE_STATUS_PHRASES[$code] ?? '' : $reasonPhrase;
         return $clone;
     }
 
