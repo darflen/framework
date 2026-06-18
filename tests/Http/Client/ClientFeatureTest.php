@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace Darflen\Framework\Tests\Http\Client;
 
 use Darflen\Framework\Http\Client\Client;
+use Darflen\Framework\Http\Exceptions\NetworkException;
 use Darflen\Framework\Http\Factory\RequestFactory;
 use Darflen\Framework\Http\Factory\ResponseFactory;
 use Darflen\Framework\Http\Factory\StreamFactory;
 use Generator;
 use Override;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Client\ClientInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 class ClientFeatureTest extends TestCase
 {
-    private ClientInterface $client;
+    private Client $client;
 
     #[Override]
     public function setUp(): void
@@ -55,6 +55,19 @@ class ClientFeatureTest extends TestCase
             'POST',
             'PATCH',
             'PUT'
+        ];
+
+        foreach ($data as $item) {
+            yield [$item];
+        }
+    }
+
+    public static function requestBasicDataEncodedDataProvider(): Generator
+    {
+        $data = [
+            'brotli',
+            'gzip',
+            'deflate'
         ];
 
         foreach ($data as $item) {
@@ -105,10 +118,8 @@ class ClientFeatureTest extends TestCase
 
     public function testSendRequestGet()
     {
-        $url = 'https://httpbin.org/anything?foo=bar&fizz=buzz';
-        $method = 'GET';
         $request = new RequestFactory();
-        $request = $request->createRequest($method, $url);
+        $request = $request->createRequest('GET', 'https://httpbin.org/anything?foo=bar&fizz=buzz');
 
         $response = $this->client->sendRequest($request);
         $responseBody = (string) $response->getBody();
@@ -116,8 +127,8 @@ class ClientFeatureTest extends TestCase
 
         $this->assertSame(200, $response->getStatusCode());
         $this->assertNotEmpty($body);
-        $this->assertSame($url, $body['url'] ?? '');
-        $this->assertSame($method, $body['method'] ?? '');
+        $this->assertSame('https://httpbin.org/anything?foo=bar&fizz=buzz', $body['url'] ?? '');
+        $this->assertSame('GET', $body['method'] ?? '');
         $this->assertSame('buzz', $body['args']['fizz'] ?? '');
         $this->assertSame('bar', $body['args']['foo'] ?? '');
     }
@@ -125,14 +136,11 @@ class ClientFeatureTest extends TestCase
     #[DataProvider('requestBasicBodyMethodsDataProvider')]
     public function testSendRequestMethodsWithBodyPayload(string $method)
     {
-        $url = 'https://httpbin.org/anything';
-        $payload = '{"foo": "bar"}';
-        $payloadType = 'application/json';
         $request = new RequestFactory();
-        $request = $request->createRequest($method, $url);
+        $request = $request->createRequest($method, 'https://httpbin.org/anything');
         $body = new StreamFactory();
-        $body = $body->createStream($payload);
-        $request = $request->withHeader('Content-Type', $payloadType);
+        $body = $body->createStream('{"foo": "bar"}');
+        $request = $request->withHeader('Content-Type', 'application/json');
         $request = $request->withBody($body);
 
         $response = $this->client->sendRequest($request);
@@ -142,15 +150,57 @@ class ClientFeatureTest extends TestCase
         $this->assertSame(200, $response->getStatusCode());
         $this->assertNotEmpty($body);
         $this->assertNotEmpty($body['data']);
-        $this->assertSame($payload, $body['data'] ?? '');
-        $this->assertSame($payloadType, $body['headers']['Content-Type'] ?? '');
-        $this->assertSame($url, $body['url'] ?? '');
+        $this->assertSame('{"foo": "bar"}', $body['data'] ?? '');
+        $this->assertSame('application/json', $body['headers']['Content-Type'] ?? '');
+        $this->assertSame('https://httpbin.org/anything', $body['url'] ?? '');
         $this->assertSame($method, $body['method'] ?? '');
     }
 
+    public function testSendRequestGetInvalidUrl()
+    {
+        $this->expectException(NetworkException::class);
+
+        $request = new RequestFactory();
+        $request = $request->createRequest('GET', 'https://1234invalidurl.net');
+
+        $this->client->sendRequest($request);
+    }
+
+    #[DataProvider('requestBasicDataEncodedDataProvider')]
+    public function testSendRequestGoodEncodedBody(string $encoding): void
+    {
+        $request = new RequestFactory();
+        $request = $request->createRequest('GET', 'https://httpbin.org/' . $encoding);
+
+        $response = $this->client->sendRequest($request);
+        $responseBody = (string) $response->getBody();
+        $body = json_decode($responseBody, true);
+
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertNotEmpty($body);
+        $this->assertArrayHasKey('headers', $body);
+    }
+
+    public function testSendRequestGoodUtf8Body(): void
+    {
+        $request = new RequestFactory();
+        $request = $request->createRequest('GET', 'https://httpbin.org/encoding/utf8');
+
+        $response = $this->client->sendRequest($request);
+        $responseBody = (string) $response->getBody();
+
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertNotEmpty($responseBody);
+        $this->assertStringContainsString('⠧', $responseBody);
+    }
+
     // TODO: Move to a helper class!
-    private static function cartesian(array $input): Generator {
-        if (!$input) { yield []; return; }
+    private static function cartesian(array $input): Generator
+    {
+        if (!$input) {
+            yield [];
+            return;
+        }
         $key = array_key_first($input);
         $remaining = array_slice($input, 1, null, true);
         foreach ($input[$key] as $val) {

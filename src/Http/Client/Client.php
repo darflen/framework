@@ -28,22 +28,23 @@ class Client implements ClientInterface
 
     private string $userAgent;
 
+    private int $maxTime;
+
     private ResponseFactoryInterface $responseFactory;
 
     private StreamFactoryInterface $streamFactory;
 
-    public function __construct(ResponseFactoryInterface $responseFactory, StreamFactoryInterface $streamFactory, string $userAgent = 'Darflen/1.0 (+https://darflen.com)')
+    public function __construct(ResponseFactoryInterface $responseFactory, StreamFactoryInterface $streamFactory, string $userAgent = 'Darflen/1.0 (+https://darflen.com)', int $maxTime = 10)
     {
         $this->responseFactory = $responseFactory;
         $this->streamFactory = $streamFactory;
         $this->userAgent = $userAgent;
+        $this->maxTime = $maxTime;
     }
 
     #[Override]
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
-        $curl = curl_init();
-
         $uri = $request->getUri();
         $method = $request->getMethod();
 
@@ -58,10 +59,6 @@ class Client implements ClientInterface
 
         $url = (string) $uri;
 
-        curl_setopt($curl, CURLOPT_URL, $url);
-        $curlProtocolVersion = self::AVAILABLE_CURL_PROTOCOL_VERSIONS[$protocolVersion];
-        curl_setopt($curl, CURLOPT_HTTP_VERSION, $curlProtocolVersion);
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
         $parsedHeaders = [];
         foreach ($rawHeaders as $name => $values) {
             if (is_array($values)) {
@@ -72,20 +69,29 @@ class Client implements ClientInterface
             }
             $parsedHeaders[] = $name . ':' . $values;
         }
+
+        $curl = curl_init();
+        curl_reset($curl);
+
+        curl_setopt($curl, CURLOPT_URL, $url);
+        $curlProtocolVersion = self::AVAILABLE_CURL_PROTOCOL_VERSIONS[$protocolVersion];
+        curl_setopt($curl, CURLOPT_HTTP_VERSION, $curlProtocolVersion);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
+        curl_setopt($curl, CURLOPT_TIMEOUT, $this->maxTime);
+
         curl_setopt($curl, CURLOPT_HTTPHEADER, $parsedHeaders);
 
-        if (!in_array($method, ['HEAD', 'GET'])) {
-            curl_setopt($curl, CURLOPT_UPLOAD, true);
-            curl_setopt($curl, CURLOPT_INFILE, $bodyResource);
-            if ($size !== null) {
-                curl_setopt($curl, CURLOPT_INFILESIZE, $size);
-            }
+        curl_setopt($curl, CURLOPT_UPLOAD, true);
+        curl_setopt($curl, CURLOPT_INFILE, $bodyResource);
+        if ($size !== null) {
+            curl_setopt($curl, CURLOPT_INFILESIZE, $size);
         }
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HEADER, true);
 
         curl_setopt($curl, CURLOPT_USERAGENT, $userAgent === '' ? $this->userAgent : $userAgent);
+        curl_setopt($curl, CURLOPT_ENCODING, '');
 
         $rawResponse = curl_exec($curl);
 
@@ -96,14 +102,17 @@ class Client implements ClientInterface
             }
 
             if (!$rawResponse) {
-                throw new NetworkException('Request failed', $request);
+                throw new NetworkException('Request failed with code: ' . $error, $request);
             }
 
             throw new ClientException('Request failed with code: ' . $error);
         }
 
+        $versionCode = curl_getinfo($curl, CURLINFO_HTTP_VERSION);
+        $versionCode = array_search($versionCode, self::AVAILABLE_CURL_PROTOCOL_VERSIONS, true);
         $responseCode = curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
         $headerSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+
         $rawHeaders = substr($rawResponse, 0, $headerSize);
         $body = substr($rawResponse, $headerSize);
 
@@ -119,8 +128,7 @@ class Client implements ClientInterface
                 $response = $response->withAddedHeader(trim($parts[0]), trim($parts[1]));
             }
         }
-        $versionCode = curl_getinfo($curl, CURLINFO_HTTP_VERSION);
-        $versionCode = array_search($versionCode, self::AVAILABLE_CURL_PROTOCOL_VERSIONS, true);
+
         $response = $response->withProtocolVersion($versionCode);
 
         return $response;
