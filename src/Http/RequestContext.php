@@ -199,4 +199,9 @@ class RequestContext
     {
         return $this->getInput($input) === null;
     }
+
+    public function getCookie(string $cookie, mixed $default = null): mixed
+    {
+        return $this->serverRequest->getCookieParams()[$cookie] ?? $default;
+    }
 }

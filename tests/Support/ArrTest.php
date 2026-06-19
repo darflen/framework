@@ -49,12 +49,14 @@ class ArrTest extends TestCase
         $output3 = $process3->get('cat.2', 'failure');
         $output4 = $process4->get('cat.bar', 'failure');
         $output5 = $process5->get('foo', 'failure');
+        $output6 = $process5->get('foo', 'failure');
 
         $this->assertEquals('success 0', $output);
         $this->assertEquals('success 1', $output2);
         $this->assertEquals('success 2', $output3);
         $this->assertEquals('success bar', $output4);
         $this->assertEquals('success foo', $output5);
+        $this->assertEquals('success foo', $output6);
     }
 
     public function testExpectAllOutput(): void
@@ -80,5 +82,30 @@ class ArrTest extends TestCase
         $this->assertEquals(false, $output2);
         $this->assertEquals(true, $output3);
         $this->assertEquals(false, $output4);
+    }
+
+    public function testExpectMissingOutput(): void
+    {
+        $input = ['input' => 'output'];
+        $input2 = ['input' => ['darf', 'foo']];
+
+        $output = Arr::from($input)->missing('input');
+        $output2 = Arr::from($input)->missing('failure');
+        $output3 = Arr::from($input2)->missing('input.0');
+        $output4 = Arr::from($input2)->missing('input.failure');
+
+        $this->assertEquals(false, $output);
+        $this->assertEquals(true, $output2);
+        $this->assertEquals(false, $output3);
+        $this->assertEquals(true, $output4);
+    }
+
+    public function testClear(): void
+    {
+        $input = ['foo' => 'bar'];
+
+        $output = Arr::From($input)->clear();
+
+        $this->assertSame('success', $output->get('foo', 'success'));
     }
 }
