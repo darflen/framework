@@ -19,7 +19,7 @@ class Dispatcher implements EventDispatcherInterface
     }
 
     #[Override]
-    public function dispatch(object $event)
+    public function dispatch(object $event): object
     {
         $listeners = $this->provider->getListenersForEvent($event);
         /** @disregard */
@@ -29,5 +29,6 @@ class Dispatcher implements EventDispatcherInterface
             }
             $listener($event);
         }
+        return $event;
     }
 }

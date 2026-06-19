@@ -151,7 +151,7 @@ class Uri implements UriInterface
     public function withQuery(string $query): UriInterface
     {
         $clone = clone $this;
-        $clone->parser = $clone->wrapException(fn () => $clone->parser->withQuery($query));
+        $clone->parser = $clone->wrapException(fn () => $clone->parser->withQuery($query === '' ? null : $query));
         return $clone;
     }
 

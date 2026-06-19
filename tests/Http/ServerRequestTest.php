@@ -7,6 +7,7 @@ namespace Darflen\Framework\Tests\Http;
 use Darflen\Framework\Http\ServerRequest;
 use Darflen\Framework\Http\UploadedFile;
 use Darflen\Framework\Http\Uri;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class ServerRequestTest extends TestCase
@@ -73,5 +74,15 @@ class ServerRequestTest extends TestCase
             ->withAttribute('fizz', 'buzz');
 
         $this->assertArraysAreIdentical(['foo' => 'success', 'fizz' => 'buzz'], $clone->getAttributes());
+    }
+
+    public function testWithUploadedFilesWithBadTypes()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $uri = $this->createStub(Uri::class);
+        $serverRequest = new ServerRequest('GET', $uri);
+
+        $serverRequest->withUploadedFiles(['']);
     }
 }

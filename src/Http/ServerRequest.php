@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use Override;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\UploadedFileInterface;
 use Psr\Http\Message\UriInterface;
 
 class ServerRequest extends Request implements ServerRequestInterface
@@ -36,7 +37,8 @@ class ServerRequest extends Request implements ServerRequestInterface
         $this->setStream($body);
         $this->serverParams = $serverParams;
         $this->cookiesParams = $cookiesParams;
-        $this->queryParams = $queryParams;
+        parse_str($this->getUri()->getQuery(), $this->queryParams);
+        $this->queryParams = array_merge($queryParams, $this->queryParams);
         $this->uploadedFiles = $uploadedFiles;
         $this->attributes = $attributes;
         $this->parsedBody = $parsedBody;
@@ -86,6 +88,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     public function withUploadedFiles(array $uploadedFiles): ServerRequestInterface
     {
         $clone = clone $this;
+        $this->validateUploadedFilesArray($uploadedFiles);
         $clone->uploadedFiles = $uploadedFiles;
         return $clone;
     }
@@ -133,5 +136,14 @@ class ServerRequest extends Request implements ServerRequestInterface
         $clone = clone $this;
         unset($clone->attributes[$name]);
         return $clone;
+    }
+
+    private function validateUploadedFilesArray(array $uploadedFiles): void
+    {
+        foreach ($uploadedFiles as $uploadedFile) {
+            if (!($uploadedFile instanceof UploadedFileInterface)) {
+                throw new InvalidArgumentException('Value is not a valid instance of UploadedFileInterface');
+            }
+        }
     }
 }

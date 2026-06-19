@@ -6,7 +6,10 @@ namespace Darflen\Framework\Http;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-class HttpRequest
+/**
+ * Provides enhanced data about a ServerRequest class
+ */
+class RequestContext
 {
     private ServerRequestInterface $serverRequest;
 
@@ -23,7 +26,7 @@ class HttpRequest
     public function getUrl(): ?string
     {
         $uri = $this->serverRequest->getUri();
-        return $uri->getScheme() . '://' . $uri->getHost() . $uri->getPath();
+        return $uri->getScheme() . '://' . $this->getHost() . $uri->getPath();
     }
 
     public function getFullUrl(): ?string
@@ -31,11 +34,30 @@ class HttpRequest
         return (string) $this->serverRequest->getUri();
     }
 
+    public function getFullUrlWithQuery(array $queries): ?string
+    {
+        $uri = $this->serverRequest->getUri();
+        parse_str($uri->getQuery(), $query);
+        $query = array_merge($query, $queries);
+        $clone = $uri->withQuery(http_build_query($query, encoding_type: PHP_QUERY_RFC3986));
+        return  (string) $clone;
+    }
+
+    public function getFullUrlWithoutQuery(array $queries): ?string
+    {
+        $uri = $this->serverRequest->getUri();
+        parse_str($uri->getQuery(), $query);
+        $query = array_diff_key($query, array_flip($queries));
+        $clone = $uri->withQuery(http_build_query($query, encoding_type: PHP_QUERY_RFC3986));
+        return (string) $clone;
+    }
+
     public function getHost(): ?string
     {
         $server = $this->serverRequest->getServerParams();
         $actual = $this->serverRequest->getUri()->getHost();
-        $fallback = $server["HTTP_HOST"] ?? $server["SERVER_ADDR"] ?? null;
+        $fallback = $this->serverRequest->getHeaderLine('HOST');
+        $fallback = $fallback === '' ? $server["SERVER_ADDR"] ?? null : $fallback;
         return $actual === '' ? $fallback : $actual;
     }
 
@@ -44,7 +66,7 @@ class HttpRequest
         return $this->getHost();
     }
 
-    public function getOrigin(): string
+    public function getOrigin(): ?string
     {
         return $this->serverRequest->getHeaderLine('Origin');
     }
@@ -54,7 +76,8 @@ class HttpRequest
         $server = $this->serverRequest->getServerParams();
         $actual = $this->serverRequest->getUri()->getHost();
         $fallback = $server["SERVER_ADDR"] ?? null;
-        return $actual === '' ? $fallback : $actual;
+        $host = $actual === '' ? $fallback : $actual;
+        return $this->serverRequest->getUri()->getScheme() . '://' . $host;
     }
 
     public function getAuthorization(): ?string
@@ -73,7 +96,8 @@ class HttpRequest
     public function getIp(): ?string
     {
         $server = $this->serverRequest->getServerParams();
-        return $server['HTTP_CF_CONNECTING_IP'] ?? $server['REMOTE_ADDR'] ?? null;
+        $actual = $this->serverRequest->getHeaderLine('CF_CONNECTING_IP');
+        return $actual === '' ? $server['REMOTE_ADDR'] ?? null : $actual;
     }
 
     public function getIps(): array
@@ -81,11 +105,21 @@ class HttpRequest
         return explode(',', $this->serverRequest->getHeaderLine('X_FORWARDED_FOR'));
     }
 
-    public function getAcceptableContentTypes(): array
+    private function getRawAcceptableContentTypes(): array
     {
         $header = $this->serverRequest->getHeaderLine('Accept');
         $acceptableTypes = explode(',', $header);
         $typesWithParams = array_map("trim", $acceptableTypes);
+        return $typesWithParams;
+    }
+
+    public function getAcceptableContentTypes(): array
+    {
+        $typesWithParams = $this->getRawAcceptableContentTypes();
+        $typesWithParams = array_map(function ($item) {
+            $stuff = explode(';', $item);
+            return $stuff[0];
+        }, $typesWithParams);
         return $typesWithParams;
     }
 
@@ -97,34 +131,33 @@ class HttpRequest
 
     public function getPreferedType(array $accepts): ?string
     {
-        $acceptable = $this->getAcceptableContentTypes();
+        $acceptable = $this->getRawAcceptableContentTypes();
         $types = array_map(function ($item) {
             $stuff = explode(';', $item);
             return [$stuff[0] => str_replace('q=', '', $stuff[1] ?? '1.0')];
         }, $acceptable);
         usort($types, function ($a, $b) {
-            return current($a) <=> current($b);
+            return current($b) <=> current($a);
         });
+        $score = PHP_INT_MAX;
         foreach ($accepts as $accept) {
-            foreach ($types as $type) {
-                if ($type[0] === $accept) {
-                    return $type[0];
+            foreach ($types as $key => $type) {
+                if (key($type) === $accept && $key <= $score) {
+                    $score = $key;
                 }
             }
         }
+        if (isset($types[$score])) {
+            return key($types[$score]);
+        }
         return null;
-    }
-
-    public function getMostPreferedType(string $accept): ?string
-    {
-        return $this->getPreferedType([$accept]);
     }
 
     public function getAll(): array
     {
         $queryParams = $this->serverRequest->getQueryParams();
         $parsedBody = $this->serverRequest->getParsedBody();
-        return array_merge($queryParams, $parsedBody);
+        return array_merge($queryParams, $parsedBody ?? []);
     }
 
     public function getInput(string $input, mixed $default = null): mixed
@@ -132,8 +165,38 @@ class HttpRequest
         return $this->getAll()[$input] ?? $default;
     }
 
+    public function hasInput(string $input): bool
+    {
+        return isset($this->getAll()[$input]);
+    }
+
+    public function hasAnyInput(array $inputs): bool
+    {
+        return !empty(array_intersect_key($this->getAll(), array_flip($inputs)));
+    }
+
     public function getQuery(string $input, mixed $default = null): mixed
     {
         return $this->serverRequest->getQueryParams()[$input] ?? $default;
+    }
+
+    public function isMethod(string $method): bool
+    {
+        return $this->serverRequest->getMethod() === $method;
+    }
+
+    public function isFilled(string $input): bool
+    {
+        return $this->getInput($input, '') !== '';
+    }
+
+    public function isNotFilled(string $input): bool
+    {
+        return !$this->isFilled($input);
+    }
+
+    public function isMissing(string $input): bool
+    {
+        return $this->getInput($input) === null;
     }
 }
