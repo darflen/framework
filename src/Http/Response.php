@@ -94,7 +94,7 @@ class Response extends Message implements ResponseInterface
 
     private string $reasonPhrase = '';
 
-    public function __construct(int $code, string $reasonPhrase, array $headers = [], StreamInterface|null $body = null, string $version = '1.1')
+    public function __construct(int $code, string $reasonPhrase, array $headers = [], StreamInterface|string|null $body = null, string $version = '1.1')
     {
         $this->validateStatusCode($code);
         $this->code = $code;
@@ -104,6 +104,11 @@ class Response extends Message implements ResponseInterface
         if (is_null($body)) {
             $body = new StreamFactory();
             $body = $body->createStream('');
+        }
+        if (is_string($body)) {
+            $bodyString = $body;
+            $body = new StreamFactory();
+            $body = $body->createStream($bodyString);
         }
         $this->setStream($body);
     }

@@ -96,13 +96,13 @@ class RequestContext
     public function getIp(): ?string
     {
         $server = $this->serverRequest->getServerParams();
-        $actual = $this->serverRequest->getHeaderLine('CF_CONNECTING_IP');
+        $actual = $this->serverRequest->getHeaderLine('CF-CONNECTING-IP');
         return $actual === '' ? $server['REMOTE_ADDR'] ?? null : $actual;
     }
 
     public function getIps(): array
     {
-        return explode(',', $this->serverRequest->getHeaderLine('X_FORWARDED_FOR'));
+        return explode(',', $this->serverRequest->getHeaderLine('X-FORWARDED-FOR'));
     }
 
     private function getRawAcceptableContentTypes(): array

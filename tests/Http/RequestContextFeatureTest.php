@@ -23,8 +23,8 @@ class RequestContextFeatureTest extends TestCase
         $serverRequest = $serverRequest->withHeader('Origin', 'https://foobar.com');
         $serverRequest = $serverRequest->withHeader('Authorization', 'Bearer foobar');
         $serverRequest = $serverRequest->withHeader('Accept', ['application/json', 'text/csv;q=0.1', 'text/markdown;q=0.9']);
-        $serverRequest = $serverRequest->withHeader('CF_CONNECTING_IP', '196.168.1.1');
-        $serverRequest = $serverRequest->withHeader('X_FORWARDED_FOR', ['196.168.1.1']);
+        $serverRequest = $serverRequest->withHeader('CF-CONNECTING-IP', '196.168.1.1');
+        $serverRequest = $serverRequest->withHeader('X-FORWARDED-FOR', ['196.168.1.1']);
         $serverRequest = $serverRequest->withParsedBody(['foo' => 'bar', 'fizz' => '']);
         $this->requestContext = new RequestContext($serverRequest);
     }
