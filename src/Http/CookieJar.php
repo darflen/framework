@@ -7,6 +7,9 @@ namespace Darflen\Framework\Http;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * Handle multiple cookies.
+ */
 class CookieJar
 {
     private array $cookies = [];

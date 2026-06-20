@@ -6,6 +6,9 @@ namespace Darflen\Framework\Http;
 
 use InvalidArgumentException;
 
+/**
+ * Value object representing a Cookie.
+ */
 class Cookie
 {
     private const string COOKIE_DATE_FORMAT = 'D, d M Y H:i:s \G\M\T';

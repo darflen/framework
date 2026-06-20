@@ -174,6 +174,9 @@ class Message implements MessageInterface
             $lowerName = strtolower($name);
             $this->validateHeaderName($name);
             $this->headerNames[$lowerName] = $name;
+            if (is_string($values)) {
+                $values = [$values];
+            }
             foreach ($values as $value) {
                 $this->validateHeaderValue($value);
                 $this->headers[$lowerName] = array_merge($this->headers[$lowerName] ?? [], (array) $value);

@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Darflen\Framework\Http;
 
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UploadedFileInterface;
 
 /**
- * Provides enhanced data about a ServerRequest class
+ * Provides enhanced data about a ServerRequest class.
  */
 class RequestContext
 {
@@ -203,5 +204,10 @@ class RequestContext
     public function getCookie(string $cookie, mixed $default = null): mixed
     {
         return $this->serverRequest->getCookieParams()[$cookie] ?? $default;
+    }
+
+    public function getFile(string $file): ?UploadedFileInterface
+    {
+        return $this->serverRequest->getUploadedFiles()[$file] ?? null;
     }
 }
