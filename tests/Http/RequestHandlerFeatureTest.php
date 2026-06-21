@@ -21,9 +21,14 @@ class RequestHandlerFeatureTest extends TestCase
                 $request = $request->withHeader('X-Went-To-Middleware', 'foo');
                 return $next->handle($request);
             },
+            function (ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface {
+                $request = $request->withHeader('X-Went-To-Middleware-2', 'bar');
+                return $next->handle($request);
+            },
             function (ServerRequestInterface $request): ResponseInterface {
                 return new Response(200, '', [
-                    'X-Went-To-Middleware' => $request->getHeaderLine('X-Went-To-Middleware')
+                    'X-Went-To-Middleware' => $request->getHeaderLine('X-Went-To-Middleware'),
+                    'X-Went-To-Middleware-2' => $request->getHeaderLine('X-Went-To-Middleware-2')
                 ]);
             }
         ]);
@@ -31,5 +36,6 @@ class RequestHandlerFeatureTest extends TestCase
         $response = $requestHandler->handle($request);
 
         $this->assertSame('foo', $response->getHeaderLine('X-Went-To-Middleware'));
+        $this->assertSame('bar', $response->getHeaderLine('X-Went-To-Middleware-2'));
     }
 }

@@ -12,13 +12,6 @@ class Container implements ContainerInterface
 {
     private array $services = [];
 
-    /**
-     * TODO: IMPLEMENT AUTO-WIRING using class relexions API
-     * TODO: IMPLEMENT ALIASES
-     * TODO: IMPLEMENT FACTORIES and CLOSURES (Lazy Loading)
-     * TODO: IMPLEMENT Caching (resolved array)
-     */
-
     public function __construct(array $services)
     {
         $this->services = $services;

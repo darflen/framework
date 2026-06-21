@@ -35,12 +35,12 @@ class Config
 
     public static function set(string $key, mixed $value = ''): void
     {
-        self::$configs = Arr::from(self::$configs)->set($key, $value)->all();
+        Arr::set(self::$configs, $key, $value);
     }
 
     public static function get(string $key, mixed $default = ''): mixed
     {
-        return Arr::from(self::$configs)->get($key, $default);
+        return Arr::get(self::$configs, $key, $default);
     }
 
     public static function all(): array

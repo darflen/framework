@@ -35,7 +35,7 @@ class SenderFeatureTest extends TestCase
     {
         parent::tearDown();
 
-        usleep(1000 * 300);
+        usleep(1000 * 100);
     }
 
     public static function requestBasicBodyMethodsDataProvider(): Generator

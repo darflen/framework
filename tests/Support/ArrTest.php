@@ -9,103 +9,51 @@ use Darflen\Framework\Support\Arr;
 
 class ArrTest extends TestCase
 {
-    public function testExpectGetOutput(): void
+    private array $array = ['foo' => 'bar', 'fizzbuzz' => ['fizz', 'buzz', 'bazz'], 'baz' => ['hello' => 'world']];
+
+    public function testDotAndUndot()
     {
-        $input = ['fizzbuzz' => ['cat' => 'bar'], 'foo' => 0];
-        $input2 = [];
-        $input3 = ['fizzbuzz' => ['fizz', 'buzz', 'baz']];
-
-        $output = Arr::from($input)->get('fizzbuzz.cat', 'failure');
-        $output2 = Arr::from($input)->get('', 'failure');
-        $output3 = Arr::from($input2)->get('', 'failure');
-        $output4 = Arr::from($input3)->get('fizzbuzz.0', 'failure');
-
-        $this->assertNotNull($output);
-        $this->assertEquals('bar', $output);
-        $this->assertNotEquals('failure', $output);
-        $this->assertNotNull($output2);
-        $this->assertEquals($input, $output2);
-        $this->assertNotEquals('failure', $output2);
-        $this->assertNotNull($output3);
-        $this->assertEquals($input2, $output3);
-        $this->assertNotEquals('failure', $output3);
-        $this->assertNotNull($output4);
-        $this->assertEquals('fizz', $output4);
-        $this->assertNotEquals('failure', $output4);
+        $this->assertSame($this->array, Arr::undot(Arr::dot($this->array)));
     }
 
-    public function testExpectSetOutput(): void
+    public function testGet()
     {
-        $input = [];
-
-        $process = Arr::from($input)->set('cat.0', 'success 0');
-        $process2 = Arr::from($input)->set('cat.1', 'success 1');
-        $process3 = Arr::from($input)->set('cat.2', 'success 2');
-        $process4 = Arr::from($input)->set('cat.bar', 'success bar');
-        $process5 = Arr::from($input)->set('foo', 'success foo');
-
-        $output = $process->get('cat.0', 'failure');
-        $output2 = $process2->get('cat.1', 'failure');
-        $output3 = $process3->get('cat.2', 'failure');
-        $output4 = $process4->get('cat.bar', 'failure');
-        $output5 = $process5->get('foo', 'failure');
-        $output6 = $process5->get('foo', 'failure');
-
-        $this->assertEquals('success 0', $output);
-        $this->assertEquals('success 1', $output2);
-        $this->assertEquals('success 2', $output3);
-        $this->assertEquals('success bar', $output4);
-        $this->assertEquals('success foo', $output5);
-        $this->assertEquals('success foo', $output6);
+        $this->assertSame('bar', Arr::get($this->array, 'foo'));
+        $this->assertSame('fizz', Arr::get($this->array, 'fizzbuzz.0'));
+        $this->assertSame('world', Arr::get($this->array, 'baz.hello'));
+        $this->assertSame('success', Arr::get($this->array, 'baz.foo', 'success'));
+        $this->assertNotSame('failure', Arr::get($this->array, 'baz.hello', 'failure'));
     }
 
-    public function testExpectAllOutput(): void
+    public function testSet()
     {
-        $input = ['input' => 'output'];
+        $input = ['fizz' => 'bazz'];
 
-        $output = Arr::from($input)->all();
+        Arr::set($input, 'fizz', 'buzz');
 
-        $this->assertEquals($input, $output);
+        $this->assertSame('buzz', Arr::get($input, 'fizz', 'buzz'));
+        $this->assertNotSame('bazz', Arr::get($input, 'fizz', 'bazz'));
     }
 
-    public function testExpectHasOutput(): void
+    public function testHas()
     {
-        $input = ['input' => 'output'];
-        $input2 = ['input' => ['darf', 'foo']];
-
-        $output = Arr::from($input)->has('input');
-        $output2 = Arr::from($input)->has('failure');
-        $output3 = Arr::from($input2)->has('input.0');
-        $output4 = Arr::from($input2)->has('input.failure');
-
-        $this->assertEquals(true, $output);
-        $this->assertEquals(false, $output2);
-        $this->assertEquals(true, $output3);
-        $this->assertEquals(false, $output4);
+        $this->assertTrue(Arr::has($this->array, 'foo'));
+        $this->assertFalse(Arr::has($this->array, 'bar'));
     }
 
-    public function testExpectMissingOutput(): void
+    public function testMissing()
     {
-        $input = ['input' => 'output'];
-        $input2 = ['input' => ['darf', 'foo']];
-
-        $output = Arr::from($input)->missing('input');
-        $output2 = Arr::from($input)->missing('failure');
-        $output3 = Arr::from($input2)->missing('input.0');
-        $output4 = Arr::from($input2)->missing('input.failure');
-
-        $this->assertEquals(false, $output);
-        $this->assertEquals(true, $output2);
-        $this->assertEquals(false, $output3);
-        $this->assertEquals(true, $output4);
+        $this->assertFalse(Arr::missing($this->array, 'foo'));
+        $this->assertTrue(Arr::missing($this->array, 'bar'));
     }
 
-    public function testClear(): void
+    public function testRemove()
     {
-        $input = ['foo' => 'bar'];
+        $input = ['fizz' => 'bazz'];
 
-        $output = Arr::From($input)->clear();
+        Arr::remove($input, 'fizz');
 
-        $this->assertSame('success', $output->get('foo', 'success'));
+        $this->assertSame('success', Arr::get($input, 'fizz', 'success'));
+        $this->assertNotSame('bazz', Arr::get($input, 'fizz', 'success'));
     }
 }

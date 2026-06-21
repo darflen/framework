@@ -6,83 +6,73 @@ namespace Darflen\Framework\Support;
 
 class Arr
 {
-    private string $delimiter = '.';
-    private array $array = [];
-
-    public function __construct(array $array, string $delimiter = '.')
+    public static function dot(array $array, string $prepend = ''): array
     {
-        $this->array = $array;
-        $this->delimiter = $delimiter;
-    }
-
-    public static function from(array $array, string $delimiter = '.'): self
-    {
-        return new self($array, $delimiter);
-    }
-
-    public function get(string $key, mixed $default = ''): mixed
-    {
-        $result = $this->array;
-        if ($key === '') {
-            return $result;
+        $results = [];
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $results = array_merge($results, self::dot($value, $prepend . $key . '.'));
+            } else {
+                $results[$prepend . $key] = $value;
+            }
         }
-        $key = explode($this->delimiter, $key);
+        return $results;
+    }
+
+    public static function undot(array $array): array
+    {
+        $results = [];
+        foreach ($array as $key => $value) {
+            self::set($results, $key, $value);
+        }
+        return $results;
+    }
+
+    public static function set(array &$array, string $key, mixed $value): void
+    {
+        if ($key === '') {
+            $array = $value;
+            return;
+        }
+        $key = explode('.', $key);
         foreach ($key as $segment) {
-            if (!is_array($result) || !array_key_exists($segment, $result)) {
+            if (!isset($array[$segment])) {
+                $array[$segment] = [];
+            }
+            $array = &$array[$segment];
+        }
+        $array = $value;
+    }
+
+    public static function get(array $array, string $key, mixed $default = null): mixed
+    {
+        if ($key === '') {
+            return $array;
+        }
+        $key = explode('.', $key);
+        foreach ($key as $segment) {
+            if (!is_array($array) || !array_key_exists($segment, $array)) {
                 return $default;
             }
-            $result = $result[$segment];
+            $array = $array[$segment];
         }
-        return $result;
+        return $array;
     }
 
-    public function has(string $key): bool
+    public static function has(array $array, string $key): bool
     {
-        $result = $this->array;
-        if (array_key_exists($key, $result)) {
-            return true;
-        }
-        $key = explode($this->delimiter, $key);
-        foreach ($key as $segment) {
-            if (!is_array($result) || !array_key_exists($segment, $result)) {
-                return false;
-            }
-            $result = $result[$segment];
-        }
-        return true;
+        return self::get($array, $key) !== null;
     }
 
-    public function missing(string $key): bool
+    public static function missing(array $array, string $key): bool
     {
-        return !$this->has($key);
+        return !self::has($array, $key);
     }
 
-    public function set(string $key, mixed $value): static
+    public static function remove(array &$array, string $key): void
     {
-        $result = &$this->array;
-        if ($key === '') {
-            $this->array = $value;
-            return $this;
-        }
-        $key = explode($this->delimiter, $key);
-        foreach ($key as $segment) {
-            if (!isset($result[$segment])) {
-                $result[$segment] = [];
-            }
-            $result = &$result[$segment];
-        }
-        $result = $value;
-        return $this;
-    }
-
-    public function clear(): static
-    {
-        $this->array = [];
-        return $this;
-    }
-
-    public function all(): array
-    {
-        return $this->array;
+        $array = self::dot($array);
+        unset($array[$key]);
+        $array = self::undot($array);
     }
 }
