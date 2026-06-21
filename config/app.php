@@ -2,6 +2,7 @@
 
 return [
     'name' => env('APP_NAME', 'Darflen'),
+    'env' => env('APP_ENV', 'dev'),
     'maintenance' => env('APP_MAINTENANCE', false),
     'fallback_language' => env('APP_FALLBACK_LOCALE', 'en'),
     'links' => [
