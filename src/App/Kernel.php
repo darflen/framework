@@ -4,21 +4,44 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\App;
 
-use Darflen\Framework\Http\RequestHandler;
+use Darflen\Framework\Http\Factory\RequestHandlerFactory;
+use Darflen\Framework\Http\Response;
+use Darflen\Framework\Routing\Router;
+use Darflen\Framework\Routing\RouteCollector;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Kernel
 {
-    private RequestHandler $requestHandler;
+    private RequestHandlerFactory $requestHandlerFactory;
 
-    public function __construct(RequestHandler $requestHandler)
+    private App $app;
+
+    private Router $router;
+
+    private RouteCollector $routeCollector;
+
+    public function __construct(App $app, RequestHandlerFactory $requestHandlerFactory, Router $router, RouteCollector $routeCollector)
     {
-        $this->requestHandler = $requestHandler;
+        $this->app = $app;
+        $this->requestHandlerFactory = $requestHandlerFactory;
+        $this->router = $router;
+        $this->routeCollector = $routeCollector;
     }
 
     public function handle(ServerRequestInterface $serverRequest): ResponseInterface
     {
-        return $this->requestHandler->handle($serverRequest);
+        $router = $this->router;
+        $routes = $this->routeCollector->getRoutes();
+        $stack = $this->app->getMiddlewares();
+        $stack[] = function (ServerRequestInterface $request) use ($router, $routes): ResponseInterface {
+            try {
+                return $router->dispatch($routes, $request);
+            } catch (\Throwable $e) {
+                return new Response(500, '', [], 'Something Went Wrong! ' . (string)$e);
+            }
+        };
+        $serverHandler = $this->requestHandlerFactory->createRequestHandler($stack);
+        return $serverHandler->handle($serverRequest);
     }
 }

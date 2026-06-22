@@ -15,26 +15,18 @@ class Router
 {
     private RequestHandlerFactory $requestHandlerFactory;
 
-    private array $routes = [];
-
     public function __construct(RequestHandlerFactory $requestHandlerFactory)
     {
         $this->requestHandlerFactory = $requestHandlerFactory;
     }
 
-    public function map(string|array $methods, string $path, RequestHandlerInterface|callable $handler): void
-    {
-        $route = new Route($methods, $path, $handler);
-        $this->routes[] = $route;
-    }
-
-    public function dispatch(ServerRequestInterface $serverRequest): ResponseInterface
+    public function dispatch(array $routes, ServerRequestInterface $serverRequest): ResponseInterface
     {
         $path = $serverRequest->getUri()->getPath();
         $method = $serverRequest->getMethod();
-        foreach ($this->routes as $route) {
+        foreach ($routes as $route) {
             if ($path === $route->getPath()) {
-                if (!in_array($method, $route->getMethods())) {
+                if (!in_array($method, $route->getMethods()) && $method !== 'ANY') {
                     throw new MethodNotAllowedException('Method is not allowed');
                 }
                 $handler = $route->getHandler();

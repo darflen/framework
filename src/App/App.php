@@ -11,26 +11,66 @@ class App
 {
     private static ContainerInterface $container;
 
-    private static string $documentRoot;
+    private static ?string $projectDir = null;
 
-    public function __construct(ContainerInterface $container)
+    private static array $routes = [];
+
+    private static array $middlewares = [];
+
+    public function __construct(string $projectDir, ContainerInterface $container)
     {
+        self::$projectDir = $projectDir;
         self::$container = $container;
     }
 
-    public static function create(string $documentRoot): self
+    public function create(): void
     {
-        self::$documentRoot = $documentRoot;
-        return new self(self::$container);
+        Config::setup(self::$projectDir . '/config', self::$projectDir)->create();
+        foreach (self::$routes as $route) {
+            include_once $route;
+        }
     }
 
-    public function boot(): void
+    public function getProjectDir(): ?string
     {
-        Config::setup(self::$documentRoot . '/config', self::$documentRoot)->create();
+        return self::$projectDir;
+    }
+
+    public function getRoutes(): array
+    {
+        return self::$routes;
+    }
+
+    public function getMiddlewares(): array
+    {
+        return self::$middlewares;
     }
 
     public function getContainer(): ContainerInterface
     {
         return self::$container;
+    }
+
+    public function setRouting(array $routes): self
+    {
+        self::$routes = $routes;
+        return $this;
+    }
+
+    public function addMiddleware(MiddlewareInterface|callable|array $middleware): self
+    {
+        array_push(self::$middlewares, $middleware);
+        return $this;
+    }
+
+    public function setMiddlewares(array $middlewares): self
+    {
+        self::$middlewares = $middlewares;
+        return $this;
+    }
+
+    public static function getApp(): static
+    {
+        return new self(self::$projectDir, self::$container);
     }
 }
