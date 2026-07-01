@@ -9,7 +9,7 @@ use Psr\Http\Server\MiddlewareInterface;
 
 class Route
 {
-    private string $name;
+    private array $attributes;
 
     private array $methods;
 
@@ -34,7 +34,7 @@ class Route
 
     public function getName(): string
     {
-        return $this->name;
+        return $this->getAttribute('name', '');
     }
 
     public function getMethods(): string|array
@@ -60,7 +60,7 @@ class Route
     public function withName(string $name): self
     {
         $clone = clone $this;
-        $clone->name = $name;
+        $clone->setAttribute('name', $name);
         return $clone;
     }
 
@@ -71,7 +71,7 @@ class Route
         return $clone;
     }
 
-    public function withAddedMethod(string $method)
+    public function withAddedMethod(string $method): self
     {
         $clone = clone $this;
         array_push($clone->methods, $method);
@@ -92,7 +92,7 @@ class Route
         return $clone;
     }
 
-    public function withMiddlewares(array $middlewares)
+    public function withMiddlewares(array $middlewares): self
     {
         $clone = clone $this;
         $clone->middlewares = $middlewares;
@@ -104,5 +104,34 @@ class Route
         $clone = clone $this;
         array_push($clone->middlewares, $middleware);
         return $clone;
+    }
+
+    public function withAttribute(string $name, mixed $value): self
+    {
+        $clone = clone $this;
+        $clone->attributes[$name] = $value;
+        return $clone;
+    }
+
+    public function withoutAttribute(string $name): self
+    {
+        $clone = clone $this;
+        unset($clone->attributes[$name]);
+        return $clone;
+    }
+
+    public function getAttributes(): array
+    {
+        return $this->attributes;
+    }
+
+    public function getAttribute(string $name, mixed $default = null): mixed
+    {
+        return $this->attributes[$name] ?? $default;
+    }
+
+    protected function setAttribute(string $name, mixed $value): void
+    {
+        $this->attributes[$name] = $value;
     }
 }

@@ -9,7 +9,6 @@ use Darflen\Framework\Routing\Exceptions\MethodNotAllowedException;
 use Darflen\Framework\Routing\Exceptions\NotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 
 class Router
 {
@@ -20,19 +19,33 @@ class Router
         $this->requestHandlerFactory = $requestHandlerFactory;
     }
 
+    protected function match(string $routerPath, string $path): array
+    {
+        $pattern = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '(?P<$1>[^/]+)', $routerPath);
+        $pattern = '#^' . $pattern . '$#';
+        $matched = preg_match($pattern, $path, $matches);
+        $matches = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
+        return [
+            'matched' => $matched,
+            'matches' => $matches
+        ];
+    }
+
     public function dispatch(array $routes, ServerRequestInterface $serverRequest): ResponseInterface
     {
         $path = $serverRequest->getUri()->getPath();
         $method = $serverRequest->getMethod();
         foreach ($routes as $route) {
-            if ($path === $route->getPath()) {
+            $matches = $this->match($route->getPath(), $path);
+            if ($matches['matched']) {
                 if (!in_array($method, $route->getMethods()) && $method !== 'ANY') {
                     throw new MethodNotAllowedException('Method is not allowed');
                 }
                 $handler = $route->getHandler();
-                $items = $route->getMiddlewares();
-                $items[] = $handler;
-                $requestHandler = $this->requestHandlerFactory->createRequestHandler($items);
+                $stack = $route->getMiddlewares();
+                $stack[] = $handler;
+                $requestHandler = $this->requestHandlerFactory->createRequestHandler($stack);
+                $serverRequest = $serverRequest->withAttribute('args', $matches['matches']);
                 return $requestHandler->handle($serverRequest);
             }
         }
