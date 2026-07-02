@@ -71,4 +71,11 @@ class RouteCollector
     {
         return $this->routes;
     }
+
+    public function setConstraint(string $parameter, string $regex): self
+    {
+        $lastestRoute = array_key_last($this->routes);
+        $this->routes[$lastestRoute] = $this->routes[$lastestRoute]->withAttribute('constraints.' . $parameter, $regex);
+        return $this;
+    }
 }

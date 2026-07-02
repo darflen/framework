@@ -6,10 +6,11 @@ namespace Darflen\Framework\Routing;
 
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
+use Darflen\Framework\Support\Arr;
 
 class Route
 {
-    private array $attributes;
+    private array $attributes = [];
 
     private array $methods;
 
@@ -109,14 +110,14 @@ class Route
     public function withAttribute(string $name, mixed $value): self
     {
         $clone = clone $this;
-        $clone->attributes[$name] = $value;
+        Arr::set($clone->attributes, $name, $value);
         return $clone;
     }
 
     public function withoutAttribute(string $name): self
     {
         $clone = clone $this;
-        unset($clone->attributes[$name]);
+        Arr::remove($clone->attributes, $name);
         return $clone;
     }
 
@@ -127,11 +128,11 @@ class Route
 
     public function getAttribute(string $name, mixed $default = null): mixed
     {
-        return $this->attributes[$name] ?? $default;
+        return Arr::get($this->attributes, $name, $default);
     }
 
     protected function setAttribute(string $name, mixed $value): void
     {
-        $this->attributes[$name] = $value;
+        Arr::set($this->attributes, $name, $value);
     }
 }
