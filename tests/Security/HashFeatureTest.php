@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Darflen\Framework\Tests\Support;
+namespace Darflen\Framework\Tests\Security;
 
-use Darflen\Framework\Support\Crypt;
+use Darflen\Framework\Security\Hash;
 use Override;
 use Darflen\Framework\Config\Config;
 use PHPUnit\Framework\TestCase;
 
-class CryptFeatureTest extends TestCase
+class HashFeatureTest extends TestCase
 {
     #[Override]
     public static function setUpBeforeClass(): void
@@ -18,12 +18,11 @@ class CryptFeatureTest extends TestCase
 
         $config = new Config();
         Config::setup(dirname(dirname(__DIR__)) . '/config', dirname(dirname(__DIR__)) . '/config')->create();
-        Config::set('security.encryption.key', '[d595ami5@9]uFZAPe/{4*iUGLkk,Zxr');
     }
 
-    public function testEncryptDecrypt()
+    public function testHashingAndValidation()
     {
-        $crypt = new Crypt();
-        $this->assertSame('Fizzbuzz', Crypt::decrypt(Crypt::encrypt('Fizzbuzz')));
+        $hash = new Hash();
+        $this->assertTrue($hash->checkHash('fizzbuzz', $hash->createHash('fizzbuzz')));
     }
 }
