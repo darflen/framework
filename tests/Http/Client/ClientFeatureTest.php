@@ -9,6 +9,7 @@ use Darflen\Framework\Http\Exceptions\NetworkException;
 use Darflen\Framework\Http\Factory\RequestFactory;
 use Darflen\Framework\Http\Factory\ResponseFactory;
 use Darflen\Framework\Http\Factory\StreamFactory;
+use Darflen\Framework\Support\Arr;
 use Generator;
 use Override;
 use PHPUnit\Framework\TestCase;
@@ -29,7 +30,7 @@ class ClientFeatureTest extends TestCase
     }
 
     #[Override]
-    protected function tearDown(): void
+    public function tearDown(): void
     {
         parent::tearDown();
 
@@ -44,7 +45,7 @@ class ClientFeatureTest extends TestCase
             'code' => [200, 301, 302, 400, 500]
         ];
 
-        foreach (self::cartesian($data) as $combo) {
+        foreach (Arr::cartesian($data) as $combo) {
             yield [$combo];
         }
     }
@@ -192,21 +193,5 @@ class ClientFeatureTest extends TestCase
         $this->assertSame(200, $response->getStatusCode());
         $this->assertNotEmpty($responseBody);
         $this->assertStringContainsString('⠧', $responseBody);
-    }
-
-    // TODO: Move to a helper class!
-    private static function cartesian(array $input): Generator
-    {
-        if (!$input) {
-            yield [];
-            return;
-        }
-        $key = array_key_first($input);
-        $remaining = array_slice($input, 1, null, true);
-        foreach ($input[$key] as $val) {
-            foreach (self::cartesian($remaining) as $tail) {
-                yield [$key => $val] + $tail;
-            }
-        }
     }
 }

@@ -14,7 +14,7 @@ class CookieFactoryTest extends TestCase
         $cookieFactory = new CookieFactory();
         $cookie = $cookieFactory->createCookie('name', 'value', 1000, '/', 'example.com', true, true, 'None');
 
-        $this->assertSame('name=value; Expires=Wed, 31 Dec 1969 19:16:40 GMT; Path=/; Domain=example.com; Secure; HttpOnly; SameSite=None', (string) $cookie);
+        $this->assertSame('name=value; Expires=Thu, 01 Jan 1970 00:16:40 GMT; Path=/; Domain=example.com; Secure; HttpOnly; SameSite=None', (string) $cookie);
     }
 
     public function testCreatePermanentCookie()

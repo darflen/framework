@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Support;
 
+use Generator;
+
 class Arr
 {
     public static function dot(array $array, string $prepend = ''): array
@@ -74,5 +76,20 @@ class Arr
         $array = self::dot($array);
         unset($array[$key]);
         $array = self::undot($array);
+    }
+
+    public static function cartesian(array $input): Generator
+    {
+        if (!$input) {
+            yield [];
+            return;
+        }
+        $key = array_key_first($input);
+        $remaining = array_slice($input, 1, null, true);
+        foreach ($input[$key] as $val) {
+            foreach (self::cartesian($remaining) as $tail) {
+                yield [$key => $val] + $tail;
+            }
+        }
     }
 }
