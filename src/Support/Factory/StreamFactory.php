@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Darflen\Framework\Http\Factory;
+namespace Darflen\Framework\Support\Factory;
 
-use Darflen\Framework\Http\Stream;
+use Darflen\Framework\Support\Stream;
 use Override;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;

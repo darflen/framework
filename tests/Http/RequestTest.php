@@ -6,9 +6,8 @@ namespace Darflen\Framework\Tests\Http;
 
 use Darflen\Framework\Http\Request;
 use Darflen\Framework\Http\Uri;
-use Darflen\Framework\Http\Stream;
+use Darflen\Framework\Support\Stream;
 use PHPUnit\Framework\TestCase;
-use InvalidArgumentException;
 
 class RequestTest extends TestCase
 {

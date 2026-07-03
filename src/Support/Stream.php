@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Darflen\Framework\Http;
+namespace Darflen\Framework\Support;
 
 use InvalidArgumentException;
 use Override;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Tests\Http;
 
-use Darflen\Framework\Http\Factory\StreamFactory;
+use Darflen\Framework\Support\Factory\StreamFactory;
 use Override;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;

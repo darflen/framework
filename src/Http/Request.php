@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Http;
 
-use Darflen\Framework\Http\Factory\StreamFactory;
+use Darflen\Framework\Support\Factory\StreamFactory;
 use InvalidArgumentException;
 use Override;
 use Psr\Http\Message\RequestInterface;

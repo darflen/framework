@@ -6,7 +6,7 @@ namespace Darflen\Framework\Tests\Http;
 
 use Darflen\Framework\Http\UploadedFile;
 use RuntimeException;
-use Darflen\Framework\Http\Stream;
+use Darflen\Framework\Support\Stream;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 

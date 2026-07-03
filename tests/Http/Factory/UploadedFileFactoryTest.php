@@ -6,7 +6,7 @@ namespace Darflen\Framework\Tests\Http\Factory;
 
 use PHPUnit\Framework\TestCase;
 use Darflen\Framework\Http\Factory\UploadedFileFactory;
-use Darflen\Framework\Http\Stream;
+use Darflen\Framework\Support\Stream;
 
 class UploadedFileFactoryTest extends TestCase
 {

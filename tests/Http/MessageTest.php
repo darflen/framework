@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Tests\Http;
 
-use Darflen\Framework\Http\Stream;
+use Darflen\Framework\Support\Stream;
 use Darflen\Framework\Http\Message;
 use PHPUnit\Framework\TestCase;
 use InvalidArgumentException;

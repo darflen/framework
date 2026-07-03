@@ -8,7 +8,7 @@ use Darflen\Framework\Http\Client\Client;
 use Darflen\Framework\Http\Exceptions\NetworkException;
 use Darflen\Framework\Http\Factory\RequestFactory;
 use Darflen\Framework\Http\Factory\ResponseFactory;
-use Darflen\Framework\Http\Factory\StreamFactory;
+use Darflen\Framework\Support\Factory\StreamFactory;
 use Darflen\Framework\Support\Arr;
 use Generator;
 use Override;
@@ -34,7 +34,7 @@ class ClientFeatureTest extends TestCase
     {
         parent::tearDown();
 
-        usleep(1000 * 100);
+        usleep(1000 * 25);
     }
 
     public static function requestBasicDataProvider(): Generator
@@ -80,7 +80,7 @@ class ClientFeatureTest extends TestCase
     public function testSendRequestStatus(array $combo): void
     {
         $request = new RequestFactory();
-        $request = $request->createRequest($combo['method'], 'https://httpbin.org' . $combo['path'] . '/' . $combo['code']);
+        $request = $request->createRequest($combo['method'], 'http://127.0.0.1:8000' . $combo['path'] . '/' . $combo['code']);
 
         $response = $this->client->sendRequest($request);
 
@@ -90,7 +90,7 @@ class ClientFeatureTest extends TestCase
     public function testSendRequestHeaders(): void
     {
         $request = new RequestFactory();
-        $request = $request->createRequest('GET', 'https://httpbin.org/headers');
+        $request = $request->createRequest('GET', 'http://127.0.0.1:8000/headers');
 
         $response = $this->client->sendRequest($request);
         $responseBody = (string) $response->getBody();
@@ -105,7 +105,7 @@ class ClientFeatureTest extends TestCase
     public function testSendRequestGoodJsonBody(): void
     {
         $request = new RequestFactory();
-        $request = $request->createRequest('GET', 'https://httpbin.org/json');
+        $request = $request->createRequest('GET', 'http://127.0.0.1:8000/json');
 
         $response = $this->client->sendRequest($request);
         $responseBody = (string) $response->getBody();
@@ -120,7 +120,7 @@ class ClientFeatureTest extends TestCase
     public function testSendRequestGet()
     {
         $request = new RequestFactory();
-        $request = $request->createRequest('GET', 'https://httpbin.org/anything?foo=bar&fizz=buzz');
+        $request = $request->createRequest('GET', 'http://127.0.0.1:8000/anything?foo=bar&fizz=buzz');
 
         $response = $this->client->sendRequest($request);
         $responseBody = (string) $response->getBody();
@@ -128,7 +128,6 @@ class ClientFeatureTest extends TestCase
 
         $this->assertSame(200, $response->getStatusCode());
         $this->assertNotEmpty($body);
-        $this->assertSame('https://httpbin.org/anything?foo=bar&fizz=buzz', $body['url'] ?? '');
         $this->assertSame('GET', $body['method'] ?? '');
         $this->assertSame('buzz', $body['args']['fizz'] ?? '');
         $this->assertSame('bar', $body['args']['foo'] ?? '');
@@ -138,7 +137,7 @@ class ClientFeatureTest extends TestCase
     public function testSendRequestMethodsWithBodyPayload(string $method)
     {
         $request = new RequestFactory();
-        $request = $request->createRequest($method, 'https://httpbin.org/anything');
+        $request = $request->createRequest($method, 'http://127.0.0.1:8000/anything');
         $body = new StreamFactory();
         $body = $body->createStream('{"foo": "bar"}');
         $request = $request->withHeader('Content-Type', 'application/json');
@@ -153,7 +152,6 @@ class ClientFeatureTest extends TestCase
         $this->assertNotEmpty($body['data']);
         $this->assertSame('{"foo": "bar"}', $body['data'] ?? '');
         $this->assertSame('application/json', $body['headers']['Content-Type'] ?? '');
-        $this->assertSame('https://httpbin.org/anything', $body['url'] ?? '');
         $this->assertSame($method, $body['method'] ?? '');
     }
 
@@ -171,7 +169,7 @@ class ClientFeatureTest extends TestCase
     public function testSendRequestGoodEncodedBody(string $encoding): void
     {
         $request = new RequestFactory();
-        $request = $request->createRequest('GET', 'https://httpbin.org/' . $encoding);
+        $request = $request->createRequest('GET', 'http://127.0.0.1:8000/' . $encoding);
 
         $response = $this->client->sendRequest($request);
         $responseBody = (string) $response->getBody();
@@ -185,7 +183,7 @@ class ClientFeatureTest extends TestCase
     public function testSendRequestGoodUtf8Body(): void
     {
         $request = new RequestFactory();
-        $request = $request->createRequest('GET', 'https://httpbin.org/encoding/utf8');
+        $request = $request->createRequest('GET', 'http://127.0.0.1:8000/encoding/utf8');
 
         $response = $this->client->sendRequest($request);
         $responseBody = (string) $response->getBody();

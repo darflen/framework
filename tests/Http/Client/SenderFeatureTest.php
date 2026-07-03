@@ -8,7 +8,7 @@ use Darflen\Framework\Http\Client\Client;
 use Darflen\Framework\Http\Client\Sender;
 use Darflen\Framework\Http\Factory\RequestFactory;
 use Darflen\Framework\Http\Factory\ResponseFactory;
-use Darflen\Framework\Http\Factory\StreamFactory;
+use Darflen\Framework\Support\Factory\StreamFactory;
 use Override;
 use Generator;
 use PHPUnit\Framework\TestCase;
@@ -53,7 +53,7 @@ class SenderFeatureTest extends TestCase
 
     public function testRequest()
     {
-        $response = $this->sender->request('GET', 'https://httpbin.org/get?fizz=buzz');
+        $response = $this->sender->request('GET', 'http://127.0.0.1:8000/get?fizz=buzz');
         $body = (string) $response->getBody();
         $json = json_decode($body, true);
 
@@ -64,7 +64,7 @@ class SenderFeatureTest extends TestCase
 
     public function testRequestWithHeadersAndBody()
     {
-        $response = $this->sender->request('POST', 'http://httpbin.org/anything', [
+        $response = $this->sender->request('POST', 'http://127.0.0.1:8000/anything', [
             'Content-Type' => 'application/json',
             'X-Fizz' => 'buzz',
             'X-Foo' => ['foo', 'bar'],
@@ -82,7 +82,7 @@ class SenderFeatureTest extends TestCase
 
     public function testGet()
     {
-        $response = $this->sender->get('https://httpbin.org/get?foo=bar');
+        $response = $this->sender->get('http://127.0.0.1:8000/get?foo=bar');
         $body = (string) $response->getBody();
         $json = json_decode($body, true);
 
@@ -93,7 +93,7 @@ class SenderFeatureTest extends TestCase
 
     public function testPost()
     {
-        $response = $this->sender->post('http://httpbin.org/post', [
+        $response = $this->sender->post('http://127.0.0.1:8000/post', [
             'Content-Type' => 'application/json'
         ], '{"foo":"bar"}');
         $body = (string) $response->getBody();
@@ -108,7 +108,7 @@ class SenderFeatureTest extends TestCase
 
     public function testPut()
     {
-        $response = $this->sender->put('http://httpbin.org/put', [
+        $response = $this->sender->put('http://127.0.0.1:8000/put', [
             'Content-Type' => 'application/json'
         ], '{"foo":"bar"}');
         $body = (string) $response->getBody();
@@ -123,7 +123,7 @@ class SenderFeatureTest extends TestCase
 
     public function testPatch()
     {
-        $response = $this->sender->patch('http://httpbin.org/patch', [
+        $response = $this->sender->patch('http://127.0.0.1:8000/patch', [
             'Content-Type' => 'application/json'
         ], '{"foo":"bar"}');
         $body = (string) $response->getBody();
@@ -138,7 +138,7 @@ class SenderFeatureTest extends TestCase
 
     public function testDelete()
     {
-        $response = $this->sender->delete('https://httpbin.org/delete?foo=bar');
+        $response = $this->sender->delete('http://127.0.0.1:8000/delete?foo=bar');
         $body = (string) $response->getBody();
         $json = json_decode($body, true);
 
