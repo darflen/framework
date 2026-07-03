@@ -2,12 +2,12 @@
 
 return [
     'encryption' => [
-        'cipher' => env('SECURITY_CIPHER', 'AES-256-GCM'),
+        'cipher' => env('SECURITY_CIPHER', 'AES-256-CBC'),
         'key' => env('SECURITY_KEY', ''),
-        'mac' => env('SECURITY_MAC_ALGORITHM', ''),
+        'mac' => env('SECURITY_MAC_ALGORITHM', 'sha256'),
     ],
     'hashing' => [
-        'algorithm' => env('SECURITY_MAC_ALGORITHM', PASSWORD_BCRYPT),
+        'algorithm' => env('SECURITY_HASH_ALGORITHM', PASSWORD_BCRYPT),
         PASSWORD_BCRYPT => [
             'rounds' => env('BCRYPT_ROUNDS', 16)
         ],
