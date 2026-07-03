@@ -9,6 +9,7 @@ use Darflen\Framework\Cache\Strategies\RedisCacheStrategy;
 use Darflen\Framework\Cache\Exceptions\InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Redis;
+use Override;
 
 class CacheFeatureTest extends TestCase
 {

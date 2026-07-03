@@ -56,4 +56,24 @@ class ArrTest extends TestCase
         $this->assertSame('success', Arr::get($input, 'fizz', 'success'));
         $this->assertNotSame('bazz', Arr::get($input, 'fizz', 'success'));
     }
+
+    public function testCartesian()
+    {
+        $input = [
+            ['foo', 'bar'],
+            ['fizz', 'buzz']
+        ];
+        $output = [
+            ['foo', 'fizz'],
+            ['foo', 'buzz'],
+            ['bar', 'fizz'],
+            ['bar', 'buzz']
+        ];
+
+        $results = Arr::cartesian($input);
+
+        foreach ($results as $index => $result) {
+            $this->assertSame($output[$index], $result);
+        }
+    }
 }

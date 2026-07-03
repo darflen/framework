@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Tests\Cache\Strategies;
 
+use Darflen\Framework\Cache\Exceptions\InvalidArgumentException;
 use Darflen\Framework\Cache\Strategies\RedisCacheStrategy;
+use DateInterval;
 use Override;
 use PHPUnit\Framework\TestCase;
 use Redis;
@@ -47,10 +49,20 @@ class RedisCacheStrategyFeatureTest extends TestCase
 
     public function testSetTTL()
     {
-        self::$strategy->set('fizz', 'buzz', 1);
-        $this->assertSame('buzz', self::$strategy->get('fizz'));
-        sleep(2);
+        self::$strategy->set('fizz', 'buzz', -1);
+        self::$strategy->set('foo', 'bar', DateInterval::createFromDateString('1 day'));
         $this->assertSame('success', self::$strategy->get('fizz', 'success'));
+        $this->assertGreaterThan(86399, self::$redis->ttl('foo'));
+    }
+
+    public function testSetMultipleTTL()
+    {
+        self::$strategy->setMultiple([
+            'fizz' => 'buzz',
+            'foo' => 'bar'
+        ], DateInterval::createFromDateString('1 day'));
+
+        $this->assertGreaterThan(86399, self::$redis->ttl('foo'));
     }
 
     public function testHas()

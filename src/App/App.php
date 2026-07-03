@@ -6,6 +6,7 @@ namespace Darflen\Framework\App;
 
 use Psr\Container\ContainerInterface;
 use Darflen\Framework\Config\Config;
+use Psr\Http\Server\MiddlewareInterface;
 
 class App
 {

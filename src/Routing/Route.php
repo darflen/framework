@@ -38,7 +38,7 @@ class Route
         return $this->getAttribute('name', '');
     }
 
-    public function getMethods(): string|array
+    public function getMethods(): array
     {
         return $this->methods;
     }

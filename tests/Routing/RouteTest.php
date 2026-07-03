@@ -37,11 +37,26 @@ class RouteTest extends TestCase
         $route = $route->withAddedMiddleware($middlewareMock2);
         $route = $route->withHandler($requestHandlerMock);
         $route = $route->withName('fizzbuzz');
+        $route = $route->withAttribute('foo', 'bar');
+        $route = $route->withAttribute('fizz', 'buzz');
 
         $this->assertSame(['GET', 'PATCH', 'POST'], $route->getMethods());
         $this->assertSame('/fizz/buzz', $route->getPath());
         $this->assertSame('fizzbuzz', $route->getName());
         $this->assertSame($requestHandlerMock, $route->getHandler());
         $this->assertSame([$middlewareMock1, $middlewareMock2], $route->getMiddlewares());
+        $this->assertSame(['name' => 'fizzbuzz', 'foo' => 'bar', 'fizz' => 'buzz'], $route->getAttributes());
+    }
+
+    public function testWithoutAttribute()
+    {
+        $route = new Route('POST', '/foo/bar', []);
+
+        $route = $route->withAttribute('foo', 'bar');
+        $route = $route->withAttribute('fizz', 'buzz');
+        $route = $route->withoutAttribute('foo');
+
+        $this->assertSame(['fizz' => 'buzz'], $route->getAttributes());
+
     }
 }

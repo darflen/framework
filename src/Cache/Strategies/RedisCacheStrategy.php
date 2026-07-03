@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Cache\Strategies;
 
-use Darflen\Framework\Cache\Exceptions\InvalidArgumentException;
 use Override;
 use Redis;
 use DateInterval;
@@ -16,6 +15,14 @@ class RedisCacheStrategy implements CacheStrategyInterface
     public function __construct(Redis $redis)
     {
         $this->redis = $redis;
+    }
+
+    protected function parseTTL(null|int|DateInterval $ttl): ?int
+    {
+        if ($ttl instanceof DateInterval) {
+            $ttl = date_create('@0')->add($ttl)->getTimestamp();
+        }
+        return $ttl;
     }
 
     #[Override]
@@ -41,11 +48,9 @@ class RedisCacheStrategy implements CacheStrategyInterface
     #[Override]
     public function set(string $key, mixed $value, null|int|DateInterval $ttl = null): bool
     {
-        if ($ttl instanceof DateInterval) {
-            $ttl = date_create('@0')->add($ttl)->getTimestamp();
-        }
-        if ($ttl && abs($ttl) > 2147483647) {
-            throw new InvalidArgumentException("Invalid expiration value: " . $ttl);
+        $ttl = $this->parseTTL($ttl);
+        if ($ttl && $ttl <= 0) {
+            return $this->delete($key);
         }
         if ($ttl) {
             $ttl = ['ex' => $ttl];
@@ -56,11 +61,9 @@ class RedisCacheStrategy implements CacheStrategyInterface
     #[Override]
     public function setMultiple(array $values, null|int|DateInterval $ttl = null): bool
     {
-        if ($ttl instanceof DateInterval) {
-            $ttl = date_create('@0')->add($ttl)->getTimestamp();
-        }
-        if ($ttl && abs($ttl) > 2147483647) {
-            throw new InvalidArgumentException("Invalid expiration value: " . $ttl);
+        $ttl = $this->parseTTL($ttl);
+        if ($ttl === 0) {
+            $ttl = -1;
         }
         foreach ($values as $index => $value) {
             $values[$index] = @serialize($value);
@@ -106,7 +109,7 @@ class RedisCacheStrategy implements CacheStrategyInterface
                 }
             }
         } while ($iterator > 0);
-        $prefix = $this->redis->getOption(Redis::OPT_PREFIX);
+        $prefix = (string) $this->redis->getOption(Redis::OPT_PREFIX);
         $allKeys = array_map(function ($value) use ($prefix) {
             if (str_starts_with($value, $prefix)) {
                 $value = substr($value, strlen($prefix));

@@ -44,7 +44,7 @@ class Router
         foreach ($routes as $route) {
             $matches = $this->match($route, $route->getPath(), $path);
             if ($matches['matched']) {
-                if (!in_array($method, $route->getMethods()) && $method !== 'ANY') {
+                if (!in_array($method, $route->getMethods()) && !in_array('ANY', $route->getMethods())) {
                     throw new MethodNotAllowedException('Method is not allowed');
                 }
                 $handler = $route->getHandler();
@@ -55,7 +55,6 @@ class Router
                 return $requestHandler->handle($serverRequest);
             }
         }
-
         throw new NotFoundException('No route matched');
     }
 }
