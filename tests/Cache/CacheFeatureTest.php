@@ -27,7 +27,7 @@ class CacheFeatureTest extends TestCase
         self::$cache = new Cache(new RedisCacheStrategy(self::$redis));
     }
 
-    public function testOperations()
+    public function testOperations(): void
     {
         self::$cache->setMultiple([
             'foo' => 'bar',
@@ -48,14 +48,14 @@ class CacheFeatureTest extends TestCase
         $this->assertSame('success', self::$cache->get('bazz', 'success'));
     }
 
-    public function testClear()
+    public function testClear(): void
     {
         self::$cache->set('foo', 'bar');
         self::$cache->clear();
         $this->assertFalse(self::$cache->has('foo'));
     }
 
-    public function testKeyValidationThrowsExceptionWhenInvalid()
+    public function testKeyValidationThrowsExceptionWhenInvalid(): void
     {
         $this->expectException(InvalidArgumentException::class);
         self::$cache->set('{}|value', 'failure');

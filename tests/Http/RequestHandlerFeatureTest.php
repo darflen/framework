@@ -14,7 +14,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class RequestHandlerFeatureTest extends TestCase
 {
-    public function testHandleWithCallables()
+    public function testHandleWithCallables(): void
     {
         $requestHandler = new RequestHandler([
             function (ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface {

@@ -117,7 +117,7 @@ class ClientFeatureTest extends TestCase
         $this->assertSame('Why <em>WonderWidgets</em> are great', $body['slideshow']['slides'][1]['items'][0] ?? '');
     }
 
-    public function testSendRequestGet()
+    public function testSendRequestGet(): void
     {
         $request = new RequestFactory();
         $request = $request->createRequest('GET', 'http://127.0.0.1:8000/anything?foo=bar&fizz=buzz');
@@ -134,7 +134,7 @@ class ClientFeatureTest extends TestCase
     }
 
     #[DataProvider('requestBasicBodyMethodsDataProvider')]
-    public function testSendRequestMethodsWithBodyPayload(string $method)
+    public function testSendRequestMethodsWithBodyPayload(string $method): void
     {
         $request = new RequestFactory();
         $request = $request->createRequest($method, 'http://127.0.0.1:8000/anything');
@@ -155,7 +155,7 @@ class ClientFeatureTest extends TestCase
         $this->assertSame($method, $body['method'] ?? '');
     }
 
-    public function testSendRequestGetInvalidUrl()
+    public function testSendRequestGetInvalidUrl(): void
     {
         $this->expectException(NetworkException::class);
 

@@ -26,7 +26,7 @@ class RedisCacheStrategy implements CacheStrategyInterface
     }
 
     #[Override]
-    public function get(string $key, $default = null): mixed
+    public function get(string $key, mixed $default = null): mixed
     {
         $result = $this->redis->get($key);
         return $result ? @unserialize($result) : $default;

@@ -15,18 +15,18 @@ class Hash
         $this->parameters = config('security.hashing.' . $this->algorithm);
     }
 
-    public function createHash(string $plain, array $parameters = [])
+    public function createHash(string $plain, array $parameters = []): string
     {
         $parameters = array_merge($this->parameters, $parameters);
         return password_hash($plain, $this->algorithm, $parameters);
     }
 
-    public function checkHash(string $plain, string $hashed)
+    public function checkHash(string $plain, string $hashed): bool
     {
         return password_verify($plain, $hashed);
     }
 
-    public function needsRehash(string $hashed, array $parameters = [])
+    public function needsRehash(string $hashed, array $parameters = []): bool
     {
         $parameters = array_merge($this->parameters, $parameters);
         return password_needs_rehash($hashed, $this->algorithm, $parameters);

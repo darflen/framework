@@ -20,7 +20,7 @@ class Provider implements ListenerProviderInterface
     public function getListenersForEvent(object $event): iterable
     {
         foreach ($this->listeners as $eventClassName => $listeners) {
-            if ($event instanceof $eventClassName) {
+            if (is_a($event, $eventClassName)) {
                 foreach ($listeners as $listener) {
                     yield $listener;
                 }

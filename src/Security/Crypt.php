@@ -19,7 +19,7 @@ class Crypt
         $this->mac = config('security.encryption.mac');
     }
 
-    public function encryptValue(string $content)
+    public function encryptValue(string $content): string
     {
         $length = openssl_cipher_iv_length($this->cipher);
         $iv = openssl_random_pseudo_bytes($length);
@@ -28,7 +28,7 @@ class Crypt
         return base64_encode($iv . $mac . $content);
     }
 
-    public function decryptValue(string $content)
+    public function decryptValue(string $content): string
     {
         $mac_length = 32;
         $content = base64_decode($content);

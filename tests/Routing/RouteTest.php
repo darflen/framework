@@ -11,7 +11,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class RouteTest extends TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $requestHandlerMock = $this->createStub(RequestHandlerInterface::class);
 
@@ -22,7 +22,7 @@ class RouteTest extends TestCase
         $this->assertSame($requestHandlerMock, $route->getHandler());
     }
 
-    public function testGettersAndSetters()
+    public function testGettersAndSetters(): void
     {
         $requestHandlerMock = $this->createStub(RequestHandlerInterface::class);
         $middlewareMock1 = $this->createStub(MiddlewareInterface::class);
@@ -48,7 +48,7 @@ class RouteTest extends TestCase
         $this->assertSame(['name' => 'fizzbuzz', 'foo' => 'bar', 'fizz' => 'buzz'], $route->getAttributes());
     }
 
-    public function testWithoutAttribute()
+    public function testWithoutAttribute(): void
     {
         $route = new Route('POST', '/foo/bar', []);
 

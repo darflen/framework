@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class CookieFactoryTest extends TestCase
 {
-    public function testCreateCookie()
+    public function testCreateCookie(): void
     {
         $cookieFactory = new CookieFactory();
         $cookie = $cookieFactory->createCookie('name', 'value', 1000, '/', 'example.com', true, true, 'None');
@@ -17,14 +17,14 @@ class CookieFactoryTest extends TestCase
         $this->assertSame('name=value; Expires=Thu, 01 Jan 1970 00:16:40 GMT; Path=/; Domain=example.com; Secure; HttpOnly; SameSite=None', (string) $cookie);
     }
 
-    public function testCreatePermanentCookie()
+    public function testCreatePermanentCookie(): void
     {
         $cookieFactory = new CookieFactory();
         $cookie = $cookieFactory->createPermanentCookie('name', 'value', '/', 'example.com', true, true, 'None');
         $this->assertGreaterThan(time(), $cookie->getExpiration());
     }
 
-    public function testExpireCookie()
+    public function testExpireCookie(): void
     {
         $cookieFactory = new CookieFactory();
         $cookie = $cookieFactory->expireCookie('name', '/', 'example.com');

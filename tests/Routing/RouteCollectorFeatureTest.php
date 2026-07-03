@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class RouteCollectorFeatureTest extends TestCase
 {
-    public function testMap()
+    public function testMap(): void
     {
         $routeCollector = new RouteCollector();
 
@@ -23,7 +23,7 @@ class RouteCollectorFeatureTest extends TestCase
         $this->assertSame(['POST', 'PATCH'], $routes[1]->getMethods());
     }
 
-    public function testMapFluent()
+    public function testMapFluent(): void
     {
         $routeCollector = new RouteCollector();
 
@@ -35,7 +35,7 @@ class RouteCollectorFeatureTest extends TestCase
         $this->assertSame('foobar', $routes[0]->getMiddlewares()[1]());
     }
 
-    public function testHelpers()
+    public function testHelpers(): void
     {
         $routeCollector = new RouteCollector();
 

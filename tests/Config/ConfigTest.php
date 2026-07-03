@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class ConfigTest extends TestCase
 {
-    public function testSetupAndCreate()
+    public function testSetupAndCreate(): void
     {
         $config = new Config();
         Config::setup(__DIR__ . '/Fixtures', __DIR__ . '/Fixtures')->create();
@@ -19,7 +19,7 @@ class ConfigTest extends TestCase
         $this->assertSame('buzz', config('config.example.fizz', 'failure'));
     }
 
-    public function testGet()
+    public function testGet(): void
     {
         $config = new Config();
         Config::setup(__DIR__ . '/Fixtures', __DIR__ . '/Fixtures')->create();
@@ -28,7 +28,7 @@ class ConfigTest extends TestCase
         $this->assertSame('success', Config::get('config.example.nothing', 'success'));
     }
 
-    public function testSet()
+    public function testSet(): void
     {
         $config = new Config();
         Config::setup(__DIR__ . '/Fixtures', __DIR__ . '/Fixtures')->create();
@@ -38,7 +38,7 @@ class ConfigTest extends TestCase
         $this->assertSame('bar', config('config.example.boo'));
     }
 
-    public function testAll()
+    public function testAll(): void
     {
         $config = new Config();
         Config::setup(__DIR__ . '/Fixtures', __DIR__ . '/Fixtures')->create();

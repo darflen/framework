@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class CookieJarTest extends TestCase
 {
-    public function testCookieJarConstruct()
+    public function testCookieJarConstruct(): void
     {
         $cookieMock1 = $this->createMock(Cookie::class);
         $cookieMock2 = $this->createMock(Cookie::class);
@@ -33,14 +33,14 @@ class CookieJarTest extends TestCase
         ], $cookieJar->getAll());
     }
 
-    public function testBadCookieThrowsException()
+    public function testBadCookieThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         new CookieJar(['fizzbuzz']);
     }
 
-    public function testCookieJarGetters()
+    public function testCookieJarGetters(): void
     {
         $cookieMock = $this->createMock(Cookie::class);
         $cookieMock->expects($this->once())->method('getName')->willReturn('foo');
@@ -57,7 +57,7 @@ class CookieJarTest extends TestCase
         $this->assertSame(false, $cookieJar->hasCookie('bar'));
     }
 
-    public function testWithCookie()
+    public function testWithCookie(): void
     {
         $cookieMock1 = $this->createMock(Cookie::class);
         $cookieMock2 = $this->createMock(Cookie::class);
@@ -71,7 +71,7 @@ class CookieJarTest extends TestCase
         $this->assertSame(['fizz' => $cookieMock1, 'foo' => $cookieMock2], $cookieJar->getAll());
     }
 
-    public function testWithCookies()
+    public function testWithCookies(): void
     {
         $cookieMock1 = $this->createMock(Cookie::class);
         $cookieMock2 = $this->createMock(Cookie::class);
@@ -86,7 +86,7 @@ class CookieJarTest extends TestCase
         $this->assertSame(['fizz' => $cookieMock1, 'buzz' => $cookieMock2, 'bazz' => $cookieMock3], $cookieJar->getAll());
     }
 
-    public function testWithoutCookie()
+    public function testWithoutCookie(): void
     {
         $cookieMock1 = $this->createMock(Cookie::class);
         $cookieMock2 = $this->createMock(Cookie::class);
@@ -100,7 +100,7 @@ class CookieJarTest extends TestCase
         $this->assertSame(['foo' => $cookieMock2], $cookieJar->getAll());
     }
 
-    public function testClearAll()
+    public function testClearAll(): void
     {
         $cookieMock1 = $this->createMock(Cookie::class);
         $cookieMock2 = $this->createMock(Cookie::class);

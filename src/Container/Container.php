@@ -19,13 +19,13 @@ class Container implements ContainerInterface
 
 
     // TODO: remove from this psr class
-    public function set(string $id, mixed $service)
+    public function set(string $id, mixed $service): void
     {
         $this->services[$id] = $service;
     }
 
     #[Override]
-    public function get(string $id)
+    public function get(string $id): object
     {
         if (!$this->has($id)) {
             throw new NotFoundException('Service with ID not found');

@@ -76,7 +76,7 @@ class ServerRequestTest extends TestCase
         $this->assertArraysAreIdentical(['foo' => 'success', 'fizz' => 'buzz'], $clone->getAttributes());
     }
 
-    public function testWithUploadedFilesWithBadTypes()
+    public function testWithUploadedFilesWithBadTypes(): void
     {
         $this->expectException(InvalidArgumentException::class);
 

@@ -32,24 +32,24 @@ class ContainerTest extends TestCase
         ]);
     }
 
-    public function testGetWithValidId()
+    public function testGetWithValidId(): void
     {
         $this->assertSame($this->mocksClasses['Request'], $this->container->get('Request'));
     }
 
-    public function testGetWithInvalidId()
+    public function testGetWithInvalidId(): void
     {
         $this->expectException(NotFoundException::class);
 
         $this->container->get('Not here!');
     }
 
-    public function testHasWithValidId()
+    public function testHasWithValidId(): void
     {
         $this->assertTrue($this->container->has('Request'));
     }
 
-    public function testHasWithInvalidId()
+    public function testHasWithInvalidId(): void
     {
         $this->assertFalse($this->container->has('Not here!'));
     }

@@ -86,7 +86,7 @@ class Route
         return $clone;
     }
 
-    public function withHandler(RequestHandlerInterface|callable|array $handler)
+    public function withHandler(RequestHandlerInterface|callable|array $handler): self
     {
         $clone = clone $this;
         $clone->handler = $handler;
@@ -100,7 +100,7 @@ class Route
         return $clone;
     }
 
-    public function withAddedMiddleware(MiddlewareInterface|callable|array $middleware)
+    public function withAddedMiddleware(MiddlewareInterface|callable|array $middleware): self
     {
         $clone = clone $this;
         array_push($clone->middlewares, $middleware);

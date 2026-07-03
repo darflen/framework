@@ -19,7 +19,7 @@ class LoggerFeatureTest extends TestCase
         Config::setup(dirname(dirname(__DIR__)) . '/config', dirname(dirname(__DIR__)) . '/config')->create();
     }
 
-    public function testConstructorAsExpected()
+    public function testConstructorAsExpected(): void
     {
         $logger = new Logger(__DIR__, '/Fixtures');
 
@@ -28,14 +28,14 @@ class LoggerFeatureTest extends TestCase
         $this->assertStringContainsString('/Fixtures', $fileReflection->getValue($logger));
     }
 
-    public function testConstructorThrowsExceptionWhenBadDirectory()
+    public function testConstructorThrowsExceptionWhenBadDirectory(): void
     {
         $this->expectException(RuntimeException::class);
 
         new Logger(__DIR__, '/Fixture');
     }
 
-    public function testLog()
+    public function testLog(): void
     {
         $logger = new Logger(__DIR__, '/Fixtures');
 
@@ -50,7 +50,7 @@ class LoggerFeatureTest extends TestCase
         $this->assertStringContainsString('{fizz}', $fileContent);
     }
 
-    public function testLogThrowsExceptionWhenBadLevel()
+    public function testLogThrowsExceptionWhenBadLevel(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -59,7 +59,7 @@ class LoggerFeatureTest extends TestCase
         $logger->log('BAD', 'Hello world!');
     }
 
-    public function testLogThrowsExceptionWhenUsingReservedCharactersInPlaceholders()
+    public function testLogThrowsExceptionWhenUsingReservedCharactersInPlaceholders(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -68,7 +68,7 @@ class LoggerFeatureTest extends TestCase
         $logger->log('debug', 'Hello world! {!!#@}', ['!!#@' => 'foobar']);
     }
 
-    public function testLogLevels()
+    public function testLogLevels(): void
     {
         $logger = new Logger(__DIR__, '/Fixtures');
 

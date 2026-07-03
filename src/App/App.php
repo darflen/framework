@@ -6,11 +6,9 @@ namespace Darflen\Framework\App;
 
 use Psr\Container\ContainerInterface;
 use Darflen\Framework\Config\Config;
-use Darflen\Framework\Support\Crypt;
-use Darflen\Framework\Support\Hash;
 use Psr\Http\Server\MiddlewareInterface;
 
-class App
+final class App
 {
     private static ContainerInterface $container;
 
@@ -29,8 +27,6 @@ class App
     public function create(): void
     {
         Config::setup(self::$projectDir . '/config', self::$projectDir)->create();
-        new Crypt();
-        new Hash();
         foreach (self::$routes as $route) {
             include_once $route;
         }
@@ -76,6 +72,6 @@ class App
 
     public static function getApp(): static
     {
-        return new self(self::$projectDir, self::$container);
+        return new static(self::$projectDir, self::$container);
     }
 }

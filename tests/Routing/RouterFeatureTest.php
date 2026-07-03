@@ -40,7 +40,7 @@ class RouterFeatureTest extends TestCase
         $this->serverRequestFactory = new ServerRequestFactory();
     }
 
-    public function testDispatch()
+    public function testDispatch(): void
     {
         $serverRequest = $this->serverRequestFactory->createServerRequest('GET', 'https://fizzbuzz.test/');
 
@@ -49,7 +49,7 @@ class RouterFeatureTest extends TestCase
         $this->assertSame('Hello, World!', (string) $response->getBody());
     }
 
-    public function testDispatchThrowsExceptionWhenBadMethod()
+    public function testDispatchThrowsExceptionWhenBadMethod(): void
     {
         $this->expectException(MethodNotAllowedException::class);
 
@@ -58,7 +58,7 @@ class RouterFeatureTest extends TestCase
         $this->router->dispatch($this->routeCollector->getRoutes(), $serverRequest);
     }
 
-    public function testDispatchThrowsExceptionWhenNoRouteFound()
+    public function testDispatchThrowsExceptionWhenNoRouteFound(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -67,7 +67,7 @@ class RouterFeatureTest extends TestCase
         $this->router->dispatch($this->routeCollector->getRoutes(), $serverRequest);
     }
 
-    public function testDispatchThrowsExceptionWhenRouteDoesNotRespectConstraint()
+    public function testDispatchThrowsExceptionWhenRouteDoesNotRespectConstraint(): void
     {
         $this->expectException(NotFoundException::class);
 

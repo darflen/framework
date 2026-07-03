@@ -29,74 +29,74 @@ class RequestContextFeatureTest extends TestCase
         $this->requestContext = new RequestContext($serverRequest);
     }
 
-    public function testGetPath()
+    public function testGetPath(): void
     {
         $this->assertSame('/search', $this->requestContext->getPath());
     }
 
-    public function testGetUrl()
+    public function testGetUrl(): void
     {
         $this->assertSame('https://example.com/search', $this->requestContext->getUrl());
     }
 
-    public function testGetFullUrl()
+    public function testGetFullUrl(): void
     {
         $this->assertSame('https://example.com/search?q=fizzbuzz&o=trending', $this->requestContext->getFullUrl());
     }
 
-    public function testGetFullUrlWithQuery()
+    public function testGetFullUrlWithQuery(): void
     {
         $this->assertSame('https://example.com/search?q=fizzbuzz&o=trending&fizz=buzz&foo=bar', $this->requestContext->getFullUrlWithQuery(['fizz' => 'buzz', 'foo' => 'bar']));
     }
 
-    public function testGetFullUrlWithoutQuery()
+    public function testGetFullUrlWithoutQuery(): void
     {
         $this->assertSame('https://example.com/search', $this->requestContext->getFullUrlWithoutQuery(['q', 'o']));
         $this->assertSame('https://example.com/search?o=trending', $this->requestContext->getFullUrlWithoutQuery(['q']));
     }
 
-    public function testGetHostAndHttpHost()
+    public function testGetHostAndHttpHost(): void
     {
         $this->assertSame('example.com', $this->requestContext->getHost());
         $this->assertSame('example.com', $this->requestContext->getHttpHost());
     }
 
-    public function testGetOrigin()
+    public function testGetOrigin(): void
     {
         $this->assertSame('https://foobar.com', $this->requestContext->getOrigin());
     }
 
-    public function testGetSchemeAndHttpHost()
+    public function testGetSchemeAndHttpHost(): void
     {
         $this->assertSame('https://example.com', $this->requestContext->getSchemeAndHttpHost());
     }
 
-    public function testGetAuthorization()
+    public function testGetAuthorization(): void
     {
         $this->assertSame('Bearer foobar', $this->requestContext->getAuthorization());
     }
 
-    public function testGetBearerToken()
+    public function testGetBearerToken(): void
     {
         $this->assertSame('foobar', $this->requestContext->getBearerToken());
     }
 
-    public function testGetIp()
+    public function testGetIp(): void
     {
         $this->assertSame('196.168.1.1', $this->requestContext->getIp());
     }
 
-    public function testGetIps()
+    public function testGetIps(): void
     {
         $this->assertSame(['196.168.1.1'], $this->requestContext->getIps());
     }
 
-    public function testGetAcceptableContentTypes()
+    public function testGetAcceptableContentTypes(): void
     {
         $this->assertSame('application/json,text/csv,text/markdown', implode(',', $this->requestContext->getAcceptableContentTypes()));
     }
 
-    public function testIsAcceptableTypes()
+    public function testIsAcceptableTypes(): void
     {
         $this->assertTrue($this->requestContext->isAcceptableTypes(['text/csv', 'application/json']));
         $this->assertTrue($this->requestContext->isAcceptableTypes(['text/markdown']));
@@ -104,19 +104,19 @@ class RequestContextFeatureTest extends TestCase
         $this->assertFalse($this->requestContext->isAcceptableTypes(['text/plain', 'application/json']));
     }
 
-    public function testGetPreferedType()
+    public function testGetPreferedType(): void
     {
         $this->assertSame('application/json', $this->requestContext->getPreferedType(['text/csv', 'application/json']));
         $this->assertSame('application/json', $this->requestContext->getPreferedType(['application/json', 'text/markdown']));
         $this->assertSame('text/markdown', $this->requestContext->getPreferedType(['text/markdown', 'text/csv']));
     }
 
-    public function testGetAll()
+    public function testGetAll(): void
     {
         $this->assertSame(['q' => 'fizzbuzz', 'o' => 'trending', 'foo' => 'bar', 'fizz' => ''], $this->requestContext->getAll());
     }
 
-    public function testGetInput()
+    public function testGetInput(): void
     {
         $this->assertSame('fizzbuzz', $this->requestContext->getInput('q', 'failure'));
         $this->assertSame('success', $this->requestContext->getInput('f', 'success'));
@@ -124,13 +124,13 @@ class RequestContextFeatureTest extends TestCase
 
     }
 
-    public function testHasInput()
+    public function testHasInput(): void
     {
         $this->assertTrue($this->requestContext->hasInput('q'));
         $this->assertFalse($this->requestContext->hasInput('f'));
     }
 
-    public function testHasAnyInput()
+    public function testHasAnyInput(): void
     {
         $this->assertTrue($this->requestContext->hasAnyInput(['q', 'f', 'b']));
         $this->assertTrue($this->requestContext->hasAnyInput(['o']));
@@ -138,34 +138,34 @@ class RequestContextFeatureTest extends TestCase
         $this->assertFalse($this->requestContext->hasAnyInput(['f', 'z', 'k']));
     }
 
-    public function testGetQuery()
+    public function testGetQuery(): void
     {
         $this->assertSame('fizzbuzz', $this->requestContext->getQuery('q', 'failure'));
         $this->assertSame('success', $this->requestContext->getQuery('f', 'success'));
         $this->assertSame('success', $this->requestContext->getQuery('foo', 'success'));
     }
 
-    public function testIsMethod()
+    public function testIsMethod(): void
     {
         $this->assertTrue($this->requestContext->isMethod('GET'));
         $this->assertFalse($this->requestContext->isMethod('POST'));
     }
 
-    public function testIsFilled()
+    public function testIsFilled(): void
     {
         $this->assertTrue($this->requestContext->isFilled('q'));
         $this->assertTrue($this->requestContext->isFilled('foo'));
         $this->assertFalse($this->requestContext->isFilled('buzz'));
     }
 
-    public function testIsNotFilled()
+    public function testIsNotFilled(): void
     {
         $this->assertFalse($this->requestContext->isNotFilled('q'));
         $this->assertFalse($this->requestContext->isNotFilled('foo'));
         $this->assertTrue($this->requestContext->isNotFilled('buzz'));
     }
 
-    public function testIsMissing()
+    public function testIsMissing(): void
     {
         $this->assertFalse($this->requestContext->isMissing('q'));
         $this->assertFalse($this->requestContext->isMissing('foo'));

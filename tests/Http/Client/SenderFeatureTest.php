@@ -35,7 +35,7 @@ class SenderFeatureTest extends TestCase
     {
         parent::tearDown();
 
-        usleep(1000 * 100);
+        usleep(1000 * 25);
     }
 
     public static function requestBasicBodyMethodsDataProvider(): Generator
@@ -51,7 +51,7 @@ class SenderFeatureTest extends TestCase
         }
     }
 
-    public function testRequest()
+    public function testRequest(): void
     {
         $response = $this->sender->request('GET', 'http://127.0.0.1:8000/get?fizz=buzz');
         $body = (string) $response->getBody();
@@ -62,7 +62,7 @@ class SenderFeatureTest extends TestCase
         $this->assertSame('buzz', $json['args']['fizz']);
     }
 
-    public function testRequestWithHeadersAndBody()
+    public function testRequestWithHeadersAndBody(): void
     {
         $response = $this->sender->request('POST', 'http://127.0.0.1:8000/anything', [
             'Content-Type' => 'application/json',
@@ -80,7 +80,7 @@ class SenderFeatureTest extends TestCase
         $this->assertSame('foo,bar', $json['headers']['X-Foo'] ?? '');
     }
 
-    public function testGet()
+    public function testGet(): void
     {
         $response = $this->sender->get('http://127.0.0.1:8000/get?foo=bar');
         $body = (string) $response->getBody();
@@ -91,7 +91,7 @@ class SenderFeatureTest extends TestCase
         $this->assertSame('bar', $json['args']['foo']);
     }
 
-    public function testPost()
+    public function testPost(): void
     {
         $response = $this->sender->post('http://127.0.0.1:8000/post', [
             'Content-Type' => 'application/json'
@@ -106,7 +106,7 @@ class SenderFeatureTest extends TestCase
         $this->assertSame('application/json', $json['headers']['Content-Type'] ?? '');
     }
 
-    public function testPut()
+    public function testPut(): void
     {
         $response = $this->sender->put('http://127.0.0.1:8000/put', [
             'Content-Type' => 'application/json'
@@ -121,7 +121,7 @@ class SenderFeatureTest extends TestCase
         $this->assertSame('application/json', $json['headers']['Content-Type'] ?? '');
     }
 
-    public function testPatch()
+    public function testPatch(): void
     {
         $response = $this->sender->patch('http://127.0.0.1:8000/patch', [
             'Content-Type' => 'application/json'
@@ -136,7 +136,7 @@ class SenderFeatureTest extends TestCase
         $this->assertSame('application/json', $json['headers']['Content-Type'] ?? '');
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $response = $this->sender->delete('http://127.0.0.1:8000/delete?foo=bar');
         $body = (string) $response->getBody();

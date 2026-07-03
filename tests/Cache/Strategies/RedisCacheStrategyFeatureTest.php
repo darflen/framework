@@ -28,7 +28,7 @@ class RedisCacheStrategyFeatureTest extends TestCase
         self::$strategy = new RedisCacheStrategy(self::$redis);
     }
 
-    public function testSetAndGet()
+    public function testSetAndGet(): void
     {
         self::$strategy->set('fizz', 'buzz');
         self::$strategy->set('buzz', true);
@@ -47,7 +47,7 @@ class RedisCacheStrategyFeatureTest extends TestCase
         $this->assertSame('success', self::$strategy->get('failure', 'success'));
     }
 
-    public function testSetTTL()
+    public function testSetTTL(): void
     {
         self::$strategy->set('fizz', 'buzz', -1);
         self::$strategy->set('foo', 'bar', DateInterval::createFromDateString('1 day'));
@@ -55,7 +55,7 @@ class RedisCacheStrategyFeatureTest extends TestCase
         $this->assertGreaterThan(86399, self::$redis->ttl('foo'));
     }
 
-    public function testSetMultipleTTL()
+    public function testSetMultipleTTL(): void
     {
         self::$strategy->setMultiple([
             'fizz' => 'buzz',
@@ -65,14 +65,14 @@ class RedisCacheStrategyFeatureTest extends TestCase
         $this->assertGreaterThan(86399, self::$redis->ttl('foo'));
     }
 
-    public function testHas()
+    public function testHas(): void
     {
         self::$strategy->set('foo', 'bar');
         $this->assertTrue(self::$strategy->has('foo'));
         $this->assertFalse(self::$strategy->has('bar'));
     }
 
-    public function testMultipleGetAndSet()
+    public function testMultipleGetAndSet(): void
     {
         self::$strategy->setMultiple([
             'fizz' => 'buzz',

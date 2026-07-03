@@ -21,7 +21,7 @@ class CryptFeatureTest extends TestCase
         Config::set('security.encryption.key', '[d595ami5@9]uFZAPe/{4*iUGLkk,Zxr');
     }
 
-    public function testEncryptDecrypt()
+    public function testEncryptDecrypt(): void
     {
         $crypt = new Crypt();
         $this->assertSame('Fizzbuzz', $crypt->decryptValue($crypt->encryptValue('Fizzbuzz')));

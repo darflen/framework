@@ -11,12 +11,12 @@ class ArrTest extends TestCase
 {
     private array $array = ['foo' => 'bar', 'fizzbuzz' => ['fizz', 'buzz', 'bazz'], 'baz' => ['hello' => 'world']];
 
-    public function testDotAndUndot()
+    public function testDotAndUndot(): void
     {
         $this->assertSame($this->array, Arr::undot(Arr::dot($this->array)));
     }
 
-    public function testGet()
+    public function testGet(): void
     {
         $this->assertSame('bar', Arr::get($this->array, 'foo'));
         $this->assertSame('fizz', Arr::get($this->array, 'fizzbuzz.0'));
@@ -25,7 +25,7 @@ class ArrTest extends TestCase
         $this->assertNotSame('failure', Arr::get($this->array, 'baz.hello', 'failure'));
     }
 
-    public function testSet()
+    public function testSet(): void
     {
         $input = ['fizz' => 'bazz'];
 
@@ -35,19 +35,19 @@ class ArrTest extends TestCase
         $this->assertNotSame('bazz', Arr::get($input, 'fizz', 'bazz'));
     }
 
-    public function testHas()
+    public function testHas(): void
     {
         $this->assertTrue(Arr::has($this->array, 'foo'));
         $this->assertFalse(Arr::has($this->array, 'bar'));
     }
 
-    public function testMissing()
+    public function testMissing(): void
     {
         $this->assertFalse(Arr::missing($this->array, 'foo'));
         $this->assertTrue(Arr::missing($this->array, 'bar'));
     }
 
-    public function testRemove()
+    public function testRemove(): void
     {
         $input = ['fizz' => 'bazz'];
 
@@ -57,7 +57,7 @@ class ArrTest extends TestCase
         $this->assertNotSame('bazz', Arr::get($input, 'fizz', 'success'));
     }
 
-    public function testCartesian()
+    public function testCartesian(): void
     {
         $input = [
             ['foo', 'bar'],
