@@ -15,26 +15,45 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-26.04
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate --strict
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v3
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
 
-    - name: Run test suite
-      run: composer run-script test
+      - name: Start httpbin
+        run: |
+          docker run -d \
+            --name httpbin \
+            -p 8000:80 \
+            kennethreitz/httpbin
+
+      - name: Wait for httpbin
+        run: |
+          for i in {1..30}; do
+            if curl -fs http://127.0.0.1:8000/get > /dev/null; then
+              echo "httpbin is ready"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "httpbin failed to start"
+          docker logs httpbin
+          exit 1
+
+      - name: Run test suite
+        run: composer run-script test
