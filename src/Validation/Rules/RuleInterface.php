@@ -11,5 +11,5 @@ interface RuleInterface
      *
      * @return bool True is good False is wrong
      */
-    public function validate(mixed $input, mixed ...$data): bool;
+    public function validate(mixed $input): bool;
 }
