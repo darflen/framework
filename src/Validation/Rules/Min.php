@@ -28,6 +28,6 @@ class Min implements RuleInterface
         if (is_countable($input)) {
             return count($input) >= $this->length;
         }
-        throw new InvalidArgumentException('Unsupported type for rule');
+        return false;
     }
 }
