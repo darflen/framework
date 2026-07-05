@@ -21,7 +21,8 @@ class DigitsBetweenRuleTest extends TestCase
             1 => false,
             529 => true,
             1239 => true,
-            19992 => false
+            19992 => false,
+            'fizzbuzz' => false
         ];
 
         foreach ($data as $item => $valid) {

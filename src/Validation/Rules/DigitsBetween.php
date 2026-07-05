@@ -21,7 +21,7 @@ class DigitsBetween implements RuleInterface
     #[Override]
     public function validate(mixed $input): bool
     {
-        if (!is_string($input) && !is_numeric($input)) {
+        if (!is_string($input) || !is_numeric($input)) {
             return false;
         }
         $digitCount = preg_match_all('/\d/', $input);

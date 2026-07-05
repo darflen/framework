@@ -27,10 +27,14 @@ class MinRuleTest extends TestCase
         foreach ($data as $item => $valid) {
             yield [$item, $valid];
         }
+        yield [[], false];
+        yield [['foo', 'bar', 'baz'], false];
+        yield [['foo', 'bar', 'baz', 'qux', 'quux'], true];
+        yield [fn () => 0, false];
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testMinRule(string|int $item, bool $valid)
+    public function testMinRule(mixed $item, bool $valid)
     {
         $validator = new Validator();
 

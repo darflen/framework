@@ -17,13 +17,6 @@ class Container implements ContainerInterface
         $this->services = $services;
     }
 
-
-    // TODO: remove from this psr class
-    public function set(string $id, mixed $service): void
-    {
-        $this->services[$id] = $service;
-    }
-
     #[Override]
     public function get(string $id): object
     {

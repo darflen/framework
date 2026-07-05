@@ -9,7 +9,7 @@ return [
     'hashing' => [
         'algorithm' => env('SECURITY_HASH_ALGORITHM', PASSWORD_BCRYPT),
         PASSWORD_BCRYPT => [
-            'rounds' => env('BCRYPT_ROUNDS', 16)
+            'cost' => env('BCRYPT_ROUNDS', 16)
         ],
         PASSWORD_ARGON2ID => [
             'threads' => env('ARGON2_THREADS', 12),

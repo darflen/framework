@@ -18,6 +18,7 @@ class ActiveUrlRuleTest extends TestCase
             'https://google.com' => true,
             'https://www.dagon-1.net' => true,
             'https://foo-bar-baz-invalid-domain.com' => false,
+            'foobar.com' => false,
         ];
 
         foreach ($data as $item => $valid) {

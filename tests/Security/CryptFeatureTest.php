@@ -8,6 +8,7 @@ use Darflen\Framework\Security\Crypt;
 use Override;
 use Darflen\Framework\Config\Config;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 class CryptFeatureTest extends TestCase
 {
@@ -25,5 +26,13 @@ class CryptFeatureTest extends TestCase
     {
         $crypt = new Crypt();
         $this->assertSame('Fizzbuzz', $crypt->decryptValue($crypt->encryptValue('Fizzbuzz')));
+    }
+
+    public function testEncryptDecryptWithBadValue(): void
+    {
+        $this->expectException(RuntimeException::class);
+
+        $crypt = new Crypt();
+        $crypt->decryptValue(strrev($crypt->encryptValue('Fizzbuzz')));
     }
 }

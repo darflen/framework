@@ -19,7 +19,8 @@ class DigitsRuleTest extends TestCase
             25 => false,
             1 => false,
             529 => true,
-            1239 => false
+            1239 => false,
+            'fizzbuzz' => false
         ];
 
         foreach ($data as $item => $valid) {

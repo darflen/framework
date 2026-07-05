@@ -28,10 +28,13 @@ class BetweenRuleTest extends TestCase
         foreach ($data as $item => $valid) {
             yield [$item, $valid];
         }
+        yield[['foo', 'bar', 'baz'], true];
+        yield[['foo', 'bar', 'baz', 'qux', 'quux'], false];
+        yield[fn () => 0, false];
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testBetweenRule(string|int $item, bool $valid)
+    public function testBetweenRule(mixed $item, bool $valid)
     {
         $validator = new Validator();
 

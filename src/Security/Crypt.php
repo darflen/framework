@@ -40,6 +40,6 @@ class Crypt
         if (hash_equals($mac, $calculated_mac)) {
             return openssl_decrypt($content, $this->cipher, $this->key, 0, $iv);
         }
-        throw new RuntimeException('Invalid MAC');
+        throw new RuntimeException('Invalid Encrypted Value');
     }
 }

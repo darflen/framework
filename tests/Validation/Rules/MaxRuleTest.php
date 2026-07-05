@@ -27,10 +27,14 @@ class MaxRuleTest extends TestCase
         foreach ($data as $item => $valid) {
             yield [$item, $valid];
         }
+        yield [[], true];
+        yield [['foo', 'bar', 'baz'], true];
+        yield [['foo', 'bar', 'baz', 'qux', 'quux'], false];
+        yield [fn () => 0, false];
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testMaxRule(string|int $item, bool $valid)
+    public function testMaxRule(mixed $item, bool $valid)
     {
         $validator = new Validator();
 

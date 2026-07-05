@@ -20,16 +20,22 @@ class SizeRuleTest extends TestCase
             '❤️!' => true, // Some emojis seems to be counted as 2 characters.
             'foobar' => false,
             'quux' => false,
-            'bz' => false
+            'bz' => false,
+            3 => true,
+            256 => false
         ];
 
         foreach ($data as $item => $valid) {
             yield [$item, $valid];
         }
+        yield [[], false];
+        yield [['foo', 'bar', 'baz'], true];
+        yield [['foo', 'bar', 'baz', 'qux', 'quux'], false];
+        yield [fn () => 0, false];
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testSizeRule(string $item, bool $valid)
+    public function testSizeRule(mixed $item, bool $valid)
     {
         $validator = new Validator();
 

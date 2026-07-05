@@ -20,9 +20,17 @@ class HashFeatureTest extends TestCase
         Config::setup(dirname(dirname(__DIR__)) . '/config', dirname(dirname(__DIR__)) . '/config')->create();
     }
 
-    public function testHashingAndValidation(): void
+    public function testHashingAndChecking(): void
     {
         $hash = new Hash();
         $this->assertTrue($hash->checkHash('fizzbuzz', $hash->createHash('fizzbuzz')));
+    }
+
+    public function testNeedsRehash(): void
+    {
+        $hash = new Hash();
+        $oldHash = $hash->createHash('fizzbuzz', ['cost' => 4]);
+        $this->assertTrue($hash->needsRehash($oldHash));
+        $this->assertFalse($hash->needsRehash($hash->createHash('fizzbuzz')));
     }
 }

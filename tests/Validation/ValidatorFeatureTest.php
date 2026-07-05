@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Tests\Validation;
 
+use Darflen\Framework\Tests\Validation\Fixtures\AlwaysFail;
 use Darflen\Framework\Tests\Validation\Fixtures\EqualsTo;
 use Darflen\Framework\Validation\Validator;
 use PHPUnit\Framework\TestCase;
@@ -36,12 +37,12 @@ class ValidatorFeatureTest extends TestCase
         ];
 
         $validator->validateInputs($data, [
-            'number' => [new EqualsTo('25')]
+            'number' => [new AlwaysFail(), new EqualsTo('25')]
         ]);
 
         $this->assertFalse($validator->didPass());
         $this->assertTrue($validator->didFail());
-        $this->assertSame(['number' => ['EqualsTo']], $validator->getErrors());
+        $this->assertSame(['number' => ['AlwaysFail', 'EqualsTo']], $validator->getErrors());
     }
 
     public function testValidateInputsInNonExistentInput()
@@ -58,5 +59,23 @@ class ValidatorFeatureTest extends TestCase
         $this->assertFalse($validator->didPass());
         $this->assertTrue($validator->didFail());
         $this->assertSame(['number' => ['EqualsTo']], $validator->getErrors());
+    }
+
+    public function testValidateInputsWithStrictFields()
+    {
+        $validator = new Validator();
+        $data = [
+            'string' => 'foo'
+        ];
+
+        $validator->validateInputs($data, [
+            'number' => [new AlwaysFail(), new EqualsTo('25')]
+        ], [
+            'number' => true
+        ]);
+
+        $this->assertFalse($validator->didPass());
+        $this->assertTrue($validator->didFail());
+        $this->assertSame(['number' => ['AlwaysFail']], $validator->getErrors());
     }
 }
