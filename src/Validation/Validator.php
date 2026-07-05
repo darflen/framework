@@ -21,8 +21,8 @@ class Validator
      */
     public function validateInputs(array $inputs, array $rules, array $stricts = []): self
     {
-        foreach ($inputs as $field => $input) {
-            $inputRules = $rules[$field] ?? [];
+        foreach ($rules as $field => $inputRules) {
+            $input = $inputs[$field] ?? null;
             $isInputStrict = $stricts[$field] ?? false;
             foreach ($inputRules as $inputRule) {
                 if (!$inputRule->validate($input)) {
@@ -36,7 +36,7 @@ class Validator
         return $this;
     }
 
-    protected function addError(string $field, RuleInterface $rule)
+    protected function addError(string $field, RuleInterface $rule): void
     {
         $rule = (new ReflectionClass($rule))->getShortName();
         $this->errors[$field][] = $rule;

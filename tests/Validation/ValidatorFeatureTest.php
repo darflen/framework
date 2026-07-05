@@ -43,4 +43,20 @@ class ValidatorFeatureTest extends TestCase
         $this->assertTrue($validator->didFail());
         $this->assertSame(['number' => ['EqualsTo']], $validator->getErrors());
     }
+
+    public function testValidateInputsInNonExistentInput()
+    {
+        $validator = new Validator();
+        $data = [
+            'string' => 'foo'
+        ];
+
+        $validator->validateInputs($data, [
+            'number' => [new EqualsTo('25')]
+        ]);
+
+        $this->assertFalse($validator->didPass());
+        $this->assertTrue($validator->didFail());
+        $this->assertSame(['number' => ['EqualsTo']], $validator->getErrors());
+    }
 }
