@@ -30,7 +30,7 @@ class HashFeatureTest extends TestCase
     {
         $hash = new Hash();
         $oldHash = $hash->createHash('fizzbuzz', ['cost' => 4]);
-        $this->assertTrue($hash->needsRehash($oldHash));
-        $this->assertFalse($hash->needsRehash($hash->createHash('fizzbuzz')));
+        $this->assertTrue($hash->needsRehash($oldHash, ['cost' => 5]));
+        $this->assertFalse($hash->needsRehash($hash->createHash('fizzbuzz', ['cost' => 5]), ['cost' => 5]));
     }
 }
