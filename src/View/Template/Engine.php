@@ -14,6 +14,13 @@ class Engine
     private array $compilers = [];
 
     /**
+     * @var array<string, string> $sections
+     */
+    private array $sections = [];
+
+    private string $extends = '';
+
+    /**
      * __construct
      *
      * @param  DirectiveInterface[] $compilers
@@ -24,7 +31,25 @@ class Engine
         $this->compilers = $compilers;
     }
 
-    public function compile(string $template): string
+    public function renderString(string $template, array $data): string
+    {
+        // TODO: fix repetitions (DRY)
+        $this->extends = '';
+        extract($data);
+        $compiled = $this->compileString($template);
+        ob_start();
+        eval("?>" . $compiled); // TODO: REPLACE THIS IMMEDIATELY WITH A REQUIRE AND TEMPORARY FILES
+        $result = ob_get_clean();
+        if (!empty($this->extends)) {
+            $compiled = $this->compileString($template);
+            ob_start();
+            eval("?>" . $compiled); // TODO: REPLACE THIS IMMEDIATELY WITH A REQUIRE AND TEMPORARY FILES
+            $result = ob_get_clean();
+        }
+        return $result;
+    }
+
+    private function compileString(string $template): string
     {
         foreach ($this->compilers as $compiler) {
             $template = $compiler->compile($template);
