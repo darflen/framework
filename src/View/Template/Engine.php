@@ -41,7 +41,7 @@ class Engine
         eval("?>" . $compiled); // TODO: REPLACE THIS IMMEDIATELY WITH A REQUIRE AND TEMPORARY FILES
         $result = ob_get_clean();
         if (!empty($this->extends)) {
-            $compiled = $this->compileString($template);
+            $compiled = $this->compileString($result);
             ob_start();
             eval("?>" . $compiled); // TODO: REPLACE THIS IMMEDIATELY WITH A REQUIRE AND TEMPORARY FILES
             $result = ob_get_clean();
