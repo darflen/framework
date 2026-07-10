@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\View\Template;
 
+use Darflen\Framework\Filesystem\Filesystem;
 use Darflen\Framework\View\Template\Directives\DirectiveInterface;
 
 class Engine
 {
+    private Filesystem $filesystem;
+
     /**
      * @var DirectiveInterface[] $compilers
      */
@@ -26,25 +29,32 @@ class Engine
      * @param  DirectiveInterface[] $compilers
      * @return void
      */
-    public function __construct(array $compilers)
+    public function __construct(array $compilers, Filesystem $filesystem)
     {
         $this->compilers = $compilers;
+        $this->filesystem = $filesystem;
+    }
+
+    public function evaluateString(string $compiled, array $data): string
+    {
+        $tempFile = tempnam(sys_get_temp_dir(), 'darflen_view_');
+        $this->filesystem->getFile($tempFile)->write($compiled);
+        extract($data);
+        ob_start();
+        require $tempFile;
+        $result = ob_get_clean();
+        $this->filesystem->delete($tempFile);
+        return $result;
     }
 
     public function renderString(string $template, array $data): string
     {
-        // TODO: fix repetitions (DRY)
         $this->extends = '';
-        extract($data);
         $compiled = $this->compileString($template);
-        ob_start();
-        eval("?>" . $compiled); // TODO: REPLACE THIS IMMEDIATELY WITH A REQUIRE AND TEMPORARY FILES
-        $result = ob_get_clean();
+        $result = $this->evaluateString($compiled, $data);
         if (!empty($this->extends)) {
             $compiled = $this->compileString($result);
-            ob_start();
-            eval("?>" . $compiled); // TODO: REPLACE THIS IMMEDIATELY WITH A REQUIRE AND TEMPORARY FILES
-            $result = ob_get_clean();
+            $result = $this->evaluateString($compiled, $data);
         }
         return $result;
     }
@@ -55,5 +65,11 @@ class Engine
             $template = $compiler->compile($template);
         }
         return $template;
+    }
+
+    public function renderFile(string $path, array $data): string
+    {
+        $template = $this->filesystem->getFile($path)->read();
+        return $this->renderString($template, $data);
     }
 }

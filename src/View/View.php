@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Darflen\Framework\View;
 
 use Darflen\Framework\View\Template\Engine;
+use tidy;
 
 class View
 {
@@ -15,8 +16,16 @@ class View
         $this->engine = $engine;
     }
 
-    public function viewTemplate(string $template): string
+    public function viewTemplate(string $template, array $data): string
     {
-        throw new \Exception('Not implemented');
+        $tidy = new tidy();
+        $tidy->parseString($this->engine->renderFile($template, $data), [
+            'indent' => true,
+            'output-xhtml' => true,
+            'show-body-only' => true,
+            'clean' => true
+        ], 'utf8');
+        $tidy->cleanRepair();
+        return (string) $tidy;
     }
 }

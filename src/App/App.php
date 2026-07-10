@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Darflen\Framework\App;
 
 use Psr\Container\ContainerInterface;
-use Darflen\Framework\Config\Config;
 use Psr\Http\Server\MiddlewareInterface;
 
 final class App

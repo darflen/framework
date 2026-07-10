@@ -15,9 +15,11 @@ class ConfigTest extends TestCase
         $config = new Config();
         $config->loadEnv(__DIR__ . '/Fixtures');
         $config->loadConfigDirectory(__DIR__ . '/Fixtures');
+        $config->loadConfigArray('fizzbuzz', ['foobar' => 'bazqux']);
 
         $this->assertSame('fizz', env('EXAMPLE_BAR', 'failure'));
         $this->assertSame('buzz', $config->get('config.example.fizz', 'failure'));
+        $this->assertSame('bazqux', $config->get('fizzbuzz.foobar', 'failure'));
     }
 
     public function testGet(): void
@@ -37,6 +39,16 @@ class ConfigTest extends TestCase
         $config->set('config.example.boo', 'bar');
 
         $this->assertSame('bar', $config->get('config.example.boo'));
+    }
+
+    public function testRemove(): void
+    {
+        $config = new Config();
+        $config->loadConfigDirectory(__DIR__ . '/Fixtures');
+
+        $config->remove('config.example.fizz');
+
+        $this->assertSame('success', $config->get('config.example.fizz', 'success'));
     }
 
     public function testAll(): void

@@ -39,7 +39,8 @@ class Config
 
     public function loadConfigArray(string $name, array $config): void
     {
-        $this->configs[$name] = $config;
+        $this->configs[$name] ??= [];
+        $this->configs[$name] = array_merge($this->configs[$name], $config);
     }
 
     public function loadEnv(string $path): void
