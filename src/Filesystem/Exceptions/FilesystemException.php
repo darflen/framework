@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Darflen\Framework\Cache\Exceptions;
+namespace Darflen\Framework\Filesystem\Exceptions;
 
 use RuntimeException;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Filesystem\Adapters;
 
-use Darflen\Framework\Cache\Exceptions\FilesystemException;
+use Darflen\Framework\Filesystem\Exceptions\FilesystemException;
 use Darflen\Framework\Filesystem\Interfaces\FileAdapterInterface;
 use Darflen\Framework\Filesystem\Interfaces\FilesystemAdapterInterface;
 use Override;

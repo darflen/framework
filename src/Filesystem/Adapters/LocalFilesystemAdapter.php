@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Filesystem\Adapters;
 
-use Darflen\Framework\Cache\Exceptions\FilesystemException;
-use Darflen\Framework\Filesystem\Directory;
-use Darflen\Framework\Filesystem\File;
+use Darflen\Framework\Filesystem\Exceptions\FilesystemException;
 use Darflen\Framework\Filesystem\Interfaces\FilesystemAdapterInterface;
 use Override;
 use RecursiveIteratorIterator;
