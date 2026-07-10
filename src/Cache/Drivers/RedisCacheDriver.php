@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Darflen\Framework\Cache\Strategies;
+namespace Darflen\Framework\Cache\Drivers;
 
 use Override;
 use Redis;
 use DateInterval;
 
-class RedisCacheStrategy implements CacheStrategyInterface
+class RedisCacheDriver implements CacheDriverInterface
 {
     private Redis $redis;
 

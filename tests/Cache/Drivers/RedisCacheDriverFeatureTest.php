@@ -2,19 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Darflen\Framework\Tests\Cache\Strategies;
+namespace Darflen\Framework\Tests\Cache\Drivers;
 
-use Darflen\Framework\Cache\Exceptions\InvalidArgumentException;
-use Darflen\Framework\Cache\Strategies\RedisCacheStrategy;
+use Darflen\Framework\Cache\Drivers\RedisCacheDriver;
 use DateInterval;
 use Override;
 use PHPUnit\Framework\TestCase;
 use Redis;
 use stdClass;
 
-class RedisCacheStrategyFeatureTest extends TestCase
+class RedisCacheDriverFeatureTest extends TestCase
 {
-    private static RedisCacheStrategy $strategy;
+    private static RedisCacheDriver $strategy;
     private static Redis $redis;
 
     #[Override]
@@ -25,7 +24,7 @@ class RedisCacheStrategyFeatureTest extends TestCase
         self::$redis->connect('127.0.0.1');
         self::$redis->setOption(Redis::OPT_PREFIX, 'PHPUNIT_TEST:');
         self::$redis->setOption(Redis::OPT_SCAN, Redis::SCAN_PREFIX);
-        self::$strategy = new RedisCacheStrategy(self::$redis);
+        self::$strategy = new RedisCacheDriver(self::$redis);
     }
 
     public function testSetAndGet(): void

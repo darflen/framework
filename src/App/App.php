@@ -26,7 +26,6 @@ final class App
 
     public function create(): void
     {
-        Config::setup(self::$projectDir . '/config', self::$projectDir)->create();
         foreach (self::$routes as $route) {
             include_once $route;
         }

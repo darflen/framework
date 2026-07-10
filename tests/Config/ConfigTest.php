@@ -13,36 +13,37 @@ class ConfigTest extends TestCase
     public function testSetupAndCreate(): void
     {
         $config = new Config();
-        Config::setup(__DIR__ . '/Fixtures', __DIR__ . '/Fixtures')->create();
+        $config->loadEnv(__DIR__ . '/Fixtures');
+        $config->loadConfigDirectory(__DIR__ . '/Fixtures');
 
         $this->assertSame('fizz', env('EXAMPLE_BAR', 'failure'));
-        $this->assertSame('buzz', config('config.example.fizz', 'failure'));
+        $this->assertSame('buzz', $config->get('config.example.fizz', 'failure'));
     }
 
     public function testGet(): void
     {
         $config = new Config();
-        Config::setup(__DIR__ . '/Fixtures', __DIR__ . '/Fixtures')->create();
+        $config->loadConfigDirectory(__DIR__ . '/Fixtures');
 
-        $this->assertSame('fizz', Config::get('config.example.bar', 'failure'));
-        $this->assertSame('success', Config::get('config.example.nothing', 'success'));
+        $this->assertSame('fizz', $config->get('config.example.bar', 'failure'));
+        $this->assertSame('success', $config->get('config.example.nothing', 'success'));
     }
 
     public function testSet(): void
     {
         $config = new Config();
-        Config::setup(__DIR__ . '/Fixtures', __DIR__ . '/Fixtures')->create();
+        $config->loadConfigDirectory(__DIR__ . '/Fixtures');
 
-        Config::set('config.example.boo', 'bar');
+        $config->set('config.example.boo', 'bar');
 
-        $this->assertSame('bar', config('config.example.boo'));
+        $this->assertSame('bar', $config->get('config.example.boo'));
     }
 
     public function testAll(): void
     {
         $config = new Config();
-        Config::setup(__DIR__ . '/Fixtures', __DIR__ . '/Fixtures')->create();
-        Config::set('config.example.boo', 'bar');
+        $config->loadConfigDirectory(__DIR__ . '/Fixtures');
+        $config->set('config.example.boo', 'bar');
 
         $this->assertSame([
             'config' => [
@@ -55,6 +56,6 @@ class ConfigTest extends TestCase
                     'boo' => 'bar'
                 ]
             ]
-        ], Config::all());
+        ], $config->all());
     }
 }

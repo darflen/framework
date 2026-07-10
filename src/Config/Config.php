@@ -6,45 +6,65 @@ namespace Darflen\Framework\Config;
 
 use Darflen\Framework\Support\Arr;
 use Dotenv\Dotenv;
+use InvalidArgumentException;
 
 class Config
 {
-    public static string $configDirectory = '';
+    private array $configs = [];
 
-    private static array $configs = [];
-
-    private static string $envDirectory;
-
-    public static function setup(string $configDirectory, string $envDirectory): self
+    public function loadConfigDirectory(string $directory): void
     {
-        self::$configDirectory = $configDirectory;
-        self::$envDirectory = $envDirectory;
-        return new self();
-    }
-
-    public function create(): void
-    {
-        $dotenv = Dotenv::createImmutable(self::$envDirectory);
-        $dotenv->safeLoad();
-        $files = glob(self::$configDirectory . '/*.php');
+        $directory = normalizePath($directory);
+        if (!is_dir($directory) || !is_writable($directory)) {
+            throw new InvalidArgumentException('Config path is not a directory or is not writable');
+        }
+        $files = glob($directory . '/*.php');
         foreach ($files as $file) {
-            $fileName = basename($file, '.php');
-            self::$configs[$fileName] = include $file;
+            $this->loadConfigFile($file);
         }
     }
 
-    public static function set(string $key, mixed $value = ''): void
+    public function loadConfigFile(string $path): void
     {
-        Arr::set(self::$configs, $key, $value);
+        $path = normalizePath($path);
+        if (is_file($path)) {
+            $fileName = basename($path, '.php');
+            $config = require $path;
+            $this->configs[$fileName] ??= [];
+            $this->configs[$fileName] = array_merge($this->configs[$fileName], $config);
+            return;
+        }
+        throw new InvalidArgumentException('Config path is not a file');
     }
 
-    public static function get(string $key, mixed $default = ''): mixed
+    public function loadConfigArray(string $name, array $config): void
     {
-        return Arr::get(self::$configs, $key, $default);
+        $this->configs[$name] = $config;
     }
 
-    public static function all(): array
+    public function loadEnv(string $path): void
     {
-        return self::$configs;
+        $dotenv = Dotenv::createMutable(normalizePath($path));
+        $dotenv->load();
+    }
+
+    public function set(string $key, mixed $value = ''): void
+    {
+        Arr::set($this->configs, $key, $value);
+    }
+
+    public function get(string $key, mixed $default = ''): mixed
+    {
+        return Arr::get($this->configs, $key, $default);
+    }
+
+    public function remove(string $key): void
+    {
+        Arr::remove($this->configs, $key);
+    }
+
+    public function all(): array
+    {
+        return $this->configs;
     }
 }

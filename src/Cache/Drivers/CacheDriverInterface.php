@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Darflen\Framework\Cache\Strategies;
+namespace Darflen\Framework\Cache\Drivers;
 
 use DateInterval;
 
-interface CacheStrategyInterface
+interface CacheDriverInterface
 {
     public function get(string $key, mixed $default = null): mixed;
 

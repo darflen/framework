@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Security;
 
+use Darflen\Framework\Config\Config;
 use RuntimeException;
 
 class Crypt
@@ -12,11 +13,11 @@ class Crypt
     protected string $cipher;
     protected string $mac;
 
-    public function __construct()
+    public function __construct(Config $config)
     {
-        $this->key = config('security.encryption.key');
-        $this->cipher = config('security.encryption.cipher');
-        $this->mac = config('security.encryption.mac');
+        $this->key = $config->get('security.encryption.key');
+        $this->cipher = $config->get('security.encryption.cipher');
+        $this->mac = $config->get('security.encryption.mac');
     }
 
     public function encryptValue(string $content): string

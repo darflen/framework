@@ -4,24 +4,21 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Log;
 
+use Darflen\Framework\Config\Config;
+use Darflen\Framework\Log\Drivers\LoggerDriverInterface;
 use Darflen\Framework\Support\Str;
 use Darflen\Framework\Support\Arr;
 use InvalidArgumentException;
 use Override;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
-use RuntimeException;
 use Stringable;
 
 class Logger implements LoggerInterface
 {
-    private string $directory;
+    private Config $config;
 
-    private string $file;
-
-    private string $logDateFormat =  "Y-m-d H:i:s.u";
-
-    private string $fileDateFormat = "Y-m-d";
+    private LoggerDriverInterface $loggerDriver;
 
     private string $minimumLevel;
 
@@ -36,25 +33,20 @@ class Logger implements LoggerInterface
         LogLevel::DEBUG,
     ];
 
-    public function __construct(string $projectDirectory, ?string $loggingDirectory = null)
+    public function __construct(LoggerDriverInterface $loggerDriver, Config $config)
     {
-        $date = date($this->fileDateFormat);
-        $this->directory = $projectDirectory . ($loggingDirectory ?? config('logging.directory'));
-        if (!is_dir($this->directory) || !is_writable($this->directory)) {
-            throw new RuntimeException('Log directory is not writable');
-        }
-        $minimumLevel = config('logging.level');
+        $this->loggerDriver = $loggerDriver;
+        $this->config = $config;
+        $minimumLevel = $this->config->get('logging.level');
         $this->validateLogLevel($minimumLevel);
         $this->minimumLevel = $minimumLevel;
-        $this->file = $this->directory . '/' . strtolower(config('app.name')) . '-' . $date . '.' . config('logging.extension');
     }
 
     private function format_message(string $level, string|Stringable $message, array $context = []): string
     {
 
-        $currentTime = self::get_timestamp();
+        $currentTime = $this->getTimestamp();
         $logLevel = ucfirst(strtolower($level));
-        $this->validateLogLevel($level);
         $context = Arr::dot($context);
         foreach ($context as $key => $value) {
             if (!preg_match('/^[A-Za-z_.]+$/', $key)) {
@@ -68,17 +60,10 @@ class Logger implements LoggerInterface
         return $message . PHP_EOL;
     }
 
-    protected function write(string $content): void
-    {
-        if (!file_put_contents($this->file, $content, FILE_APPEND | LOCK_EX)) {
-            throw new RuntimeException('Unable to write to file');
-        }
-    }
-
-    private function get_timestamp(): string
+    private function getTimestamp(): string
     {
         $time = new \DateTime();
-        $time = $time->format($this->logDateFormat);
+        $time = $time->format($this->config->get('logging.logDateFormat'));
         return $time;
     }
 
@@ -138,13 +123,13 @@ class Logger implements LoggerInterface
     }
 
     #[Override]
-    public function log($level, string|Stringable $message, array $context = []): void
+    public function log(mixed $level, string|Stringable $message, array $context = []): void
     {
         $this->validateLogLevel($level);
         if (array_search(strtolower($level), self::AVAILABLE_LOG_LEVELS) > array_search(strtolower($this->minimumLevel), self::AVAILABLE_LOG_LEVELS)) {
             return;
         }
-        $content = $this->format_message($level, $message, $context);
-        $this->write($content);
+        $message = $this->format_message($level, $message, $context);
+        $this->loggerDriver->log($level, $message, $context);
     }
 }

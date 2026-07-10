@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Security;
 
+use Darflen\Framework\Config\Config;
+
 class Hash
 {
     protected string $algorithm;
     protected array $parameters = [];
 
-    public function __construct()
+    public function __construct(Config $config)
     {
-        $this->algorithm = config('security.hashing.algorithm');
-        $this->parameters = config('security.hashing.' . $this->algorithm);
+        $this->algorithm = $config->get('security.hashing.algorithm');
+        $this->parameters = $config->get('security.hashing.' . $this->algorithm);
     }
 
     public function createHash(string $plain, array $parameters = []): string

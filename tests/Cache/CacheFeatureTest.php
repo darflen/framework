@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Darflen\Framework\Tests\Cache;
 
 use Darflen\Framework\Cache\Cache;
-use Darflen\Framework\Cache\Strategies\RedisCacheStrategy;
+use Darflen\Framework\Cache\Drivers\RedisCacheDriver;
 use Darflen\Framework\Cache\Exceptions\InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Redis;
@@ -24,7 +24,7 @@ class CacheFeatureTest extends TestCase
         self::$redis->connect('127.0.0.1');
         self::$redis->setOption(Redis::OPT_PREFIX, 'PHPUNIT_TEST:');
         self::$redis->setOption(Redis::OPT_SCAN, Redis::SCAN_PREFIX);
-        self::$cache = new Cache(new RedisCacheStrategy(self::$redis));
+        self::$cache = new Cache(new RedisCacheDriver(self::$redis));
     }
 
     public function testOperations(): void

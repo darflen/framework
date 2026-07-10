@@ -7,42 +7,57 @@ namespace Darflen\Framework\Tests\Log;
 use PHPUnit\Framework\TestCase;
 use Darflen\Framework\Log\Logger;
 use Darflen\Framework\Config\Config;
+use Darflen\Framework\Filesystem\Adapters\LocalDirectoryAdapter;
+use Darflen\Framework\Filesystem\Adapters\LocalFileAdapter;
+use Darflen\Framework\Filesystem\Adapters\LocalFilesystemAdapter;
+use Darflen\Framework\Filesystem\Filesystem;
+use Darflen\Framework\Log\Drivers\FileLoggerDriver;
+use Darflen\Framework\Log\Drivers\LoggerDriverInterface;
 use InvalidArgumentException;
 use ReflectionProperty;
 use RuntimeException;
 
 class LoggerFeatureTest extends TestCase
 {
+    private static Config $config;
+
+    private static LoggerDriverInterface $loggerDriver;
+
     public static function setUpBeforeClass(): void
     {
-        $config = new Config();
-        Config::setup(dirname(dirname(__DIR__)) . '/config', dirname(dirname(__DIR__)) . '/config')->create();
+        self::$config = new Config();
+        self::$config->loadConfigDirectory(dirname(__DIR__, 2) . '/config');
+        $localFilesystemAdapter = new LocalFilesystemAdapter();
+        self::$loggerDriver = new FileLoggerDriver(__DIR__ . '/Fixtures', self::$config, new Filesystem($localFilesystemAdapter, new LocalDirectoryAdapter($localFilesystemAdapter), new LocalFileAdapter($localFilesystemAdapter)));
     }
 
     public function testConstructorAsExpected(): void
     {
-        $logger = new Logger(__DIR__, '/Fixtures');
+        $logger = new Logger(self::$loggerDriver, self::$config);
 
-        $fileReflection = new ReflectionProperty($logger::class, 'file');
+        $fileReflection = new ReflectionProperty(self::$loggerDriver::class, 'loggingPath');
 
-        $this->assertStringContainsString('/Fixtures', $fileReflection->getValue($logger));
+        $this->assertStringContainsString('/Fixtures', $fileReflection->getValue(self::$loggerDriver));
     }
 
     public function testConstructorThrowsExceptionWhenBadDirectory(): void
     {
         $this->expectException(RuntimeException::class);
 
-        new Logger(__DIR__, '/Fixture');
+        $localFilesystemAdapter = new LocalFilesystemAdapter();
+        $loggerDriver = new FileLoggerDriver(__DIR__ . '/Failure', self::$config, new Filesystem($localFilesystemAdapter, new LocalDirectoryAdapter($localFilesystemAdapter), new LocalFileAdapter($localFilesystemAdapter)));
+
+        new Logger($loggerDriver, self::$config);
     }
 
     public function testLog(): void
     {
-        $logger = new Logger(__DIR__, '/Fixtures');
+        $logger = new Logger(self::$loggerDriver, self::$config);
 
         $logger->log('debug', 'this is a test message from {foo.bar} {fizz}', ['foo' => ['bar' => 'baz']]);
 
-        $fileReflection = new ReflectionProperty($logger::class, 'file');
-        $fileContent = file_get_contents($fileReflection->getValue($logger));
+        $fileReflection = new ReflectionProperty(self::$loggerDriver::class, 'loggingPath');
+        $fileContent = file_get_contents($fileReflection->getValue(self::$loggerDriver));
 
         $this->assertStringContainsString('this is a test message from', $fileContent);
         $this->assertStringContainsString('Debug', $fileContent);
@@ -54,7 +69,7 @@ class LoggerFeatureTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $logger = new Logger(__DIR__, '/Fixtures');
+        $logger = new Logger(self::$loggerDriver, self::$config);
 
         $logger->log('BAD', 'Hello world!');
     }
@@ -63,14 +78,14 @@ class LoggerFeatureTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $logger = new Logger(__DIR__, '/Fixtures');
+        $logger = new Logger(self::$loggerDriver, self::$config);
 
         $logger->log('debug', 'Hello world! {!!#@}', ['!!#@' => 'foobar']);
     }
 
     public function testLogLevels(): void
     {
-        $logger = new Logger(__DIR__, '/Fixtures');
+        $logger = new Logger(self::$loggerDriver, self::$config);
 
         $logger->debug("this is a debug message");
         $logger->emergency("this is an emergency message");
@@ -81,8 +96,8 @@ class LoggerFeatureTest extends TestCase
         $logger->notice("this is a notice message");
         $logger->info("this is an info message");
 
-        $fileReflection = new ReflectionProperty($logger::class, 'file');
-        $fileContent = file_get_contents($fileReflection->getValue($logger));
+        $fileReflection = new ReflectionProperty(self::$loggerDriver::class, 'loggingPath');
+        $fileContent = file_get_contents($fileReflection->getValue(self::$loggerDriver));
 
         $this->assertStringContainsString('this is an emergency message', $fileContent);
         $this->assertStringContainsString('this is a critical message', $fileContent);
@@ -96,8 +111,7 @@ class LoggerFeatureTest extends TestCase
 
     public static function tearDownAfterClass(): void
     {
-        $logger = new Logger(__DIR__, '/Fixtures');
-        $reflection = new ReflectionProperty($logger::class, 'file');
-        unlink($reflection->getValue($logger));
+        $reflection = new ReflectionProperty(self::$loggerDriver::class, 'loggingPath');
+        unlink($reflection->getValue(self::$loggerDriver));
     }
 }

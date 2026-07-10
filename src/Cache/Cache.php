@@ -7,14 +7,14 @@ namespace Darflen\Framework\Cache;
 use Darflen\Framework\Cache\Exceptions\InvalidArgumentException;
 use Override;
 use Psr\SimpleCache\CacheInterface;
-use Darflen\Framework\Cache\Strategies\CacheStrategyInterface;
+use Darflen\Framework\Cache\Drivers\CacheDriverInterface;
 use DateInterval;
 
 class Cache implements CacheInterface
 {
-    private CacheStrategyInterface $strategy;
+    private CacheDriverInterface $strategy;
 
-    public function __construct(CacheStrategyInterface $strategy)
+    public function __construct(CacheDriverInterface $strategy)
     {
         $this->strategy = $strategy;
     }

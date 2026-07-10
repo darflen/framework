@@ -7,6 +7,7 @@ namespace Darflen\Framework\Tests\Filesystem;
 use Darflen\Framework\Filesystem\Adapters\LocalFileAdapter;
 use Darflen\Framework\Filesystem\Adapters\LocalFilesystemAdapter;
 use Darflen\Framework\Filesystem\File;
+use Override;
 use PHPUnit\Framework\TestCase;
 
 class FileFeatureTest extends TestCase
