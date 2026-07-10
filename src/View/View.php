@@ -16,13 +16,14 @@ class View
         $this->engine = $engine;
     }
 
-    public function viewTemplate(string $template, array $data): string
+    public function viewTemplate(string $template, array $data, bool $minify = false): string
     {
         $tidy = new tidy();
         $tidy->parseString($this->engine->renderFile($template, $data), [
-            'indent' => true,
+            'indent' => !$minify,
             'output-xhtml' => true,
             'show-body-only' => true,
+            'wrap' => 0,
             'clean' => true
         ], 'utf8');
         $tidy->cleanRepair();
