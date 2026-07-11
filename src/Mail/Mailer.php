@@ -11,8 +11,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class Mailer
 {
-    private Config $config;
-
     private PHPMailer $mailer;
 
     private View $view;
@@ -30,7 +28,6 @@ class Mailer
         $mailer->SMTPSecure = $config->get('mail.stmp.security');
         $mailer->Port = $config->get('mail.stmp.port');
         $mailer->setFrom($config->get('mail.from.address'), $config->get('mail.from.name'));
-        $this->config = $config;
         $this->mailer = $mailer;
         $this->view = $view;
     }

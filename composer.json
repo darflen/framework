@@ -22,6 +22,8 @@
     },
     "require": {
         "php": "^8.5",
+        "ext-imagick": "*",
+        "php-ffmpeg/php-ffmpeg": "^1.4",
         "phpmailer/phpmailer": "^7.1",
         "psr/clock": "^1.0",
         "psr/container": "^2.0",

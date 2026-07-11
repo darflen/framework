@@ -27,6 +27,6 @@ class View
             'clean' => true
         ], 'utf8');
         $tidy->cleanRepair();
-        return (string) $tidy;
+        return $tidy->value;
     }
 }
