@@ -33,7 +33,7 @@ class Image
         return $this->imagick->getImageHeight();
     }
 
-    public function encode(string $format): self
+    public function format(string $format): self
     {
         $this->imagick->setImageFormat($format);
         return $this;

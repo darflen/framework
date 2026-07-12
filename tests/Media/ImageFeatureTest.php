@@ -172,13 +172,13 @@ class ImageFeatureTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function testEncoding(): void
+    public function testFormating(): void
     {
         self::$filesystem->copy(__DIR__ . '/Fixtures/Image1.jpg', __DIR__ . '/foo.jpg');
         $image = new Image(__DIR__ . '/foo.jpg');
         $oldSize = self::$filesystem->getFile(__DIR__ . '/foo.jpg')->getSize();
 
-        $image->encode('webp')->save(__DIR__ . '/foo.png');
+        $image->format('webp')->save(__DIR__ . '/foo.png');
 
         $this->assertNotSame($oldSize, self::$filesystem->getFile(__DIR__ . '/foo.png')->getSize());
     }
