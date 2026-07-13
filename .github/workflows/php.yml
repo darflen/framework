@@ -55,5 +55,26 @@ jobs:
           docker logs httpbin
           exit 1
 
+      - name: Start mailpit
+        run: |
+          docker run -d \
+            --name mailpit \
+            -p 8025:8025 \
+            -p 1025:1025 \
+            axllent/mailpit
+
+      - name: Wait for mailpit
+        run: |
+          for i in {1..30}; do
+            if curl -fs http://127.0.0.1:8025/api/v1/info > /dev/null; then
+              echo "mailpit is ready"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "mailpit failed to start"
+          docker logs mailpit
+          exit 1
+
       - name: Run test suite
         run: composer run-script test
