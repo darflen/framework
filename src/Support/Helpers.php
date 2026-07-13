@@ -48,10 +48,32 @@ if (!function_exists('NormalizePath')) {
     }
 }
 
-if (!function_exists('dd')) {
-    function dd(mixed $data): void
+if (!function_exists('safeShell')) {
+    /**
+     * Create a new php instance and run a PHP file
+     *
+     * DO NOT LET USER INPUTS IN THAT
+     *
+     * @param  string $file
+     * @param  array $data
+     * @return string|false|null
+     */
+    function safeShell(string $file, array $data): string|false|null
     {
-        var_dump($data);
-        die();
+        return shell_exec('php -f ' . escapeshellarg(normalizePath($file)) . ' ' . escapeshellarg(jsonEncodeBase64($data)));
+    }
+}
+
+if (!function_exists('jsonEncodeBase64')) {
+    function jsonEncodeBase64(array $data): string
+    {
+        return base64_encode(json_encode($data));
+    }
+}
+
+if (!function_exists('jsonDecodeBase64')) {
+    function jsonDecodeBase64(string $json): array
+    {
+        return json_decode(base64_decode($json), true);
     }
 }

@@ -40,4 +40,9 @@ class HelpersTest extends TestCase
     {
         $this->assertSame($expected, normalizePath($input));
     }
+
+    public function testBase64JsonEncodingAndDecoding()
+    {
+        $this->assertSame(['foo' => 'bar'], jsonDecodeBase64(jsonEncodeBase64(['foo' => 'bar'])));
+    }
 }
