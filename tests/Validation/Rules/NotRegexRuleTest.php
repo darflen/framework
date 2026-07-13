@@ -27,7 +27,7 @@ class NotRegexRuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testNotRegexRule(string $item, bool $valid)
+    public function testNotRegexRule(string $item, bool $valid): void
     {
         $validator = new Validator();
 

@@ -31,7 +31,7 @@ class DigitsBetweenRuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testDigitsBetweenRule(string $item, bool $valid)
+    public function testDigitsBetweenRule(string $item, bool $valid): void
     {
         $validator = new Validator();
 

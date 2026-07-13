@@ -33,7 +33,7 @@ class IsBooleanRuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testIsBooleanRule(mixed $item, bool $valid)
+    public function testIsBooleanRule(mixed $item, bool $valid): void
     {
         $validator = new Validator();
 

@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class CompilesProductionTest extends TestCase
 {
-    public function testCompilesProduction()
+    public function testCompilesProduction(): void
     {
         $directive = new CompilesProduction('prod');
 

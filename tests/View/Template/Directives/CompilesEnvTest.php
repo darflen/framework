@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class CompilesEnvTest extends TestCase
 {
-    public function testCompilesEnv()
+    public function testCompilesEnv(): void
     {
         $directive = new CompilesEnv('prod');
 

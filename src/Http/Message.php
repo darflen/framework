@@ -193,7 +193,7 @@ class Message implements MessageInterface
         $this->headers[$lowerName] = (array) $value;
     }
 
-    protected function setStream(?StreamInterface $body)
+    protected function setStream(?StreamInterface $body): void
     {
         $this->body = $body;
     }

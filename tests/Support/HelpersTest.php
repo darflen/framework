@@ -36,12 +36,12 @@ class HelpersTest extends TestCase
     }
 
     #[DataProvider('fullPathDataProvider')]
-    public function testNormalizePathWithDefaultMode(string $input, string $expected)
+    public function testNormalizePathWithDefaultMode(string $input, string $expected): void
     {
         $this->assertSame($expected, normalizePath($input));
     }
 
-    public function testBase64JsonEncodingAndDecoding()
+    public function testBase64JsonEncodingAndDecoding(): void
     {
         $this->assertSame(['foo' => 'bar'], jsonDecodeBase64(jsonEncodeBase64(['foo' => 'bar'])));
     }

@@ -34,7 +34,7 @@ class MaxRuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testMaxRule(mixed $item, bool $valid)
+    public function testMaxRule(mixed $item, bool $valid): void
     {
         $validator = new Validator();
 

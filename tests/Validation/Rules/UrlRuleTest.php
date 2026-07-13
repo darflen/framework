@@ -29,7 +29,7 @@ class UrlRuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testUrlRule(string $item, bool $valid)
+    public function testUrlRule(string $item, bool $valid): void
     {
         $validator = new Validator();
 

@@ -27,7 +27,7 @@ class ActiveUrlRuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testActiveUrlRule(string $item, bool $valid)
+    public function testActiveUrlRule(string $item, bool $valid): void
     {
         $validator = new Validator();
 

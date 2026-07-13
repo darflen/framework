@@ -27,7 +27,7 @@ class DateRuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testDateRule(string $item, bool $valid)
+    public function testDateRule(string $item, bool $valid): void
     {
         $validator = new Validator();
 

@@ -34,7 +34,7 @@ class IpRuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testIpRule(string $item, bool $valid)
+    public function testIpRule(string $item, bool $valid): void
     {
         $validator = new Validator();
 

@@ -45,7 +45,7 @@ class ValidatorFeatureTest extends TestCase
         $this->assertSame(['number' => ['AlwaysFail', 'EqualsTo']], $validator->getErrors());
     }
 
-    public function testValidateInputsInNonExistentInput()
+    public function testValidateInputsInNonExistentInput(): void
     {
         $validator = new Validator();
         $data = [
@@ -61,7 +61,7 @@ class ValidatorFeatureTest extends TestCase
         $this->assertSame(['number' => ['EqualsTo']], $validator->getErrors());
     }
 
-    public function testValidateInputsWithStrictFields()
+    public function testValidateInputsWithStrictFields(): void
     {
         $validator = new Validator();
         $data = [

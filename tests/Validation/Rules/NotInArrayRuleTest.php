@@ -21,7 +21,7 @@ class NotInArrayRuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testNotInArrayRule(mixed $item, bool $valid)
+    public function testNotInArrayRule(mixed $item, bool $valid): void
     {
         $validator = new Validator();
 

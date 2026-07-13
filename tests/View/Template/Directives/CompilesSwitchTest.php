@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class CompilesSwitchTest extends TestCase
 {
-    public function testCompilesSwitch()
+    public function testCompilesSwitch(): void
     {
         $directive = new CompilesSwitch();
 

@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class RequiredRuleTest extends TestCase
 {
-    public function testRequiredRule()
+    public function testRequiredRule(): void
     {
         $validator = new Validator();
 

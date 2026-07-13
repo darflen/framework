@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class CompilesForElseTest extends TestCase
 {
-    public function testCompilesForElse()
+    public function testCompilesForElse(): void
     {
         $directive = new CompilesForElse();
 

@@ -31,7 +31,7 @@ class MacAddressRuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testMacAddressRule(string $item, bool $valid)
+    public function testMacAddressRule(string $item, bool $valid): void
     {
         $validator = new Validator();
 

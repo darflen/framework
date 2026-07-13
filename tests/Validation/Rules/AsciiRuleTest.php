@@ -32,7 +32,7 @@ class AsciiRuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testAsciiRule(string $item, bool $valid)
+    public function testAsciiRule(string $item, bool $valid): void
     {
         $validator = new Validator();
 

@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 class EngineFeatureTest extends TestCase
 {
-    public function testRenderBasic()
+    public function testRenderBasic(): void
     {
         $filesystemFactory = new FilesystemFactory();
         $filesystem = $filesystemFactory->createLocalFilesystem();

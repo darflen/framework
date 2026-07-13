@@ -35,7 +35,7 @@ class SizeRuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testSizeRule(mixed $item, bool $valid)
+    public function testSizeRule(mixed $item, bool $valid): void
     {
         $validator = new Validator();
 

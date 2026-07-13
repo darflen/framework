@@ -23,7 +23,7 @@ class IsNumericTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testIsNumericRule(mixed $item, bool $valid)
+    public function testIsNumericRule(mixed $item, bool $valid): void
     {
         $validator = new Validator();
 

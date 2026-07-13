@@ -20,7 +20,7 @@ class IsStringRuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testIsStringRule(mixed $item, bool $valid)
+    public function testIsStringRule(mixed $item, bool $valid): void
     {
         $validator = new Validator();
 

@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class CompilesIssetTest extends TestCase
 {
-    public function testCompilesIsset()
+    public function testCompilesIsset(): void
     {
         $directive = new CompilesIsset();
 

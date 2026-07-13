@@ -32,7 +32,7 @@ class DeclinedRuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testDeclinedRuleTest(string $item, bool $valid)
+    public function testDeclinedRuleTest(string $item, bool $valid): void
     {
         $validator = new Validator();
 

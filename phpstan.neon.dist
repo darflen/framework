@@ -1,7 +1,10 @@
 parameters:
-    level: 5
-    treatPhpDocTypesAsCertain: false
-    paths:
-      - src
-      - tests
-      - config
+  level: 6
+  treatPhpDocTypesAsCertain: false
+  paths:
+    - src
+    - tests
+    - config
+  ignoreErrors:
+    - identifier: missingType.iterableValue
+

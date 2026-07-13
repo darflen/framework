@@ -20,7 +20,7 @@ class IsArrayRuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testIsArrayRule(mixed $item, bool $valid)
+    public function testIsArrayRule(mixed $item, bool $valid): void
     {
         $validator = new Validator();
 

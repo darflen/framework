@@ -29,7 +29,7 @@ class AlphaNumRuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testAlphaNumRule(string $item, bool $valid)
+    public function testAlphaNumRule(string $item, bool $valid): void
     {
         $validator = new Validator();
 

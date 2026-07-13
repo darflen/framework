@@ -29,7 +29,7 @@ class DigitsRuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testDigitsRule(string $item, bool $valid)
+    public function testDigitsRule(string $item, bool $valid): void
     {
         $validator = new Validator();
 

@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class CompilesBracketsTest extends TestCase
 {
-    public function testCompilesBrackets()
+    public function testCompilesBrackets(): void
     {
         $directive = new CompilesBrackets();
 

@@ -32,7 +32,7 @@ class AcceptedRuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testAcceptedRule(string $item, bool $valid)
+    public function testAcceptedRule(string $item, bool $valid): void
     {
         $validator = new Validator();
 

@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class CompilesYieldTest extends TestCase
 {
-    public function testCompilesYield()
+    public function testCompilesYield(): void
     {
         $directive = new CompilesYield();
 

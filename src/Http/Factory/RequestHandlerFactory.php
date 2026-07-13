@@ -8,7 +8,7 @@ use Darflen\Framework\Http\RequestHandler;
 
 class RequestHandlerFactory
 {
-    public function createRequestHandler(array $stack, ?callable $resolver = null)
+    public function createRequestHandler(array $stack, ?callable $resolver = null): RequestHandler
     {
         return new RequestHandler($stack, $resolver);
     }

@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class CompilesWhileTest extends TestCase
 {
-    public function testCompilesWhile()
+    public function testCompilesWhile(): void
     {
         $directive = new CompilesWhile();
 

@@ -34,7 +34,7 @@ class BetweenRuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testBetweenRule(mixed $item, bool $valid)
+    public function testBetweenRule(mixed $item, bool $valid): void
     {
         $validator = new Validator();
 

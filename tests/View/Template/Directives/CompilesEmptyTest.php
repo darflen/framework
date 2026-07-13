@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class CompilesEmptyTest extends TestCase
 {
-    public function testCompilesEmpty()
+    public function testCompilesEmpty(): void
     {
         $directive = new CompilesEmpty();
 

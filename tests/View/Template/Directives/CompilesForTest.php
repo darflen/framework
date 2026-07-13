@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class CompilesForTest extends TestCase
 {
-    public function testCompilesFor()
+    public function testCompilesFor(): void
     {
         $directive = new CompilesFor();
 

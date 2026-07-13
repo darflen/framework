@@ -20,7 +20,7 @@ class IsFileRuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testIsFileRule(mixed $item, bool $valid)
+    public function testIsFileRule(mixed $item, bool $valid): void
     {
         $validator = new Validator();
 

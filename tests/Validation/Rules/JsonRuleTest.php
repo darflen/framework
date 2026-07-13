@@ -27,7 +27,7 @@ class JsonRuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testJsonRule(mixed $item, bool $valid)
+    public function testJsonRule(mixed $item, bool $valid): void
     {
         $validator = new Validator();
 

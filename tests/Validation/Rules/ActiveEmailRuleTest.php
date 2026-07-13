@@ -27,7 +27,7 @@ class ActiveEmailRuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testActiveEmailRule(string $item, bool $valid)
+    public function testActiveEmailRule(string $item, bool $valid): void
     {
         $validator = new Validator();
 

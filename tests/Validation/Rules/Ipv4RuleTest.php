@@ -29,7 +29,7 @@ class Ipv4RuleTest extends TestCase
     }
 
     #[DataProvider('itemDataProvider')]
-    public function testIpv4Rule(string $item, bool $valid)
+    public function testIpv4Rule(string $item, bool $valid): void
     {
         $validator = new Validator();
 
