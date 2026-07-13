@@ -11,12 +11,13 @@ use FFMpeg\FFProbe;
 use FFMpeg\FFProbe\DataMapping\Format;
 use FFMpeg\Format\Audio\Mp3;
 use FFMpeg\Media\Audio as MediaAudio;
+use InvalidArgumentException;
 
 class Audio
 {
     private string $path;
 
-    private MediaAudio $audio;
+    private MediaAudio $container;
 
     private Format $metadata;
 
@@ -33,7 +34,11 @@ class Audio
         ];
         $ffmpeg = FFMpeg::create($ffmpegParams);
         $ffprobe = FFProbe::create($ffmpegParams);
-        $this->audio = $ffmpeg->open($path);
+        $container = $ffmpeg->open($path);
+        if (!is_a($container, MediaAudio::class)) {
+            throw new InvalidArgumentException('File format must be a video format');
+        }
+        $this->container = $container;
         $this->metadata = $ffprobe->format($path);
         $this->encoder = new Mp3();
     }
@@ -45,14 +50,14 @@ class Audio
 
     public function compress(int $percentage): self
     {
-        $kiloBitrate = round($this->metadata->get("bit_rate") * ($percentage / 100) / 1000);
+        $kiloBitrate = (int) round($this->metadata->get("bit_rate") * ($percentage / 100) / 1000);
         $this->encoder->setAudioKiloBitrate($kiloBitrate);
         return $this;
     }
 
     public function clip(int $start, int $duration): self
     {
-        $this->audio->filters()->clip(
+        $this->container->filters()->clip(
             TimeCode::fromSeconds($start),
             TimeCode::fromSeconds($duration),
         );
@@ -65,13 +70,13 @@ class Audio
             $pathInfo = pathinfo($this->path);
             $extension = isset($pathInfo['extension']) ? '.' . $pathInfo['extension'] : '';
             $path = normalizePath(sys_get_temp_dir() . '/' . uniqid(more_entropy: true) . $extension);
-            $this->audio->save($this->encoder, $path);
+            $this->container->save($this->encoder, $path);
             if (file_exists($path)) {
                 rename($path, $this->path);
             }
             return;
         }
         $path = normalizePath($path);
-        $this->audio->save($this->encoder, $path);
+        $this->container->save($this->encoder, $path);
     }
 }

@@ -139,6 +139,7 @@ class ImageFeatureTest extends TestCase
 
         $image->flip('v')->flip('h')->save();
 
+        // @phpstan-ignore method.alreadyNarrowedType
         $this->assertTrue(true);
     }
 
@@ -169,6 +170,7 @@ class ImageFeatureTest extends TestCase
 
         $image->interlace()->save();
 
+        // @phpstan-ignore method.alreadyNarrowedType
         $this->assertTrue(true);
     }
 

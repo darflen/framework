@@ -13,12 +13,13 @@ use FFMpeg\FFProbe;
 use FFMpeg\FFProbe\DataMapping\Format;
 use FFMpeg\Filters\Video\ResizeFilter;
 use FFMpeg\Media\Video as MediaVideo;
+use InvalidArgumentException;
 
 class Video
 {
     private string $path;
 
-    private MediaVideo $video;
+    private MediaVideo $container;
 
     private Format $metadata;
 
@@ -35,7 +36,11 @@ class Video
         ];
         $ffmpeg = FFMpeg::create($ffmpegParams);
         $ffprobe = FFProbe::create($ffmpegParams);
-        $this->video = $ffmpeg->open($path);
+        $container = $ffmpeg->open($path);
+        if (!is_a($container, MediaVideo::class)) {
+            throw new InvalidArgumentException('File format must be a video format');
+        }
+        $this->container = $container;
         $this->metadata = $ffprobe->format($path);
         $this->encoder = new X264();
         $this->encoder->setInitialParameters($config->get('media.ffmpeg.flags', []));
@@ -48,7 +53,7 @@ class Video
 
     public function getSize(): array
     {
-        $videoStream = $this->video->getStreams()->videos()->first();
+        $videoStream = $this->container->getStreams()->videos()->first();
         $videoDimensions = $videoStream->getDimensions();
         $width = $videoDimensions->getWidth();
         $height = $videoDimensions->getHeight();
@@ -69,7 +74,7 @@ class Video
 
     public function compress(int $percentage): self
     {
-        $audioStream = $this->video->getStreams()->audios()->first();
+        $audioStream = $this->container->getStreams()->audios()->first();
         $audioBitrate = 22000;
         if (!is_null($audioStream)) {
             $audioBitrate = $audioStream->get('bit_rate', 0);
@@ -85,10 +90,10 @@ class Video
 
     public function scale(int $percentage): self
     {
-        $videoStream = $this->video->getStreams()->videos()->first()->getDimensions();
-        $width = round($videoStream->getWidth() * ($percentage / 100));
-        $height = round($videoStream->getHeight() * ($percentage / 100));
-        $this->video->filters()->resize(new Dimension($width, $height), ResizeFilter::RESIZEMODE_INSET);
+        $videoStream = $this->container->getStreams()->videos()->first()->getDimensions();
+        $width = (int) round($videoStream->getWidth() * ($percentage / 100));
+        $height = (int) round($videoStream->getHeight() * ($percentage / 100));
+        $this->container->filters()->resize(new Dimension($width, $height), ResizeFilter::RESIZEMODE_INSET);
         return $this;
     }
 
@@ -103,7 +108,7 @@ class Video
 
     public function resize(int $width, int $height): self
     {
-        $this->video->filters()->resize(new Dimension($width, $height), ResizeFilter::RESIZEMODE_INSET);
+        $this->container->filters()->resize(new Dimension($width, $height), ResizeFilter::RESIZEMODE_INSET);
         return $this;
     }
 
@@ -122,21 +127,21 @@ class Video
             $pathInfo = pathinfo($this->path);
             $extension = isset($pathInfo['extension']) ? '.' . $pathInfo['extension'] : '';
             $path = normalizePath(sys_get_temp_dir() . '/' . uniqid(more_entropy: true) . $extension);
-            $this->video->save($this->encoder, $path);
+            $this->container->save($this->encoder, $path);
             if (file_exists($path)) {
                 rename($path, $this->path);
             }
             return;
         }
         $path = normalizePath($path);
-        $this->video->save($this->encoder, $path);
+        $this->container->save($this->encoder, $path);
     }
 
     public function saveThumbnail(string $path, int $time = -1): void
     {
         $path = normalizePath($path);
         $time = $time === -1 ? (ceil($this->getDuration() / 2) + 1) : abs($time);
-        $thumbnail = $this->video->frame(TimeCode::fromSeconds($time));
+        $thumbnail = $this->container->frame(TimeCode::fromSeconds($time));
         $thumbnail->save($path);
     }
 }

@@ -53,6 +53,7 @@ class MailerFeatureTest extends TestCase
             $message->toAddress('success@fizzbuzz.com', 'Success');
             $message->setSubject('Foobar');
         });
+        // @phpstan-ignore method.alreadyNarrowedType
         $this->assertTrue(true);
     }
 }

@@ -18,6 +18,7 @@ class Engine
 
     /**
      * @var array<string, string> $sections
+     * @phpstan-ignore property.onlyWritten
      */
     private array $sections = [];
 
