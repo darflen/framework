@@ -1,0 +1,8 @@
+{
+    "foo": "bar",
+    "fizzbuzz": {
+        "fizz": "qux",
+        "buzz": "quux",
+        "bazz": "grault"
+    }
+}

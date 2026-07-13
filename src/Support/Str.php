@@ -6,6 +6,15 @@ namespace Darflen\Framework\Support;
 
 class Str
 {
+    /**
+     * Replace keys in string with value
+     *
+     * ``'Hello, {name}'`` converts to ``'Hello, FooBar'`` where ``['{name}' => 'FooBar']``
+     *
+     * @param  string $string
+     * @param  array $context
+     * @return string
+     */
     public static function swrap(string $string, array $context = []): string
     {
         $context = Arr::dot($context);
