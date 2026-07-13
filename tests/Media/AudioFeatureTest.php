@@ -10,7 +10,6 @@ use Darflen\Framework\Filesystem\Filesystem;
 use Darflen\Framework\Media\Audio;
 use Override;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
-use PHPUnit\Framework\Attributes\RequiresOperatingSystemFamily;
 use PHPUnit\Framework\TestCase;
 
 class AudioFeatureTest extends TestCase
@@ -25,11 +24,13 @@ class AudioFeatureTest extends TestCase
         parent::setUpBeforeClass();
         self::$filesystem = (new FilesystemFactory())->createLocalFilesystem();
         $config = new Config();
+        $ffmpeg = trim((string) shell_exec((PHP_OS_FAMILY === 'Windows' ? 'where' : 'command -v') . ' ffmpeg 2>NUL')) ?: null;
+        $ffprobe = trim((string) shell_exec((PHP_OS_FAMILY === 'Windows' ? 'where' : 'command -v') . ' ffprobe 2>NUL')) ?: null;
         $config->loadConfigArray('media', [
             'ffmpeg' => [
                 'binaries' => [
-                    'processor' => '/usr/bin/ffmpeg',
-                    'probe' => '/usr/bin/ffprobe'
+                    'processor' => $ffmpeg,
+                    'probe' => $ffprobe
                 ],
                 'timeout' => 3600,
                 'threads' => 12
@@ -39,7 +40,6 @@ class AudioFeatureTest extends TestCase
     }
 
     #[IgnoreDeprecations]
-    #[RequiresOperatingSystemFamily('Linux')]
     public function testCompress(): void
     {
         self::$filesystem->copy(__DIR__ . '/Fixtures/Audio1.wav', __DIR__ . '/foo.mp3');
@@ -51,7 +51,6 @@ class AudioFeatureTest extends TestCase
     }
 
     #[IgnoreDeprecations]
-    #[RequiresOperatingSystemFamily('Linux')]
     public function testSaveWithPath(): void
     {
         self::$filesystem->copy(__DIR__ . '/Fixtures/Audio1.wav', __DIR__ . '/foo.mp3');
@@ -62,7 +61,6 @@ class AudioFeatureTest extends TestCase
         $this->assertTrue(self::$filesystem->isPresent(__DIR__ . '/bar.mp3'));
     }
 
-    #[RequiresOperatingSystemFamily('Linux')]
     public function testGetters(): void
     {
         self::$filesystem->copy(__DIR__ . '/Fixtures/Audio1.wav', __DIR__ . '/foo.mp3');
@@ -72,7 +70,6 @@ class AudioFeatureTest extends TestCase
     }
 
     #[IgnoreDeprecations]
-    #[RequiresOperatingSystemFamily('Linux')]
     public function testClip(): void
     {
         self::$filesystem->copy(__DIR__ . '/Fixtures/Audio1.wav', __DIR__ . '/foo.mp3');
@@ -84,7 +81,6 @@ class AudioFeatureTest extends TestCase
     }
 
     #[Override]
-    #[RequiresOperatingSystemFamily('Linux')]
     protected function tearDown(): void
     {
         parent::tearDown();

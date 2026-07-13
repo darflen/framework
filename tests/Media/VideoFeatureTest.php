@@ -10,7 +10,6 @@ use Darflen\Framework\Filesystem\Filesystem;
 use Darflen\Framework\Media\Video;
 use Override;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
-use PHPUnit\Framework\Attributes\RequiresOperatingSystemFamily;
 use PHPUnit\Framework\TestCase;
 
 class VideoFeatureTest extends TestCase
@@ -25,11 +24,13 @@ class VideoFeatureTest extends TestCase
         parent::setUpBeforeClass();
         self::$filesystem = (new FilesystemFactory())->createLocalFilesystem();
         $config = new Config();
+        $ffmpeg = trim((string) shell_exec((PHP_OS_FAMILY === 'Windows' ? 'where' : 'command -v') . ' ffmpeg 2>NUL')) ?: null;
+        $ffprobe = trim((string) shell_exec((PHP_OS_FAMILY === 'Windows' ? 'where' : 'command -v') . ' ffprobe 2>NUL')) ?: null;
         $config->loadConfigArray('media', [
             'ffmpeg' => [
                 'binaries' => [
-                    'processor' => '/usr/bin/ffmpeg',
-                    'probe' => '/usr/bin/ffprobe'
+                    'processor' => $ffmpeg,
+                    'probe' => $ffprobe
                 ],
                 'timeout' => 3600,
                 'threads' => 12
@@ -38,7 +39,6 @@ class VideoFeatureTest extends TestCase
         self::$config = $config;
     }
 
-    #[RequiresOperatingSystemFamily('Linux')]
     public function testGetters(): void
     {
         self::$filesystem->copy(__DIR__ . '/Fixtures/Video1.mkv', __DIR__ . '/foo.mp4');
@@ -51,7 +51,6 @@ class VideoFeatureTest extends TestCase
     }
 
     #[IgnoreDeprecations]
-    #[RequiresOperatingSystemFamily('Linux')]
     public function testCompress(): void
     {
         self::$filesystem->copy(__DIR__ . '/Fixtures/Video1.mkv', __DIR__ . '/foo.mp4');
@@ -63,7 +62,6 @@ class VideoFeatureTest extends TestCase
     }
 
     #[IgnoreDeprecations]
-    #[RequiresOperatingSystemFamily('Linux')]
     public function testSaveWithPath(): void
     {
         self::$filesystem->copy(__DIR__ . '/Fixtures/Video1.mkv', __DIR__ . '/foo.mp4');
@@ -75,7 +73,6 @@ class VideoFeatureTest extends TestCase
     }
 
     #[IgnoreDeprecations]
-    #[RequiresOperatingSystemFamily('Linux')]
     public function testSaveThumbnail(): void
     {
         self::$filesystem->copy(__DIR__ . '/Fixtures/Video1.mkv', __DIR__ . '/foo.mp4');
@@ -87,7 +84,6 @@ class VideoFeatureTest extends TestCase
     }
 
     #[IgnoreDeprecations]
-    #[RequiresOperatingSystemFamily('Linux')]
     public function testCompressWithAudio(): void
     {
         self::$filesystem->copy(__DIR__ . '/Fixtures/Video2.mkv', __DIR__ . '/foo.mp4');
@@ -99,7 +95,6 @@ class VideoFeatureTest extends TestCase
     }
 
     #[IgnoreDeprecations]
-    #[RequiresOperatingSystemFamily('Linux')]
     public function testScale(): void
     {
         self::$filesystem->copy(__DIR__ . '/Fixtures/Video1.mkv', __DIR__ . '/foo.mp4');
@@ -111,7 +106,6 @@ class VideoFeatureTest extends TestCase
     }
 
     #[IgnoreDeprecations]
-    #[RequiresOperatingSystemFamily('Linux')]
     public function testScaleDownInsideMinimum(): void
     {
         self::$filesystem->copy(__DIR__ . '/Fixtures/Video1.mkv', __DIR__ . '/foo.mp4');
@@ -123,7 +117,6 @@ class VideoFeatureTest extends TestCase
     }
 
     #[IgnoreDeprecations]
-    #[RequiresOperatingSystemFamily('Linux')]
     public function testScaleDownOutsideMinimum(): void
     {
         self::$filesystem->copy(__DIR__ . '/Fixtures/Video1.mkv', __DIR__ . '/foo.mp4');
@@ -135,7 +128,6 @@ class VideoFeatureTest extends TestCase
     }
 
     #[IgnoreDeprecations]
-    #[RequiresOperatingSystemFamily('Linux')]
     public function testResize(): void
     {
         self::$filesystem->copy(__DIR__ . '/Fixtures/Video1.mkv', __DIR__ . '/foo.mp4');
@@ -147,7 +139,6 @@ class VideoFeatureTest extends TestCase
     }
 
     #[IgnoreDeprecations]
-    #[RequiresOperatingSystemFamily('Linux')]
     public function testResizeDownInsideMinimum(): void
     {
         self::$filesystem->copy(__DIR__ . '/Fixtures/Video1.mkv', __DIR__ . '/foo.mp4');
@@ -159,7 +150,6 @@ class VideoFeatureTest extends TestCase
     }
 
     #[IgnoreDeprecations]
-    #[RequiresOperatingSystemFamily('Linux')]
     public function testResizeDownOutsideMinimum(): void
     {
         self::$filesystem->copy(__DIR__ . '/Fixtures/Video1.mkv', __DIR__ . '/foo.mp4');
@@ -171,7 +161,6 @@ class VideoFeatureTest extends TestCase
     }
 
     #[Override]
-    #[RequiresOperatingSystemFamily('Linux')]
     protected function tearDown(): void
     {
         parent::tearDown();

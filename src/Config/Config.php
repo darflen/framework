@@ -46,7 +46,7 @@ class Config
     public function loadEnv(string $path, string|array|null $names = null): void
     {
         $dotenv = Dotenv::createMutable(normalizePath($path), $names);
-        $dotenv->load();
+        $dotenv->safeLoad();
     }
 
     public function set(string $key, mixed $value = ''): void
