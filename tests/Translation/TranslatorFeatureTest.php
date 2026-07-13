@@ -28,7 +28,8 @@ class TranslatorFeatureTest extends TestCase
             'grault' => 'FizzBuzz'
         ]);
         $repository->loadLocaleArray('fr', [
-            'quux' => 'FizzBuzz'
+            'quux' => 'FizzBuzz',
+            'thud' => 'FooBarBaz'
         ]);
         self::$repository = $repository;
     }
@@ -67,5 +68,31 @@ class TranslatorFeatureTest extends TestCase
         $this->assertSame('FizzBuzz', $translator->translatePlural('grault', 0));
         $this->assertSame('FizzBuzz', $translator->translatePlural('grault', 1));
         $this->assertSame('FizzBuzz', $translator->translatePlural('quux', 1));
+    }
+
+    public function testHasTranslate(): void
+    {
+        $translator = new Translator('fr', 'en', self::$repository);
+
+        $this->assertTrue($translator->hasTranslation('foo'));
+        $this->assertFalse($translator->hasTranslation('success'));
+    }
+
+    public function testGetters(): void
+    {
+        $translator = new Translator('fr', 'en', self::$repository);
+
+        $this->assertSame('fr', $translator->getLocale());
+        $this->assertSame('en', $translator->getFallbackLocale());
+    }
+
+    public function testSetters(): void
+    {
+        $translator = new Translator('fr', 'en', self::$repository);
+
+        $translator->setlocale('en');
+
+        $this->assertSame('en', $translator->getLocale());
+        $this->assertNotSame('FooBarBaz', $translator->translate('thud'));
     }
 }

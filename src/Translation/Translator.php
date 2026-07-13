@@ -51,28 +51,41 @@ class Translator
         return $translation;
     }
 
+    protected function getRawTranslation(string $key): mixed
+    {
+        $fallbackTranslation = $this->repository->getTranslation($this->fallbackLocale, $key);
+        $translation = $this->repository->getTranslation($this->locale, $key, $fallbackTranslation);
+        return $translation;
+    }
+
     public function translate(string $key, array $data = []): mixed
     {
         return $this->translatePlural($key, null, $data);
     }
 
-    public function hasTranslation()
+    public function hasTranslation(string $key): bool
     {
+        $translation = $this->getRawTranslation($key);
+        return $translation !== null;
     }
 
     public function translatePlural(string $key, ?int $count = null, array $data = []): mixed
     {
-        $fallbackTranslation = $this->repository->getTranslation($this->fallbackLocale, $key);
-        $translation = $this->repository->getTranslation($this->locale, $key, $fallbackTranslation);
+        $translation = $this->getRawTranslation($key);
         if (is_null($translation)) {
             return $key;
         }
         return $this->parseTranslation($translation, $count, $data);
     }
 
-    public function getLocale()
+    public function getLocale(): string
     {
         return $this->locale;
+    }
+
+    public function getFallbackLocale(): string
+    {
+        return $this->fallbackLocale;
     }
 
     public function setLocale(string $locale): void
