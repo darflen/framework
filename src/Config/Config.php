@@ -43,9 +43,9 @@ class Config
         $this->configs[$name] = array_merge($this->configs[$name], $config);
     }
 
-    public function loadEnv(string $path): void
+    public function loadEnv(string $path, string|array|null $names = null): void
     {
-        $dotenv = Dotenv::createMutable(normalizePath($path));
+        $dotenv = Dotenv::createMutable(normalizePath($path), $names);
         $dotenv->load();
     }
 

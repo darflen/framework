@@ -13,7 +13,7 @@ class ConfigTest extends TestCase
     public function testSetupAndCreate(): void
     {
         $config = new Config();
-        $config->loadEnv(__DIR__ . '/Fixtures');
+        $config->loadEnv(__DIR__ . '/Fixtures', '.env.example');
         $config->loadConfigDirectory(__DIR__ . '/Fixtures');
         $config->loadConfigArray('fizzbuzz', ['foobar' => 'bazqux']);
 

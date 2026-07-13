@@ -76,5 +76,13 @@ jobs:
           docker logs mailpit
           exit 1
 
+      - name: Setup ffmpeg
+        uses: FedericoCarboni/setup-ffmpeg@v3
+
+      - name: Wait for ffmpeg
+        run: |
+          ffmpeg -version
+          ffprobe -version
+
       - name: Run test suite
         run: composer run-script test

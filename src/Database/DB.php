@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Darflen\Framework\DB;
+namespace Darflen\Framework\Database;
 
 use Darflen\Framework\Config\Config;
 use PDO;
@@ -35,13 +35,13 @@ class DB
         return $this->connect;
     }
 
-    public function raw(string $query): PDOStatement
+    public function rawQuery(string $query): PDOStatement
     {
         $query = $this->connect()->query($query);
         return $query;
     }
 
-    public function query(string $query, array $parameters = []): PDOStatement
+    public function preparedQuery(string $query, array $parameters = []): PDOStatement
     {
         $query = $this->connect()->prepare($query);
         $query->execute($parameters);
