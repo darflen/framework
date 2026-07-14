@@ -8,6 +8,13 @@ use Generator;
 
 class Arr
 {
+    /**
+     * Flattens an array and convert keys into dot notation
+     *
+     * @param  array $array
+     * @param  string $prepend String to prepend to every keys
+     * @return array
+     */
     public static function dot(array $array, string $prepend = ''): array
     {
         $results = [];
@@ -21,6 +28,12 @@ class Arr
         return $results;
     }
 
+    /**
+     * Converts a dot notation array into a regular one
+     *
+     * @param  mixed $array
+     * @return array
+     */
     public static function undot(array $array): array
     {
         $results = [];
