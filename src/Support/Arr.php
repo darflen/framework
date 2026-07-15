@@ -31,7 +31,7 @@ class Arr
     /**
      * Converts a dot notation array into a regular one
      *
-     * @param  mixed $array
+     * @param  array $array
      * @return array
      */
     public static function undot(array $array): array
