@@ -46,7 +46,8 @@
         "test:coverage": "php -d zend_extension=\"xdebug\" -d xdebug.mode=coverage vendor/bin/phpunit --coverage-text",
         "test": [
             "@test:phpunit",
-            "@test:phpstan"
+            "@test:phpstan",
+            "@cs-check"
         ],
         "optimize": "composer dump-autoload -o",
         "cs-fix": "./vendor/bin/php-cs-fixer fix",

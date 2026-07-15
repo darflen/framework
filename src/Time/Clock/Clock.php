@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Darflen\Framework\Clock;
+namespace Darflen\Framework\Time\Clock;
 
 use DateTimeImmutable;
 use Override;

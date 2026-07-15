@@ -24,8 +24,9 @@ class VideoFeatureTest extends TestCase
         parent::setUpBeforeClass();
         self::$filesystem = (new FilesystemFactory())->createLocalFilesystem();
         $config = new Config();
-        $ffmpeg = trim((string) shell_exec((PHP_OS_FAMILY === 'Windows' ? 'where' : 'command -v') . ' ffmpeg 2>NUL')) ?: null;
-        $ffprobe = trim((string) shell_exec((PHP_OS_FAMILY === 'Windows' ? 'where' : 'command -v') . ' ffprobe 2>NUL')) ?: null;
+        $nullDevice = (PHP_OS_FAMILY === 'Windows') ? 'NUL' : '/dev/null';
+        $ffmpeg = trim((string) shell_exec((PHP_OS_FAMILY === 'Windows' ? 'where' : 'command -v') . ' ffmpeg 2>' . $nullDevice)) ?: null;
+        $ffprobe = trim((string) shell_exec((PHP_OS_FAMILY === 'Windows' ? 'where' : 'command -v') . ' ffprobe 2>' . $nullDevice)) ?: null;
         $config->loadConfigArray('media', [
             'ffmpeg' => [
                 'binaries' => [
