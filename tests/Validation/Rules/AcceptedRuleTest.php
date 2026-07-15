@@ -6,9 +6,9 @@ namespace Darflen\Framework\Tests\Validation\Rules;
 
 use Darflen\Framework\Validation\Rules\Accepted;
 use Darflen\Framework\Validation\Validator;
-use PHPUnit\Framework\TestCase;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class AcceptedRuleTest extends TestCase
 {
@@ -23,7 +23,7 @@ class AcceptedRuleTest extends TestCase
             '0' => false,
             'off' => false,
             'no' => false,
-            'false' => false
+            'false' => false,
         ];
 
         foreach ($data as $item => $valid) {

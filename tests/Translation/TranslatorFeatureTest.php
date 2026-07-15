@@ -25,11 +25,11 @@ class TranslatorFeatureTest extends TestCase
             'baz' => 'There are :count FizzBuzz',
             'qux' => '{0} There are none|[1,*] There are :count :input',
             'quux' => 'FooBar',
-            'grault' => 'FizzBuzz'
+            'grault' => 'FizzBuzz',
         ]);
         $repository->loadLocaleArray('fr', [
             'quux' => 'FizzBuzz',
-            'thud' => 'FooBarBaz'
+            'thud' => 'FooBarBaz',
         ]);
         self::$repository = $repository;
     }

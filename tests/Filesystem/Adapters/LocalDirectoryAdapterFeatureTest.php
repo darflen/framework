@@ -56,7 +56,7 @@ class LocalDirectoryAdapterFeatureTest extends TestCase
     {
         $directoryAdapter = new LocalDirectoryAdapter(new LocalFilesystemAdapter());
 
-        $this->assertSame([], $directoryAdapter->scan(self::$tempDirectory. '/foobar'));
+        $this->assertSame([], $directoryAdapter->scan(self::$tempDirectory . '/foobar'));
     }
 
     #[Override]

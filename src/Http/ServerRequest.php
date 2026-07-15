@@ -94,7 +94,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     }
 
     #[Override]
-    public function getParsedBody(): null|array|object
+    public function getParsedBody(): array|object|null
     {
         return $this->parsedBody;
     }

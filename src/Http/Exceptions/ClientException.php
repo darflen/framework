@@ -7,6 +7,4 @@ namespace Darflen\Framework\Http\Exceptions;
 use Psr\Http\Client\ClientExceptionInterface;
 use RuntimeException;
 
-class ClientException extends RuntimeException implements ClientExceptionInterface
-{
-}
+class ClientException extends RuntimeException implements ClientExceptionInterface {}

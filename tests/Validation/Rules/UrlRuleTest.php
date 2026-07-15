@@ -6,9 +6,9 @@ namespace Darflen\Framework\Tests\Validation\Rules;
 
 use Darflen\Framework\Validation\Rules\Url;
 use Darflen\Framework\Validation\Validator;
-use PHPUnit\Framework\TestCase;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class UrlRuleTest extends TestCase
 {
@@ -20,7 +20,7 @@ class UrlRuleTest extends TestCase
             'http://foo-bar-baz.co.uk' => true,
             'invalid-url' => false,
             'fizzbuzz.com' => false,
-            'http://[invalid-domain]' => false
+            'http://[invalid-domain]' => false,
         ];
 
         foreach ($data as $item => $valid) {

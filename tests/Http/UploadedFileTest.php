@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Darflen\Framework\Tests\Http;
 
 use Darflen\Framework\Http\UploadedFile;
-use RuntimeException;
 use Darflen\Framework\Support\Stream;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 class UploadedFileTest extends TestCase
 {

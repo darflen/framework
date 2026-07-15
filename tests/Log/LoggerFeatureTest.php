@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Tests\Log;
 
-use PHPUnit\Framework\TestCase;
-use Darflen\Framework\Log\Logger;
 use Darflen\Framework\Config\Config;
 use Darflen\Framework\Filesystem\Adapters\LocalDirectoryAdapter;
 use Darflen\Framework\Filesystem\Adapters\LocalFileAdapter;
@@ -13,7 +11,9 @@ use Darflen\Framework\Filesystem\Adapters\LocalFilesystemAdapter;
 use Darflen\Framework\Filesystem\Filesystem;
 use Darflen\Framework\Log\Drivers\FileLoggerDriver;
 use Darflen\Framework\Log\Drivers\LoggerDriverInterface;
+use Darflen\Framework\Log\Logger;
 use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
 use RuntimeException;
 

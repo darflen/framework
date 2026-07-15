@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Tests\Validation\Rules;
 
-use Darflen\Framework\Validation\Rules\Between;
 use Darflen\Framework\Validation\Rules\Ip;
 use Darflen\Framework\Validation\Validator;
-use PHPUnit\Framework\TestCase;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class IpRuleTest extends TestCase
 {
@@ -25,7 +24,7 @@ class IpRuleTest extends TestCase
             '256.0.0.1' => false,
             '256.zero.zero.one' => false,
             '127.0.0.-1' => false,
-            '127.000.000.001' => false
+            '127.000.000.001' => false,
         ];
 
         foreach ($data as $item => $valid) {

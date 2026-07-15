@@ -58,7 +58,7 @@ class RedisCacheDriverFeatureTest extends TestCase
     {
         self::$strategy->setMultiple([
             'fizz' => 'buzz',
-            'foo' => 'bar'
+            'foo' => 'bar',
         ], DateInterval::createFromDateString('1 day'));
 
         $this->assertGreaterThan(86399, self::$redis->ttl('foo'));
@@ -76,7 +76,7 @@ class RedisCacheDriverFeatureTest extends TestCase
         self::$strategy->setMultiple([
             'fizz' => 'buzz',
             'foo' => false,
-            'baz' => ['success']
+            'baz' => ['success'],
         ]);
         $results = self::$strategy->getMultiple(['fizz', 'foo', 'baz'], 'failure');
         $this->assertNotSame('failure', $results);
@@ -101,7 +101,7 @@ class RedisCacheDriverFeatureTest extends TestCase
         self::$strategy->setMultiple([
             'fizz' => 'buzz',
             'foo' => false,
-            'baz' => ['success']
+            'baz' => ['success'],
         ]);
 
         self::$strategy->deleteMultiple(['fizz', 'foo']);

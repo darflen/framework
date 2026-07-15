@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Darflen\Framework\Http;
 
 use Darflen\Framework\Support\Factory\StreamFactory;
-use Override;
 use InvalidArgumentException;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -87,7 +87,7 @@ class Response extends Message implements ResponseInterface
         510 => 'Not Extended',
         511 => 'Network Authentication Required',
         598 => 'Network read timeout error',
-        599 => 'Network connect timeout error'
+        599 => 'Network connect timeout error',
     ];
 
     private int $code = 200;

@@ -9,5 +9,5 @@ return [
         'root' => env('APP_URL_ROOT', 'http://localhost'),
         'api' => env('APP_URL_API', 'http://api.localhost'),
         'static' => env('APP_URL_STATIC', 'http://static.localhost'),
-    ]
+    ],
 ];

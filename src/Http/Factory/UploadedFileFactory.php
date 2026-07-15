@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Http\Factory;
 
-use Override;
 use Darflen\Framework\Http\UploadedFile;
+use Override;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UploadedFileInterface;

@@ -6,9 +6,9 @@ namespace Darflen\Framework\Tests\Validation\Rules;
 
 use Darflen\Framework\Validation\Rules\MacAddress;
 use Darflen\Framework\Validation\Validator;
-use PHPUnit\Framework\TestCase;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class MacAddressRuleTest extends TestCase
 {
@@ -22,7 +22,7 @@ class MacAddressRuleTest extends TestCase
             '127.0.0.1' => false,
             '00:1A:2B:3C:4D:5E:6F' => false,
             'G0:1A:2B:3C:4D:5E' => false,
-            '00-1A:2B:3C:4D-5E' => false
+            '00-1A:2B:3C:4D-5E' => false,
         ];
 
         foreach ($data as $item => $valid) {

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Darflen\Framework\Http\Client;
 
 use Psr\Http\Client\ClientInterface;
-use Psr\Http\Message\StreamInterface;
-use Psr\Http\Message\UriInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\UriInterface;
 
 class Sender
 {

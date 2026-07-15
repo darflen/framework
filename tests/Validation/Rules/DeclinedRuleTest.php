@@ -6,9 +6,9 @@ namespace Darflen\Framework\Tests\Validation\Rules;
 
 use Darflen\Framework\Validation\Rules\Declined;
 use Darflen\Framework\Validation\Validator;
-use PHPUnit\Framework\TestCase;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class DeclinedRuleTest extends TestCase
 {
@@ -23,7 +23,7 @@ class DeclinedRuleTest extends TestCase
             '0' => true,
             'off' => true,
             'no' => true,
-            'false' => true
+            'false' => true,
         ];
 
         foreach ($data as $item => $valid) {

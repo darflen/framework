@@ -23,7 +23,7 @@ class Client implements ClientInterface
         '2' => CURL_HTTP_VERSION_2,
         '2.0' => CURL_HTTP_VERSION_2,
         '3' => CURL_HTTP_VERSION_3,
-        '3.0' => CURL_HTTP_VERSION_3
+        '3.0' => CURL_HTTP_VERSION_3,
     ];
 
     private string $userAgent;

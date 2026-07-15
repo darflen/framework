@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Tests\Http;
 
-use Darflen\Framework\Support\Stream;
 use Darflen\Framework\Http\Message;
-use PHPUnit\Framework\TestCase;
+use Darflen\Framework\Support\Stream;
 use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 
 class MessageTest extends TestCase
 {
@@ -47,7 +47,7 @@ class MessageTest extends TestCase
 
         $expected = [
             'X-foo' => ['foo'],
-            'X-bar' => ['bar', 'bar 2']
+            'X-bar' => ['bar', 'bar 2'],
         ];
 
         $this->assertSame($expected, $clone->getHeaders());

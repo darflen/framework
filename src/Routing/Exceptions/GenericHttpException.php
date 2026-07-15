@@ -6,6 +6,4 @@ namespace Darflen\Framework\Routing\Exceptions;
 
 use RuntimeException;
 
-class GenericHttpException extends RuntimeException
-{
-}
+class GenericHttpException extends RuntimeException {}

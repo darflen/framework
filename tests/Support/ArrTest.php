@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Tests\Support;
 
-use PHPUnit\Framework\TestCase;
 use Darflen\Framework\Support\Arr;
+use PHPUnit\Framework\TestCase;
 
 class ArrTest extends TestCase
 {
@@ -61,13 +61,13 @@ class ArrTest extends TestCase
     {
         $input = [
             ['foo', 'bar'],
-            ['fizz', 'buzz']
+            ['fizz', 'buzz'],
         ];
         $output = [
             ['foo', 'fizz'],
             ['foo', 'buzz'],
             ['bar', 'fizz'],
-            ['bar', 'buzz']
+            ['bar', 'buzz'],
         ];
 
         $results = Arr::cartesian($input);

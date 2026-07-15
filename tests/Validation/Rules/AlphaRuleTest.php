@@ -6,9 +6,9 @@ namespace Darflen\Framework\Tests\Validation\Rules;
 
 use Darflen\Framework\Validation\Rules\Alpha;
 use Darflen\Framework\Validation\Validator;
-use PHPUnit\Framework\TestCase;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class AlphaRuleTest extends TestCase
 {
@@ -19,7 +19,7 @@ class AlphaRuleTest extends TestCase
             'fizzbuzz' => true,
             'fizz_buzz' => false,
             'foo bar' => false,
-            'foo bar baz 123' => false
+            'foo bar baz 123' => false,
         ];
 
         foreach ($data as $item => $valid) {

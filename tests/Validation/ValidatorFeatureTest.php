@@ -16,11 +16,11 @@ class ValidatorFeatureTest extends TestCase
         $validator = new Validator();
         $data = [
             'number' => '25',
-            'string' => 'foo'
+            'string' => 'foo',
         ];
 
         $validator->validateInputs($data, [
-            'number' => [new EqualsTo('25')]
+            'number' => [new EqualsTo('25')],
         ]);
 
         $this->assertTrue($validator->didPass());
@@ -33,11 +33,11 @@ class ValidatorFeatureTest extends TestCase
         $validator = new Validator();
         $data = [
             'number' => '256',
-            'string' => 'foo'
+            'string' => 'foo',
         ];
 
         $validator->validateInputs($data, [
-            'number' => [new AlwaysFail(), new EqualsTo('25')]
+            'number' => [new AlwaysFail(), new EqualsTo('25')],
         ]);
 
         $this->assertFalse($validator->didPass());
@@ -49,11 +49,11 @@ class ValidatorFeatureTest extends TestCase
     {
         $validator = new Validator();
         $data = [
-            'string' => 'foo'
+            'string' => 'foo',
         ];
 
         $validator->validateInputs($data, [
-            'number' => [new EqualsTo('25')]
+            'number' => [new EqualsTo('25')],
         ]);
 
         $this->assertFalse($validator->didPass());
@@ -65,13 +65,13 @@ class ValidatorFeatureTest extends TestCase
     {
         $validator = new Validator();
         $data = [
-            'string' => 'foo'
+            'string' => 'foo',
         ];
 
         $validator->validateInputs($data, [
-            'number' => [new AlwaysFail(), new EqualsTo('25')]
+            'number' => [new AlwaysFail(), new EqualsTo('25')],
         ], [
-            'number' => true
+            'number' => true,
         ]);
 
         $this->assertFalse($validator->didPass());

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Darflen\Framework\Tests\Http;
 
 use Darflen\Framework\Http\Response;
-use PHPUnit\Framework\TestCase;
 use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 
 class ResponseTest extends TestCase
 {

@@ -16,7 +16,7 @@ class AppFeatureTest extends TestCase
         $app = new App(__DIR__, $container);
 
         $app->setRouting([
-            __DIR__ . '/routes'
+            __DIR__ . '/routes',
         ]);
 
         $this->assertSame(__DIR__, $app->getProjectDir());

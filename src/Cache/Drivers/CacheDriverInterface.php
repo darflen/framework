@@ -12,9 +12,9 @@ interface CacheDriverInterface
 
     public function getMultiple(array $keys, mixed $default = null): array;
 
-    public function set(string $key, mixed $value, null|int|DateInterval $ttl = null): bool;
+    public function set(string $key, mixed $value, int|DateInterval|null $ttl = null): bool;
 
-    public function setMultiple(array $values, null|int|DateInterval $ttl = null): bool;
+    public function setMultiple(array $values, int|DateInterval|null $ttl = null): bool;
 
     public function delete(string $key): bool;
 

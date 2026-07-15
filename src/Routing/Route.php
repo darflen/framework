@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Routing;
 
-use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Http\Server\MiddlewareInterface;
 use Darflen\Framework\Support\Arr;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 class Route
 {

@@ -24,7 +24,7 @@ class View
             'output-xhtml' => true,
             'show-body-only' => true,
             'wrap' => 0,
-            'clean' => true
+            'clean' => true,
         ], 'utf8');
         $tidy->cleanRepair();
         return $tidy->value;

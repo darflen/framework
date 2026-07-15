@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Http\Factory;
 
+use Darflen\Framework\Http\Response;
 use Override;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
-use Darflen\Framework\Http\Response;
 
 class ResponseFactory implements ResponseFactoryInterface
 {

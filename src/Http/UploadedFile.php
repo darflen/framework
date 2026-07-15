@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Darflen\Framework\Http;
 
 use InvalidArgumentException;
-use Psr\Http\Message\StreamInterface;
 use Override;
+use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use RuntimeException;
 

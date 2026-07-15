@@ -6,9 +6,9 @@ namespace Darflen\Framework\Tests\Validation\Rules;
 
 use Darflen\Framework\Validation\Rules\Min;
 use Darflen\Framework\Validation\Validator;
-use PHPUnit\Framework\TestCase;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class MinRuleTest extends TestCase
 {
@@ -21,7 +21,7 @@ class MinRuleTest extends TestCase
             'foobar' => true,
             'quux' => true,
             'fizzbuzz' => true,
-            125 => true
+            125 => true,
         ];
 
         foreach ($data as $item => $valid) {

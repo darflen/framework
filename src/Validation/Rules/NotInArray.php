@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Darflen\Framework\Validation\Rules;
 
 use Darflen\Framework\Support\Arr;
-use InvalidArgumentException;
 use Override;
 
 class NotInArray implements RuleInterface

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Tests\Http;
 
-use PHPUnit\Framework\TestCase;
 use Darflen\Framework\Http\Uri;
+use PHPUnit\Framework\TestCase;
 
 class UriTest extends TestCase
 {

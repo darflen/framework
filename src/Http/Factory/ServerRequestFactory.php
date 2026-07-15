@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Http\Factory;
 
+use Darflen\Framework\Http\ServerRequest;
 use Override;
 use Psr\Http\Message\ServerRequestFactoryInterface;
-use Psr\Http\Message\RequestInterface;
-use Darflen\Framework\Http\ServerRequest;
 use Psr\Http\Message\ServerRequestInterface;
 
 class ServerRequestFactory implements ServerRequestFactoryInterface

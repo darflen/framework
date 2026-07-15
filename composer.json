@@ -48,7 +48,9 @@
             "@test:phpunit",
             "@test:phpstan"
         ],
-        "optimize": "composer dump-autoload -o"
+        "optimize": "composer dump-autoload -o",
+        "cs-fix": "./vendor/bin/php-cs-fixer fix",
+        "cs-check": "./vendor/bin/php-cs-fixer fix --dry-run --diff --ansi"
     },
     "config": {
         "preferred-install": "dist",

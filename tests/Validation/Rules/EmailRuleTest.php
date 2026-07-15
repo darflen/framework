@@ -6,9 +6,9 @@ namespace Darflen\Framework\Tests\Validation\Rules;
 
 use Darflen\Framework\Validation\Rules\Email;
 use Darflen\Framework\Validation\Validator;
-use PHPUnit\Framework\TestCase;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class EmailRuleTest extends TestCase
 {
@@ -19,7 +19,7 @@ class EmailRuleTest extends TestCase
             'foobar@yahoo.com' => true,
             'foobar@invalid-email.co.uk' => true,
             'foobar' => false,
-            '[foobar@fizzbuzz.com]' => false
+            '[foobar@fizzbuzz.com]' => false,
         ];
 
         foreach ($data as $item => $valid) {

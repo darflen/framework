@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Tests\Validation\Rules;
 
-use Darflen\Framework\Validation\Rules\Date;
 use Darflen\Framework\Validation\Rules\Digits;
 use Darflen\Framework\Validation\Validator;
-use PHPUnit\Framework\TestCase;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class DigitsRuleTest extends TestCase
 {
@@ -20,7 +19,7 @@ class DigitsRuleTest extends TestCase
             1 => false,
             529 => true,
             1239 => false,
-            'fizzbuzz' => false
+            'fizzbuzz' => false,
         ];
 
         foreach ($data as $item => $valid) {

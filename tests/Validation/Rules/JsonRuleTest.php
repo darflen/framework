@@ -6,9 +6,9 @@ namespace Darflen\Framework\Tests\Validation\Rules;
 
 use Darflen\Framework\Validation\Rules\Json;
 use Darflen\Framework\Validation\Validator;
-use PHPUnit\Framework\TestCase;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class JsonRuleTest extends TestCase
 {
@@ -18,7 +18,7 @@ class JsonRuleTest extends TestCase
             json_encode(['foo' => 'bar']) => true,
             '{{}}' => false,
             '{' => false,
-            '{"foo"=>"bar"}' => false
+            '{"foo"=>"bar"}' => false,
         ];
 
         foreach ($data as $item => $valid) {

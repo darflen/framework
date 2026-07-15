@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Tests\Security;
 
+use Darflen\Framework\Config\Config;
 use Darflen\Framework\Security\Crypt;
 use Override;
-use Darflen\Framework\Config\Config;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 

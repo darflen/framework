@@ -9,7 +9,6 @@ use Darflen\Framework\Routing\Exceptions\MethodNotAllowedException;
 use Darflen\Framework\Routing\Exceptions\NotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Darflen\Framework\Routing\Route;
 
 class Router
 {
@@ -33,7 +32,7 @@ class Router
         }
         return [
             'matched' => $matched,
-            'matches' => $matches
+            'matches' => $matches,
         ];
     }
 

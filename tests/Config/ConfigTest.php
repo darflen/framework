@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Darflen\Framework\Tests\Config;
 
 use Darflen\Framework\Config\Config;
-use Override;
 use PHPUnit\Framework\TestCase;
 
 class ConfigTest extends TestCase
@@ -65,9 +64,9 @@ class ConfigTest extends TestCase
                     'bar' => 'fizz',
                     'fizz' => 'buzz',
                     'variable' => 'fizz',
-                    'boo' => 'bar'
-                ]
-            ]
+                    'boo' => 'bar',
+                ],
+            ],
         ], $config->all());
     }
 }

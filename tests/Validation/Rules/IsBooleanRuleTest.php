@@ -6,9 +6,9 @@ namespace Darflen\Framework\Tests\Validation\Rules;
 
 use Darflen\Framework\Validation\Rules\IsBoolean;
 use Darflen\Framework\Validation\Validator;
-use PHPUnit\Framework\TestCase;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class IsBooleanRuleTest extends TestCase
 {
@@ -22,7 +22,7 @@ class IsBooleanRuleTest extends TestCase
             'off' => true,
             'no' => true,
             'false' => true,
-            '0' => true
+            '0' => true,
         ];
 
         foreach ($data as $item => $valid) {

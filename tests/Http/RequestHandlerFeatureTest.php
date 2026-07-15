@@ -28,9 +28,9 @@ class RequestHandlerFeatureTest extends TestCase
             function (ServerRequestInterface $request): ResponseInterface {
                 return new Response(200, '', [
                     'X-Went-To-Middleware' => $request->getHeaderLine('X-Went-To-Middleware'),
-                    'X-Went-To-Middleware-2' => $request->getHeaderLine('X-Went-To-Middleware-2')
+                    'X-Went-To-Middleware-2' => $request->getHeaderLine('X-Went-To-Middleware-2'),
                 ]);
-            }
+            },
         ]);
         $request = new ServerRequest('GET', 'https://localhost');
         $response = $requestHandler->handle($request);

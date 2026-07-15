@@ -6,9 +6,9 @@ namespace Darflen\Framework\Tests\Validation\Rules;
 
 use Darflen\Framework\Validation\Rules\Max;
 use Darflen\Framework\Validation\Validator;
-use PHPUnit\Framework\TestCase;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class MaxRuleTest extends TestCase
 {
@@ -21,7 +21,7 @@ class MaxRuleTest extends TestCase
             'foobar' => false,
             'quux' => false,
             'fizzbuzz' => false,
-            125 => false
+            125 => false,
         ];
 
         foreach ($data as $item => $valid) {

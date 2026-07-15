@@ -23,13 +23,13 @@ class CookieJarTest extends TestCase
         $cookieJar = new CookieJar([
             $cookieMock1,
             $cookieMock2,
-            $cookieMock3
+            $cookieMock3,
         ]);
 
         $this->assertSame([
             'fizz' => $cookieMock1,
             'buzz' => $cookieMock2,
-            'bazz' => $cookieMock3
+            'bazz' => $cookieMock3,
         ], $cookieJar->getAll());
     }
 

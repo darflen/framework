@@ -170,7 +170,7 @@ class Uri implements UriInterface
             function ($matches) {
                 return rawurlencode($matches[0]);
             },
-            $value
+            $value,
         );
     }
 
@@ -181,7 +181,7 @@ class Uri implements UriInterface
             function ($matches) {
                 return rawurlencode($matches[0]);
             },
-            $value
+            $value,
         );
     }
 }

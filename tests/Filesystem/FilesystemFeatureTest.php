@@ -7,9 +7,9 @@ namespace Darflen\Framework\Tests\Filesystem;
 use Darflen\Framework\Filesystem\Adapters\LocalDirectoryAdapter;
 use Darflen\Framework\Filesystem\Adapters\LocalFileAdapter;
 use Darflen\Framework\Filesystem\Adapters\LocalFilesystemAdapter;
-use Darflen\Framework\Filesystem\Filesystem;
-use Darflen\Framework\Filesystem\File;
 use Darflen\Framework\Filesystem\Directory;
+use Darflen\Framework\Filesystem\File;
+use Darflen\Framework\Filesystem\Filesystem;
 use Override;
 use PHPUnit\Framework\TestCase;
 

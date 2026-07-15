@@ -7,9 +7,9 @@ namespace Darflen\Framework\Tests\Container;
 use Darflen\Framework\Container\Container;
 use Darflen\Framework\Container\Exceptions\NotFoundException;
 use Override;
-use stdClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use stdClass;
 
 class ContainerTest extends TestCase
 {

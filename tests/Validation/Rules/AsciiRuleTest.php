@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Tests\Validation\Rules;
 
-use Darflen\Framework\Validation\Rules\Alpha;
 use Darflen\Framework\Validation\Rules\Ascii;
 use Darflen\Framework\Validation\Validator;
-use PHPUnit\Framework\TestCase;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class AsciiRuleTest extends TestCase
 {
@@ -23,7 +22,7 @@ class AsciiRuleTest extends TestCase
             '❤️❤️❤️' => false,
             "foo\xA0bar" => false,
             'ほげ' => false,
-            'café' => false
+            'café' => false,
         ];
 
         foreach ($data as $item => $valid) {

@@ -30,7 +30,7 @@ class Audio
             "ffmpeg.binaries" => $config->get('media.ffmpeg.binaries.processor'),
             "ffprobe.binaries" => $config->get('media.ffmpeg.binaries.probe'),
             "timeout" => $config->get('media.ffmpeg.timeout'),
-            "ffmpeg.threads" => $config->get('media.ffmpeg.threads')
+            "ffmpeg.threads" => $config->get('media.ffmpeg.threads'),
         ];
         $ffmpeg = FFMpeg::create($ffmpegParams);
         $ffprobe = FFProbe::create($ffmpegParams);

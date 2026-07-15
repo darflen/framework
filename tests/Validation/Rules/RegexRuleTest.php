@@ -6,9 +6,9 @@ namespace Darflen\Framework\Tests\Validation\Rules;
 
 use Darflen\Framework\Validation\Rules\Regex;
 use Darflen\Framework\Validation\Validator;
-use PHPUnit\Framework\TestCase;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class RegexRuleTest extends TestCase
 {
@@ -18,7 +18,7 @@ class RegexRuleTest extends TestCase
             '0A2F' => true,
             'F155BC55' => true,
             'foobar' => false,
-            'fizzbuzz' => false
+            'fizzbuzz' => false,
         ];
 
         foreach ($data as $item => $valid) {

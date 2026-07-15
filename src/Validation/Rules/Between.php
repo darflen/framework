@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Validation\Rules;
 
-use InvalidArgumentException;
 use Override;
 
 class Between implements RuleInterface

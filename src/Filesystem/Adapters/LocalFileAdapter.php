@@ -7,8 +7,8 @@ namespace Darflen\Framework\Filesystem\Adapters;
 use Darflen\Framework\Filesystem\Exceptions\FilesystemException;
 use Darflen\Framework\Filesystem\Interfaces\FileAdapterInterface;
 use Darflen\Framework\Filesystem\Interfaces\FilesystemAdapterInterface;
-use Override;
 use finfo;
+use Override;
 
 class LocalFileAdapter implements FileAdapterInterface
 {

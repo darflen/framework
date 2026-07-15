@@ -6,9 +6,9 @@ namespace Darflen\Framework\Tests\Validation\Rules;
 
 use Darflen\Framework\Validation\Rules\NotRegex;
 use Darflen\Framework\Validation\Validator;
-use PHPUnit\Framework\TestCase;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class NotRegexRuleTest extends TestCase
 {
@@ -18,7 +18,7 @@ class NotRegexRuleTest extends TestCase
             '0A2F' => false,
             'F155BC55' => false,
             'foobar' => true,
-            'fizzbuzz' => true
+            'fizzbuzz' => true,
         ];
 
         foreach ($data as $item => $valid) {

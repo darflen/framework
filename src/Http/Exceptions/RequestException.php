@@ -6,7 +6,6 @@ namespace Darflen\Framework\Http\Exceptions;
 
 use Override;
 use Psr\Http\Client\RequestExceptionInterface;
-use Darflen\Framework\Http\Exceptions\ClientException;
 use Psr\Http\Message\RequestInterface;
 use Throwable;
 

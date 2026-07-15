@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Tests\View;
 
-use Darflen\Framework\View\Template\Engine;
-use Darflen\Framework\View\View;
-use PHPUnit\Framework\TestCase;
 use Darflen\Framework\Filesystem\Factory\FilesystemFactory;
 use Darflen\Framework\View\Template\Directives\CompilesFor;
 use Darflen\Framework\View\Template\Directives\CompilesIf;
+use Darflen\Framework\View\Template\Engine;
+use Darflen\Framework\View\View;
+use PHPUnit\Framework\TestCase;
 
 class ViewFeatureTest extends TestCase
 {
@@ -19,7 +19,7 @@ class ViewFeatureTest extends TestCase
         $filesystem = $filesystemFactory->createLocalFilesystem();
         $engine = new Engine([
             new CompilesIf(),
-            new CompilesFor()
+            new CompilesFor(),
         ], $filesystem);
         $view = new View($engine);
 

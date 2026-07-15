@@ -10,6 +10,6 @@ return [
         'threads' => env('FFMPEG_THREADS', 12),
         'flags' => [
 
-        ]
-    ]
+        ],
+    ],
 ];

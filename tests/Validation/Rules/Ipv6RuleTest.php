@@ -6,9 +6,9 @@ namespace Darflen\Framework\Tests\Validation\Rules;
 
 use Darflen\Framework\Validation\Rules\Ipv6;
 use Darflen\Framework\Validation\Validator;
-use PHPUnit\Framework\TestCase;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class Ipv6RuleTest extends TestCase
 {
@@ -23,7 +23,7 @@ class Ipv6RuleTest extends TestCase
             '::' => true,
             '2001:db8:0:0:0:ff00:42:8329' => true,
             '2001:db8:3333:4444:5555:6666:7777:8888:9999' => false,
-            '2001:db8:3333:4444:5555:6666:7777:8888::' => false
+            '2001:db8:3333:4444:5555:6666:7777:8888::' => false,
         ];
 
         foreach ($data as $item => $valid) {

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Tests\Http\Factory;
 
-use PHPUnit\Framework\TestCase;
 use Darflen\Framework\Support\Factory\StreamFactory;
 use Override;
+use PHPUnit\Framework\TestCase;
 
 class StreamFactoryTest extends TestCase
 {

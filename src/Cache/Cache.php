@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Cache;
 
+use Darflen\Framework\Cache\Drivers\CacheDriverInterface;
 use Darflen\Framework\Cache\Exceptions\InvalidArgumentException;
+use DateInterval;
 use Override;
 use Psr\SimpleCache\CacheInterface;
-use Darflen\Framework\Cache\Drivers\CacheDriverInterface;
-use DateInterval;
 
 class Cache implements CacheInterface
 {
@@ -48,14 +48,14 @@ class Cache implements CacheInterface
     }
 
     #[Override]
-    public function set(string $key, mixed $value, null|int|DateInterval $ttl = null): bool
+    public function set(string $key, mixed $value, int|DateInterval|null $ttl = null): bool
     {
         $this->validateKey($key);
         return $this->strategy->set($key, $value, $ttl);
     }
 
     #[Override]
-    public function setMultiple(iterable $values, null|int|DateInterval $ttl = null): bool
+    public function setMultiple(iterable $values, int|DateInterval|null $ttl = null): bool
     {
         $this->validateKeys(array_values($values));
         return $this->strategy->setMultiple($values, $ttl);

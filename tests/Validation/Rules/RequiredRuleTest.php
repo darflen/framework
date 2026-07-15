@@ -18,14 +18,14 @@ class RequiredRuleTest extends TestCase
             'foo' => 'bar',
             'fizz' => null,
             'foobar' => '',
-            'fizzbuzz' => []
+            'fizzbuzz' => [],
         ];
 
         $validator->validateInputs($data, [
             'foo' => [new Required()],
             'fizz' => [new Required()],
             'foobar' => [new Required()],
-            'fizzbuzz' => [new Required()]
+            'fizzbuzz' => [new Required()],
         ]);
 
         $this->assertTrue(!isset($validator->getErrors()['foo']));

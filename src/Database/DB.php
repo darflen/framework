@@ -25,12 +25,12 @@ class DB
             return $this->connect;
         }
         $this->connect = new PDO(
-            'mysql:host=' . $this->config->get('database.mariadb.host') .
-                ';dbname=' . $this->config->get('database.mariadb.database') .
-                ';port=' . $this->config->get('database.mariadb.port'),
+            'mysql:host=' . $this->config->get('database.mariadb.host')
+                . ';dbname=' . $this->config->get('database.mariadb.database')
+                . ';port=' . $this->config->get('database.mariadb.port'),
             $this->config->get('database.mariadb.username'),
             $this->config->get('database.mariadb.password'),
-            $this->config->get('database.mariadb.options')
+            $this->config->get('database.mariadb.options'),
         );
         return $this->connect;
     }

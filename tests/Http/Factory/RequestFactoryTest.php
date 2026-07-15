@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Tests\Http\Factory;
 
-use PHPUnit\Framework\TestCase;
 use Darflen\Framework\Http\Factory\RequestFactory;
 use Darflen\Framework\Http\Uri;
+use PHPUnit\Framework\TestCase;
 
 class RequestFactoryTest extends TestCase
 {

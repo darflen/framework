@@ -6,8 +6,8 @@ namespace Darflen\Framework\Log;
 
 use Darflen\Framework\Config\Config;
 use Darflen\Framework\Log\Drivers\LoggerDriverInterface;
-use Darflen\Framework\Support\Str;
 use Darflen\Framework\Support\Arr;
+use Darflen\Framework\Support\Str;
 use InvalidArgumentException;
 use Override;
 use Psr\Log\LoggerInterface;

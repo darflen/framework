@@ -10,9 +10,8 @@ use Darflen\Framework\Filesystem\Adapters\LocalFileAdapter;
 use Darflen\Framework\Filesystem\Adapters\LocalFilesystemAdapter;
 use Darflen\Framework\Filesystem\Filesystem;
 use Darflen\Framework\Log\Drivers\FileLoggerDriver;
-use Override;
-use ReflectionProperty;
 use PHPUnit\Framework\TestCase;
+use ReflectionProperty;
 
 class FileLoggerDriverFeatureTest extends TestCase
 {
@@ -21,7 +20,7 @@ class FileLoggerDriverFeatureTest extends TestCase
         $config = new Config();
         $config->loadConfigDirectory(dirname(__DIR__, 3) . '/config');
         $localFilesystemAdapter = new LocalFilesystemAdapter();
-        $loggerDriver = new FileLoggerDriver(dirname(__DIR__). '/Fixtures', $config, new Filesystem($localFilesystemAdapter, new LocalDirectoryAdapter($localFilesystemAdapter), new LocalFileAdapter($localFilesystemAdapter)));
+        $loggerDriver = new FileLoggerDriver(dirname(__DIR__) . '/Fixtures', $config, new Filesystem($localFilesystemAdapter, new LocalDirectoryAdapter($localFilesystemAdapter), new LocalFileAdapter($localFilesystemAdapter)));
 
         $loggerDriver->log('Debug', 'Hello, World!', []);
         $fileReflection = new ReflectionProperty($loggerDriver::class, 'loggingPath');

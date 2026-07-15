@@ -20,7 +20,7 @@ class EngineFeatureTest extends TestCase
 
         $template = new Engine([
             new CompilesAddBarSuffix(),
-            new CompilesAddBarSuffix()
+            new CompilesAddBarSuffix(),
         ], $filesystem);
 
         $this->assertSame('foobarbar', $template->renderString('foo', []));
@@ -32,7 +32,7 @@ class EngineFeatureTest extends TestCase
         $filesystem = $filesystemFactory->createLocalFilesystem();
 
         $template = new Engine([
-            new CompilesIf()
+            new CompilesIf(),
         ], $filesystem);
 
         $this->assertSame('foo!fizzbuzz', $template->renderString('foo!@if($input)foobar@elsefizzbuzz@endif', ['input' => false]));
@@ -46,7 +46,7 @@ class EngineFeatureTest extends TestCase
 
         $template = new Engine([
             new CompilesIf(),
-            new CompilesFor()
+            new CompilesFor(),
         ], $filesystem);
         $result = $template->renderFile(__DIR__ . '/Fixtures/foo.php', ['bar' => 2]);
         $result = preg_replace('/\s+/', '', $result);

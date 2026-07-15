@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Cache\Drivers;
 
+use DateInterval;
 use Override;
 use Redis;
-use DateInterval;
 
 class RedisCacheDriver implements CacheDriverInterface
 {
@@ -17,7 +17,7 @@ class RedisCacheDriver implements CacheDriverInterface
         $this->redis = $redis;
     }
 
-    protected function parseTTL(null|int|DateInterval $ttl): ?int
+    protected function parseTTL(int|DateInterval|null $ttl): ?int
     {
         if ($ttl instanceof DateInterval) {
             $ttl = date_create('@0')->add($ttl)->getTimestamp();
@@ -46,7 +46,7 @@ class RedisCacheDriver implements CacheDriverInterface
     }
 
     #[Override]
-    public function set(string $key, mixed $value, null|int|DateInterval $ttl = null): bool
+    public function set(string $key, mixed $value, int|DateInterval|null $ttl = null): bool
     {
         $ttl = $this->parseTTL($ttl);
         if ($ttl && $ttl <= 0) {
@@ -59,7 +59,7 @@ class RedisCacheDriver implements CacheDriverInterface
     }
 
     #[Override]
-    public function setMultiple(array $values, null|int|DateInterval $ttl = null): bool
+    public function setMultiple(array $values, int|DateInterval|null $ttl = null): bool
     {
         $ttl = $this->parseTTL($ttl);
         if ($ttl === 0) {

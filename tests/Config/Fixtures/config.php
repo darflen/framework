@@ -6,6 +6,6 @@ return [
         'foo' => 'bar',
         'bar' => 'fizz',
         'fizz' => 'buzz',
-        'variable' => 'fizz'
-    ]
+        'variable' => 'fizz',
+    ],
 ];

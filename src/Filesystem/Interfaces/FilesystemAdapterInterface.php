@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Filesystem\Interfaces;
 
-use Darflen\Framework\Filesystem\File;
-use Darflen\Framework\Filesystem\Directory;
-
 interface FilesystemAdapterInterface
 {
     public function isPresent(string $path): bool;

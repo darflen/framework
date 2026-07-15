@@ -6,10 +6,9 @@ namespace Darflen\Framework\Log\Drivers;
 
 use Darflen\Framework\Config\Config;
 use Darflen\Framework\Filesystem\Filesystem;
-use Darflen\Framework\Log\Drivers\LoggerDriverInterface;
-use Stringable;
 use Override;
 use RuntimeException;
+use Stringable;
 
 class FileLoggerDriver implements LoggerDriverInterface
 {
@@ -27,7 +26,7 @@ class FileLoggerDriver implements LoggerDriverInterface
             throw new RuntimeException('Log directory is not writable');
         }
         $date = date($this->config->get('logging.fileDateFormat'));
-        $this->loggingPath = $loggingDirectory . '/' .  strtolower($this->config->get('app.name')) . '-' . $date . '.' . $this->config->get('logging.extension');
+        $this->loggingPath = $loggingDirectory . '/' . strtolower($this->config->get('app.name')) . '-' . $date . '.' . $this->config->get('logging.extension');
     }
 
     #[Override]

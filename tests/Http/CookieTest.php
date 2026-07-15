@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Tests\Http;
 
-use Darflen\Framework\Http\Factory\CookieFactory;
 use Darflen\Framework\Http\Cookie;
+use Darflen\Framework\Http\Factory\CookieFactory;
 use Override;
 use PHPUnit\Framework\TestCase;
 

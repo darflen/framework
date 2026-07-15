@@ -8,12 +8,12 @@ use Darflen\Framework\Http\Client\Client;
 use Darflen\Framework\Http\Exceptions\NetworkException;
 use Darflen\Framework\Http\Factory\RequestFactory;
 use Darflen\Framework\Http\Factory\ResponseFactory;
-use Darflen\Framework\Support\Factory\StreamFactory;
 use Darflen\Framework\Support\Arr;
+use Darflen\Framework\Support\Factory\StreamFactory;
 use Generator;
 use Override;
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class ClientFeatureTest extends TestCase
 {
@@ -42,7 +42,7 @@ class ClientFeatureTest extends TestCase
         $data = [
             'method' => ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
             'path' => ['/status'],
-            'code' => [200, 301, 302, 400, 500]
+            'code' => [200, 301, 302, 400, 500],
         ];
 
         foreach (Arr::cartesian($data) as $combo) {
@@ -55,7 +55,7 @@ class ClientFeatureTest extends TestCase
         $data = [
             'POST',
             'PATCH',
-            'PUT'
+            'PUT',
         ];
 
         foreach ($data as $item) {
@@ -68,7 +68,7 @@ class ClientFeatureTest extends TestCase
         $data = [
             'brotli',
             'gzip',
-            'deflate'
+            'deflate',
         ];
 
         foreach ($data as $item) {

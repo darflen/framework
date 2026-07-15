@@ -12,5 +12,5 @@ return [
     'from' => [
         'address' => env('EMAIL_ADDRESS', 'example@example.com'),
         'name' => env('APP_NAME', 'Darflen'),
-    ]
+    ],
 ];

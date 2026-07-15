@@ -30,11 +30,11 @@ class AudioFeatureTest extends TestCase
             'ffmpeg' => [
                 'binaries' => [
                     'processor' => $ffmpeg,
-                    'probe' => $ffprobe
+                    'probe' => $ffprobe,
                 ],
                 'timeout' => 3600,
-                'threads' => 12
-            ]
+                'threads' => 12,
+            ],
         ]);
         self::$config = $config;
     }

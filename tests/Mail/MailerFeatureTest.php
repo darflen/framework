@@ -38,11 +38,11 @@ class MailerFeatureTest extends TestCase
             'from' => [
                 'address' => 'foobar@fizzbuzz.com',
                 'name' => 'Darflen',
-            ]
+            ],
         ]);
         self::$config = $config;
         self::$view = new View(new Engine([
-            new CompilesBrackets()
+            new CompilesBrackets(),
         ], (new FilesystemFactory())->createLocalFilesystem()));
     }
 

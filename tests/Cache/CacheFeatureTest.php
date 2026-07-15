@@ -7,9 +7,9 @@ namespace Darflen\Framework\Tests\Cache;
 use Darflen\Framework\Cache\Cache;
 use Darflen\Framework\Cache\Drivers\RedisCacheDriver;
 use Darflen\Framework\Cache\Exceptions\InvalidArgumentException;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Redis;
-use Override;
 
 class CacheFeatureTest extends TestCase
 {
@@ -32,7 +32,7 @@ class CacheFeatureTest extends TestCase
         self::$cache->setMultiple([
             'foo' => 'bar',
             'fizz' => 'buzz',
-            'bazz' => 'fazz'
+            'bazz' => 'fazz',
         ]);
         self::$cache->set('bar', 'baz');
         $results = self::$cache->getMultiple(['foo', 'bazz']);

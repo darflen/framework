@@ -6,9 +6,9 @@ namespace Darflen\Framework\Tests\Validation\Rules;
 
 use Darflen\Framework\Validation\Rules\Ipv4;
 use Darflen\Framework\Validation\Validator;
-use PHPUnit\Framework\TestCase;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class Ipv4RuleTest extends TestCase
 {
@@ -20,7 +20,7 @@ class Ipv4RuleTest extends TestCase
             '0.0.0.0' => true,
             '0.1.2' => false,
             '256.zero.zero.one' => false,
-            '127.000.000.001' => false
+            '127.000.000.001' => false,
         ];
 
         foreach ($data as $item => $valid) {

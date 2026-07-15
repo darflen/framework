@@ -6,9 +6,9 @@ namespace Darflen\Framework\Tests\Validation\Rules;
 
 use Darflen\Framework\Validation\Rules\Date;
 use Darflen\Framework\Validation\Validator;
-use PHPUnit\Framework\TestCase;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class DateRuleTest extends TestCase
 {
@@ -18,7 +18,7 @@ class DateRuleTest extends TestCase
             'December 1st 2026' => true,
             '2026-12-01' => true,
             'foo bar baz' => false,
-            '-1907/13/42' => false
+            '-1907/13/42' => false,
         ];
 
         foreach ($data as $item => $valid) {

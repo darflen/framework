@@ -6,9 +6,9 @@ namespace Darflen\Framework\Tests\Validation\Rules;
 
 use Darflen\Framework\Validation\Rules\Between;
 use Darflen\Framework\Validation\Validator;
-use PHPUnit\Framework\TestCase;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class BetweenRuleTest extends TestCase
 {
@@ -22,7 +22,7 @@ class BetweenRuleTest extends TestCase
             'foobarbaz' => false,
             'fizzbuzz' => false,
             125 => false,
-            4 => true
+            4 => true,
         ];
 
         foreach ($data as $item => $valid) {

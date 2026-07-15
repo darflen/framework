@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Tests\Routing;
 
-use Darflen\Framework\Http\Response;
 use Darflen\Framework\Http\Factory\RequestHandlerFactory;
 use Darflen\Framework\Http\Factory\ServerRequestFactory;
+use Darflen\Framework\Http\Response;
 use Darflen\Framework\Routing\Exceptions\MethodNotAllowedException;
 use Darflen\Framework\Routing\Exceptions\NotFoundException;
-use Psr\Http\Message\ResponseInterface;
 use Darflen\Framework\Routing\RouteCollector;
 use Darflen\Framework\Routing\Router;
 use Override;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
 
 class RouterFeatureTest extends TestCase
 {

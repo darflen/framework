@@ -9,8 +9,8 @@ use Darflen\Framework\Http\Client\Sender;
 use Darflen\Framework\Http\Factory\RequestFactory;
 use Darflen\Framework\Http\Factory\ResponseFactory;
 use Darflen\Framework\Support\Factory\StreamFactory;
-use Override;
 use Generator;
+use Override;
 use PHPUnit\Framework\TestCase;
 
 class SenderFeatureTest extends TestCase
@@ -43,7 +43,7 @@ class SenderFeatureTest extends TestCase
         $data = [
             'POST',
             'PATCH',
-            'PUT'
+            'PUT',
         ];
 
         foreach ($data as $item) {
@@ -94,7 +94,7 @@ class SenderFeatureTest extends TestCase
     public function testPost(): void
     {
         $response = $this->sender->post('http://127.0.0.1:8000/post', [
-            'Content-Type' => 'application/json'
+            'Content-Type' => 'application/json',
         ], '{"foo":"bar"}');
         $body = (string) $response->getBody();
         $json = json_decode($body, true);
@@ -109,7 +109,7 @@ class SenderFeatureTest extends TestCase
     public function testPut(): void
     {
         $response = $this->sender->put('http://127.0.0.1:8000/put', [
-            'Content-Type' => 'application/json'
+            'Content-Type' => 'application/json',
         ], '{"foo":"bar"}');
         $body = (string) $response->getBody();
         $json = json_decode($body, true);
@@ -124,7 +124,7 @@ class SenderFeatureTest extends TestCase
     public function testPatch(): void
     {
         $response = $this->sender->patch('http://127.0.0.1:8000/patch', [
-            'Content-Type' => 'application/json'
+            'Content-Type' => 'application/json',
         ], '{"foo":"bar"}');
         $body = (string) $response->getBody();
         $json = json_decode($body, true);

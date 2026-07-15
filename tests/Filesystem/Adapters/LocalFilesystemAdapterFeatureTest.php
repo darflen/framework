@@ -19,8 +19,8 @@ class LocalFilesystemAdapterFeatureTest extends TestCase
 
         self::$tempDirectory = sys_get_temp_dir() . '/framework_' . uniqid('test_dir_', true);
         mkdir(self::$tempDirectory);
-        mkdir(self::$tempDirectory. '/fizzbuzz');
-        mkdir(self::$tempDirectory. '/fizzbuzz/foobar');
+        mkdir(self::$tempDirectory . '/fizzbuzz');
+        mkdir(self::$tempDirectory . '/fizzbuzz/foobar');
         touch(self::$tempDirectory . '/fizzbuzz/fizz.txt', 3, 5);
         touch(self::$tempDirectory . '/fizzbuzz/buzz.txt', 3, 5);
         touch(self::$tempDirectory . '/fizzbuzz/bazz.txt', 3, 5);

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Tests\Support;
 
-use PHPUnit\Framework\TestCase;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class HelpersTest extends TestCase
 {
@@ -27,7 +27,7 @@ class HelpersTest extends TestCase
             'C:/foo\././.\../fizzbuzz.php' => 'C:/fizzbuzz.php',
             '/../../../../foo/bar' => '/foo/bar',
             'foo///bar\\\\foobar.php' => 'foo/bar/foobar.php',
-            'D:\\foo\\bar' => 'D:/foo/bar'
+            'D:\\foo\\bar' => 'D:/foo/bar',
         ];
 
         foreach ($data as $input => $expected) {

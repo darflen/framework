@@ -7,8 +7,8 @@ namespace Darflen\Framework\Filesystem\Adapters;
 use Darflen\Framework\Filesystem\Exceptions\FilesystemException;
 use Darflen\Framework\Filesystem\Interfaces\FilesystemAdapterInterface;
 use Override;
-use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 class LocalFilesystemAdapter implements FilesystemAdapterInterface
 {
@@ -67,7 +67,7 @@ class LocalFilesystemAdapter implements FilesystemAdapterInterface
         }
         $iterator = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
-            RecursiveIteratorIterator::CHILD_FIRST
+            RecursiveIteratorIterator::CHILD_FIRST,
         );
         foreach ($iterator as $file) {
             if ($file->isDir()) {
@@ -114,7 +114,7 @@ class LocalFilesystemAdapter implements FilesystemAdapterInterface
         mkdir($to, 0777, true);
         $iterator = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($from, RecursiveDirectoryIterator::SKIP_DOTS),
-            RecursiveIteratorIterator::SELF_FIRST
+            RecursiveIteratorIterator::SELF_FIRST,
         );
         foreach ($iterator as $item) {
             $sourcePath = $item->getPathname();

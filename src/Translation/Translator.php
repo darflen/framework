@@ -31,10 +31,10 @@ class Translator
             if (is_null($count)) {
                 break;
             }
-            if ((int)$min <= $count && ((int)$max >= $count || $max === '*')) {
+            if ((int) $min <= $count && ((int) $max >= $count || $max === '*')) {
                 break;
             }
-            if ($count === (int)$pluralizeCount) {
+            if ($count === (int) $pluralizeCount) {
                 break;
             }
             if (($matches['count'] ?? '') === '' && ($matches['min'] ?? '') === '' && ($matches['max'] ?? '') === '' && ($index === (abs($count) < 2 ? 0 : $count))) {

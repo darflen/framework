@@ -6,6 +6,4 @@ namespace Darflen\Framework\Cache\Exceptions;
 
 use RuntimeException;
 
-class CacheException extends RuntimeException
-{
-}
+class CacheException extends RuntimeException {}

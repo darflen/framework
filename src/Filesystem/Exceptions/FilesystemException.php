@@ -6,6 +6,4 @@ namespace Darflen\Framework\Filesystem\Exceptions;
 
 use RuntimeException;
 
-class FilesystemException extends RuntimeException
-{
-}
+class FilesystemException extends RuntimeException {}

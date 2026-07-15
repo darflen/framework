@@ -7,11 +7,11 @@ namespace Darflen\Framework\Media;
 use Darflen\Framework\Config\Config;
 use FFMpeg\Coordinate\Dimension;
 use FFMpeg\Coordinate\TimeCode;
-use FFMpeg\Format\Video\X264;
 use FFMpeg\FFMpeg;
 use FFMpeg\FFProbe;
 use FFMpeg\FFProbe\DataMapping\Format;
 use FFMpeg\Filters\Video\ResizeFilter;
+use FFMpeg\Format\Video\X264;
 use FFMpeg\Media\Video as MediaVideo;
 use InvalidArgumentException;
 
@@ -32,7 +32,7 @@ class Video
             "ffmpeg.binaries" => $config->get('media.ffmpeg.binaries.processor'),
             "ffprobe.binaries" => $config->get('media.ffmpeg.binaries.probe'),
             "timeout" => $config->get('media.ffmpeg.timeout'),
-            "ffmpeg.threads" => $config->get('media.ffmpeg.threads')
+            "ffmpeg.threads" => $config->get('media.ffmpeg.threads'),
         ];
         $ffmpeg = FFMpeg::create($ffmpegParams);
         $ffprobe = FFProbe::create($ffmpegParams);

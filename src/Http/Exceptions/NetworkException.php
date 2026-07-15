@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Darflen\Framework\Http\Exceptions;
 
 use Override;
-use Darflen\Framework\Http\Exceptions\ClientException;
 use Psr\Http\Client\NetworkExceptionInterface;
 use Psr\Http\Message\RequestInterface;
 use Throwable;
