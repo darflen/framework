@@ -10,7 +10,7 @@
             <img src="https://img.shields.io/packagist/v/darflen/framework" alt="Latest Stable Version">
         </a>
         <a href="https://packagist.org/packages/darflen/framework">
-            <img src="https://img.shields.io/packagist/l/darflen/framework" alt="License">
+            <img src="https://img.shields.io/packagist/l/darflen/framework?v=2" alt="License">
         </a>
     </div>
 </h1>
