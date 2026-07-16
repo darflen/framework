@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Tests\Database;
 
-use PHPUnit\Framework\TestCase;
+use Darflen\Framework\Config\Config;
 use Darflen\Framework\Database\DB;
 use Override;
-use Darflen\Framework\Config\Config;
 use Pdo;
+use PHPUnit\Framework\TestCase;
 
 class DBFeatureTest extends TestCase
 {
@@ -32,7 +32,7 @@ class DBFeatureTest extends TestCase
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                     PDO::ATTR_EMULATE_PREPARES => false,
                 ],
-            ]
+            ],
         ]);
         self::$config = $config;
     }
