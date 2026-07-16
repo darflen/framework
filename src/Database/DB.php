@@ -30,7 +30,7 @@ class DB
                 . ';port=' . $this->config->get('database.mariadb.port'),
             $this->config->get('database.mariadb.username'),
             $this->config->get('database.mariadb.password'),
-            $this->config->get('database.mariadb.options'),
+            $this->config->get('database.mariadb.options') ?? [],
         );
         return $this->connect;
     }

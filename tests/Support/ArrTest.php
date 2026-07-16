@@ -49,11 +49,14 @@ class ArrTest extends TestCase
 
     public function testRemove(): void
     {
-        $input = ['fizz' => 'bazz'];
+        $input = ['fizz' => 'bazz', 'foo' => ['value' => 'bar'], 'bazz' => ['value' => 'buzz']];
 
         Arr::remove($input, 'fizz');
+        Arr::remove($input, 'bazz');
 
         $this->assertSame('success', Arr::get($input, 'fizz', 'success'));
+        $this->assertSame('success', Arr::get($input, 'bazz', 'success'));
+        $this->assertSame(['value' => 'bar'], Arr::get($input, 'foo', 'failure'));
         $this->assertNotSame('bazz', Arr::get($input, 'fizz', 'success'));
     }
 

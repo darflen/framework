@@ -86,9 +86,19 @@ class Arr
 
     public static function remove(array &$array, string $key): void
     {
-        $array = self::dot($array);
-        unset($array[$key]);
-        $array = self::undot($array);
+        if ($key === '') {
+            $array = [];
+        }
+        $key = explode('.', $key);
+        foreach ($key as $index => $segment) {
+            if (count($key) - 1 === $index) {
+                unset($array[$segment]);
+            } elseif (isset($array[$segment]) && is_array($array[$segment])) {
+                $array = &$array[$segment];
+            } else {
+                break;
+            }
+        }
     }
 
     public static function cartesian(array $input): Generator
