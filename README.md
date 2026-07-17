@@ -1,7 +1,7 @@
 <h1 align="center">
     <img src="https://static.darflen.com/img/favicons/apple-touch-icon-precomposed.png" align="left" alt="Darflen logo" height="72">
-    <img src="https://static.darflen.com/img/favicons/apple-touch-icon-precomposed.png" align="right" alt="Darflen logo" height="72">
     <span>Darflen Framework</span>
+    <img src="https://static.darflen.com/img/favicons/apple-touch-icon-precomposed.png" align="right" alt="Darflen logo" height="72">
     <div align="center">
         <a href="https://github.com/darflen/framework/actions">
             <img src="https://github.com/darflen/framework/actions/workflows/php.yml/badge.svg" alt="Build Status">
