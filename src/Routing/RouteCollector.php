@@ -11,9 +11,35 @@ class RouteCollector
 {
     private array $routes = [];
 
+    private array $stack = [];
+
+    public function group(string $prefix, callable $callback, string $host = '', array $middlewares = []): void
+    {
+        $this->stack[] = [
+            'prefix' => $prefix,
+            'middlewares' => $middlewares,
+            'host' => $host,
+        ];
+        $callback($this);
+        array_pop($this->stack);
+    }
+
     public function map(string|array $methods, string $path, RequestHandlerInterface|callable $handler): self
     {
+        $prefix = '';
+        foreach ($this->stack as $stack) {
+            $prefix .= $stack['prefix'];
+        }
+        $path = $prefix . $path;
         $route = new Route($methods, $path, $handler);
+        foreach ($this->stack as $stack) {
+            foreach ($stack['middlewares'] as $middleware) {
+                $route = $route->withAddedMiddleware($middleware);
+            }
+            if ($stack['host'] !== '') {
+                $route = $route->withHost($stack['host']);
+            }
+        }
         $this->routes[] = $route;
         return $this;
     }
@@ -48,6 +74,11 @@ class RouteCollector
         return $this->map('ANY', $path, $handler);
     }
 
+    public function getRoutes(): array
+    {
+        return $this->routes;
+    }
+
     public function addMiddleware(MiddlewareInterface|callable|array $middleware): self
     {
         $lastestRoute = array_key_last($this->routes);
@@ -75,11 +106,6 @@ class RouteCollector
         $lastestRoute = array_key_last($this->routes);
         $this->routes[$lastestRoute] = $this->routes[$lastestRoute]->withHost($host);
         return $this;
-    }
-
-    public function getRoutes(): array
-    {
-        return $this->routes;
     }
 
     public function setConstraint(string $parameter, string $regex): self

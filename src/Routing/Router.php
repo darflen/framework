@@ -41,8 +41,9 @@ class Router
         $path = $serverRequest->getUri()->getPath();
         $constraints = $route->getAttribute('constraints', []);
         $host = $serverRequest->getUri()->getHost();
+        $routeHost = $route->getHost();
         $matches = $this->matchPath($constraints, $route->getPath(), $path);
-        if ($host !== $route->getHost()) {
+        if ($host !== $routeHost && $routeHost !== '') {
             $matches['matched'] = false;
         }
         return $matches;

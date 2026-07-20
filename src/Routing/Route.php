@@ -12,9 +12,9 @@ class Route
 {
     private array $attributes = [];
 
-    private string $name;
+    private string $name = '';
 
-    private string $host;
+    private string $host = '';
 
     private array $methods;
 
@@ -145,10 +145,5 @@ class Route
     public function getAttribute(string $name, mixed $default = null): mixed
     {
         return Arr::get($this->attributes, $name, $default);
-    }
-
-    protected function setAttribute(string $name, mixed $value): void
-    {
-        Arr::set($this->attributes, $name, $value);
     }
 }

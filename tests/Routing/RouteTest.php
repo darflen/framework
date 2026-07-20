@@ -31,6 +31,7 @@ class RouteTest extends TestCase
         $route = new Route('POST', '/foo/bar', []);
 
         $route = $route->withMethods(['GET', 'PATCH']);
+        $route = $route->withHost('api.foobar.com');
         $route = $route->withAddedMethod('POST');
         $route = $route->withPath('/fizz/buzz');
         $route = $route->withMiddlewares([$middlewareMock1]);
@@ -41,6 +42,7 @@ class RouteTest extends TestCase
         $route = $route->withAttribute('fizz', 'buzz');
 
         $this->assertSame(['GET', 'PATCH', 'POST'], $route->getMethods());
+        $this->assertSame('api.foobar.com', $route->getHost());
         $this->assertSame('/fizz/buzz', $route->getPath());
         $this->assertSame('fizzbuzz', $route->getName());
         $this->assertSame($requestHandlerMock, $route->getHandler());

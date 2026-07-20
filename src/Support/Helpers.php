@@ -29,7 +29,7 @@ if (!function_exists('NormalizePath')) {
         if ($drive !== '/' && $drive !== '') {
             $path = substr($path, 2);
         }
-        $path = str_replace(["/", "\\"], '/', $path);
+        $path = str_replace(['/', '\\'], '/', $path);
         $path = preg_replace('#[\\\/]+#', '/', $path);
         $parts = explode('/', $path);
         $absolutes = [];

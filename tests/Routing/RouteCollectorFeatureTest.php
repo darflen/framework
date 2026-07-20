@@ -27,10 +27,11 @@ class RouteCollectorFeatureTest extends TestCase
     {
         $routeCollector = new RouteCollector();
 
-        $routeCollector->map('GET', '/fizzbuzz', fn () => 'foobar')->addMiddlewares([fn () => 'fizzbuzz'])->addMiddleware(fn () => 'foobar')->setName('foobarfizzbuzz');
+        $routeCollector->map('GET', '/fizzbuzz', fn () => 'foobar')->addMiddlewares([fn () => 'fizzbuzz'])->addMiddleware(fn () => 'foobar')->setName('foobarfizzbuzz')->setHost('api.foobar.com');
         $routes = $routeCollector->getRoutes();
 
         $this->assertSame('foobarfizzbuzz', $routes[0]->getName());
+        $this->assertSame('api.foobar.com', $routes[0]->GetHost());
         $this->assertSame('fizzbuzz', $routes[0]->getMiddlewares()[0]());
         $this->assertSame('foobar', $routes[0]->getMiddlewares()[1]());
     }

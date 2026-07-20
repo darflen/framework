@@ -34,9 +34,25 @@ class RouterFeatureTest extends TestCase
         $this->routeCollector->map('ANY', '/foo', function (): ResponseInterface {
             return new Response(200, '', [], 'Hello, World!');
         });
+        $this->routeCollector->map('ANY', '/foobar', function (): ResponseInterface {
+            return new Response(200, '', [], 'Hello, Foobar!');
+        })->setHost('api.fizzbuzz.test');
         $this->routeCollector->map('ANY', '/bar/{value}', function (): ResponseInterface {
             return new Response(200, '', [], 'Hello, World!');
         })->setConstraint('value', '[A-Za-z]+');
+        $this->routeCollector->group('/fizz', function (RouteCollector $route) {
+            $route->map('GET', '/', function (): ResponseInterface {
+                return new Response(200, '', [], 'Hello, Fizz!');
+            });
+            $route->map('GET', '/buzz', function (): ResponseInterface {
+                return new Response(200, '', [], 'Hello, Buzz!');
+            });
+            $this->routeCollector->group('/bazz', function (RouteCollector $route) {
+                $route->map('GET', '/bazz', function (): ResponseInterface {
+                    return new Response(200, '', [], 'Hello, Bazz!');
+                });
+            });
+        }, 'api.fizzbuzz.test');
         $this->serverRequestFactory = new ServerRequestFactory();
     }
 
@@ -47,6 +63,42 @@ class RouterFeatureTest extends TestCase
         $response = $this->router->dispatch($this->routeCollector->getRoutes(), $serverRequest);
 
         $this->assertSame('Hello, World!', (string) $response->getBody());
+    }
+
+    public function testDispatchWithHost(): void
+    {
+        $serverRequest = $this->serverRequestFactory->createServerRequest('GET', 'https://api.fizzbuzz.test/foobar');
+
+        $response = $this->router->dispatch($this->routeCollector->getRoutes(), $serverRequest);
+
+        $this->assertSame('Hello, Foobar!', (string) $response->getBody());
+    }
+
+    public function testDispatchThrowsExceptionWithWrongHost(): void
+    {
+        $serverRequest = $this->serverRequestFactory->createServerRequest('GET', 'https://static.fizzbuzz.test/foobar');
+
+        $this->expectException(NotFoundException::class);
+
+        $this->router->dispatch($this->routeCollector->getRoutes(), $serverRequest);
+    }
+
+    public function testDispatchInGroup(): void
+    {
+        $serverRequest = $this->serverRequestFactory->createServerRequest('GET', 'https://api.fizzbuzz.test/fizz/buzz');
+
+        $response = $this->router->dispatch($this->routeCollector->getRoutes(), $serverRequest);
+
+        $this->assertSame('Hello, Buzz!', (string) $response->getBody());
+    }
+
+    public function testDispatchInNestedGroup(): void
+    {
+        $serverRequest = $this->serverRequestFactory->createServerRequest('GET', 'https://api.fizzbuzz.test/fizz/bazz/bazz');
+
+        $response = $this->router->dispatch($this->routeCollector->getRoutes(), $serverRequest);
+
+        $this->assertSame('Hello, Bazz!', (string) $response->getBody());
     }
 
     public function testDispatchThrowsExceptionWhenBadMethod(): void
