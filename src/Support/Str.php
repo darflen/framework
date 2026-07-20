@@ -15,7 +15,7 @@ class Str
      * @param  array $context
      * @return string
      */
-    public static function swrap(string $string, array $context = []): string
+    public static function interpolate(string $string, array $context = []): string
     {
         $context = Arr::dot($context);
         $replace = [];

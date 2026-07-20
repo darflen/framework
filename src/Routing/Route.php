@@ -12,6 +12,10 @@ class Route
 {
     private array $attributes = [];
 
+    private string $name;
+
+    private string $host;
+
     private array $methods;
 
     private string $path;
@@ -35,7 +39,12 @@ class Route
 
     public function getName(): string
     {
-        return $this->getAttribute('name', '');
+        return $this->name;
+    }
+
+    public function getHost(): string
+    {
+        return $this->host;
     }
 
     public function getMethods(): array
@@ -61,7 +70,14 @@ class Route
     public function withName(string $name): self
     {
         $clone = clone $this;
-        $clone->setAttribute('name', $name);
+        $clone->name = $name;
+        return $clone;
+    }
+
+    public function withHost(string $host): self
+    {
+        $clone = clone $this;
+        $clone->host = $host;
         return $clone;
     }
 

@@ -9,9 +9,9 @@ use PHPUnit\Framework\TestCase;
 
 class StrTest extends TestCase
 {
-    public function testSwrap(): void
+    public function testInterpolate(): void
     {
-        $result = Str::swrap('The quick brown {foo} jumps over the lazy {bar}', ['{foo}' => 'fox', '{bar}' => 'dog']);
+        $result = Str::interpolate('The quick brown {foo} jumps over the lazy {bar}', ['{foo}' => 'fox', '{bar}' => 'dog']);
 
         $this->assertSame('The quick brown fox jumps over the lazy dog', $result);
     }
