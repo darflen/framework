@@ -70,6 +70,13 @@ class RouteCollector
         return $this;
     }
 
+    public function setHost(string $host): self
+    {
+        $lastestRoute = array_key_last($this->routes);
+        $this->routes[$lastestRoute] = $this->routes[$lastestRoute]->withHost($host);
+        return $this;
+    }
+
     public function getRoutes(): array
     {
         return $this->routes;

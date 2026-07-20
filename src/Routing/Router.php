@@ -19,13 +19,13 @@ class Router
         $this->requestHandlerFactory = $requestHandlerFactory;
     }
 
-    protected function match(Route $route, string $routerPath, string $path): array
+    protected function matchPath(array $constraints, string $routerPath, string $path): array
     {
         $pattern = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '(?P<$1>[^/]+)', $routerPath);
         $pattern = '#^' . $pattern . '$#';
         $matched = preg_match($pattern, $path, $matches);
         $matches = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
-        foreach ($route->getAttribute('constraints', []) as $parameter => $constraint) {
+        foreach ($constraints as $parameter => $constraint) {
             if (isset($matches[$parameter]) && !preg_match('/' . $constraint . '/', $matches[$parameter])) {
                 $matched = false;
             }
@@ -36,12 +36,23 @@ class Router
         ];
     }
 
-    public function dispatch(array $routes, ServerRequestInterface $serverRequest): ResponseInterface
+    protected function match(Route $route, ServerRequestInterface $serverRequest): array
     {
         $path = $serverRequest->getUri()->getPath();
+        $constraints = $route->getAttribute('constraints', []);
+        $host = $serverRequest->getUri()->getHost();
+        $matches = $this->matchPath($constraints, $route->getPath(), $path);
+        if ($host !== $route->getHost()) {
+            $matches['matched'] = false;
+        }
+        return $matches;
+    }
+
+    public function dispatch(array $routes, ServerRequestInterface $serverRequest): ResponseInterface
+    {
         $method = $serverRequest->getMethod();
         foreach ($routes as $route) {
-            $matches = $this->match($route, $route->getPath(), $path);
+            $matches = $this->match($route, $serverRequest);
             if ($matches['matched']) {
                 if (!in_array($method, $route->getMethods()) && !in_array('ANY', $route->getMethods())) {
                     throw new MethodNotAllowedException('Method is not allowed');
