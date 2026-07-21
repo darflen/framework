@@ -29,6 +29,12 @@ class Cookie
 
     private string $sameSite;
 
+    public const string SAME_SITE_LAX = 'Lax';
+
+    public const string SAME_SITE_STRICT = 'Strict';
+
+    public const string SAME_SITE_NONE = 'None';
+
     public function __construct(string $name, string $value = '', int $expiresAt = 0, string $path = '', string $domain = '', bool $secure = false, bool $httpOnly = false, string $sameSite = '')
     {
         $this->name = $name;
@@ -147,10 +153,10 @@ class Cookie
     private function validateSameSite(string $sameSite): void
     {
         $sameSite = ucfirst(strtolower($sameSite));
-        if (!in_array($sameSite, ['', 'Lax', 'Strict', 'None'])) {
+        if (!in_array($sameSite, ['', self::SAME_SITE_LAX, self::SAME_SITE_STRICT, self::SAME_SITE_NONE])) {
             throw new InvalidArgumentException('Not a valid value for sameSite attribute');
         }
-        if ($sameSite === 'None' && !$this->isSecure()) {
+        if ($sameSite === self::SAME_SITE_NONE && !$this->isSecure()) {
             throw new InvalidArgumentException('Not a valid value for sameSite attribute when not secure');
         }
     }

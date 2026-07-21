@@ -16,7 +16,7 @@ class ArrayCacheDriver implements CacheDriverInterface
 
     private DateTimeInterface $dateTime;
 
-    private const STRING CACHE_KEY = 'CACHE_DATA';
+    private const STRING CACHE_KEY = '_CACHE_DATA';
 
     public function __construct(?array &$array, DateTimeInterface $dateTime)
     {
@@ -42,7 +42,7 @@ class ArrayCacheDriver implements CacheDriverInterface
 
     protected function getCacheKey(string $key): string
     {
-        return self::CACHE_KEY . '_' . $key;
+        return self::CACHE_KEY . '.' . $key;
     }
 
     #[Override]
