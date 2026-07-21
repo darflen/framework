@@ -47,4 +47,18 @@ class DB
         $query->execute($parameters);
         return $query;
     }
+
+    public function transaction(callable $callback): mixed
+    {
+        $query = $this->connect();
+        $query->beginTransaction();
+        try {
+            $result = $callback($this);
+            $query->commit();
+            return $result;
+        } catch (\Throwable $throwable) {
+            $query->rollBack();
+            throw $throwable;
+        }
+    }
 }

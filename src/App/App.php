@@ -9,67 +9,70 @@ use Psr\Http\Server\MiddlewareInterface;
 
 final class App
 {
-    private static ContainerInterface $container;
+    private ContainerInterface $container;
 
-    private static ?string $projectDir = null;
+    private ?string $projectDir = null;
 
-    private static array $routes = [];
+    private array $routes = [];
 
-    private static array $middlewares = [];
+    private array $middlewares = [];
+
+    private static ?self $instance = null;
 
     public function __construct(string $projectDir, ContainerInterface $container)
     {
-        self::$projectDir = $projectDir;
-        self::$container = $container;
+        $this->projectDir = $projectDir;
+        $this->container = $container;
+        self::$instance = $this;
     }
 
     public function create(): void
     {
-        foreach (self::$routes as $route) {
+        foreach ($this->routes as $route) {
             include_once $route;
         }
     }
 
     public function getProjectDir(): ?string
     {
-        return self::$projectDir;
+        return $this->projectDir;
     }
 
     public function getRoutes(): array
     {
-        return self::$routes;
+        return $this->routes;
     }
 
     public function getMiddlewares(): array
     {
-        return self::$middlewares;
+        return $this->middlewares;
     }
 
     public function getContainer(): ContainerInterface
     {
-        return self::$container;
+        return $this->container;
     }
 
     public function setRouting(array $routes): self
     {
-        self::$routes = $routes;
+        $this->routes = $routes;
         return $this;
     }
 
     public function addMiddleware(MiddlewareInterface|callable|array $middleware): self
     {
-        array_push(self::$middlewares, $middleware);
+        array_push($this->middlewares, $middleware);
         return $this;
     }
 
     public function setMiddlewares(array $middlewares): self
     {
-        self::$middlewares = $middlewares;
+        $this->middlewares = $middlewares;
         return $this;
     }
 
-    public static function getApp(): static
+    public static function getInstance(): self
     {
-        return new static(self::$projectDir, self::$container);
+        return self::$instance;
     }
 }

@@ -50,4 +50,16 @@ class DBFeatureTest extends TestCase
         $this->assertEquals(10, $database->preparedQuery("SELECT 5 + ? AS result", [5])->fetch()["result"]);
         $this->assertEquals(30, $database->preparedQuery("SELECT 10 + ? AS result", [20])->fetch()["result"]);
     }
+
+    public function testTransaction(): void
+    {
+        $database = new DB(self::$config);
+
+        $result = $database->transaction(function (DB $database) {
+            $answer = $database->preparedQuery("SELECT 5 + ? AS result", [5])->fetch()["result"] + $database->preparedQuery("SELECT 5 + ? AS result", [5])->fetch()["result"];
+            return $answer;
+        });
+
+        $this->assertSame(20, (int) $result);
+    }
 }

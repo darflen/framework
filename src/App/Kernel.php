@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Darflen\Framework\App;
 
 use Darflen\Framework\Http\Factory\RequestHandlerFactory;
-use Darflen\Framework\Http\Response;
 use Darflen\Framework\Routing\RouteCollector;
 use Darflen\Framework\Routing\Router;
 use Psr\Http\Message\ResponseInterface;
@@ -35,11 +34,7 @@ class Kernel
         $routes = $this->routeCollector->getRoutes();
         $stack = $this->app->getMiddlewares();
         $stack[] = function (ServerRequestInterface $request) use ($router, $routes): ResponseInterface {
-            try {
-                return $router->dispatch($routes, $request);
-            } catch (\Throwable $e) {
-                return new Response(500, '', [], 'Something Went Wrong! ' . (string) $e);
-            }
+            return $router->dispatch($routes, $request);
         };
         $serverHandler = $this->requestHandlerFactory->createRequestHandler($stack);
         return $serverHandler->handle($serverRequest);

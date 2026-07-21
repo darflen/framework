@@ -10,7 +10,7 @@ use Psr\Container\ContainerInterface;
 
 class Container implements ContainerInterface
 {
-    private array $services = [];
+    public array $services = [];
 
     public function __construct(array $services)
     {
@@ -21,7 +21,7 @@ class Container implements ContainerInterface
     public function get(string $id): object
     {
         if (!$this->has($id)) {
-            throw new NotFoundException('Service with ID not found');
+            throw new NotFoundException("Service with ID: {$id} not found");
         }
         return $this->services[$id];
     }

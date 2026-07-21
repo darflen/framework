@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use Darflen\Framework\App\App;
+use Darflen\Framework\Container\Container;
+use Darflen\Framework\Translation\Translator;
+
 if (!function_exists('env')) {
     function env(string $key, mixed $default = ''): mixed
     {
@@ -48,7 +52,7 @@ if (!function_exists('NormalizePath')) {
     }
 }
 
-if (!function_exists('safeShell')) {
+if (!function_exists('safePhpShell')) {
     /**
      * Create a new php instance and run a PHP file
      *
@@ -58,7 +62,7 @@ if (!function_exists('safeShell')) {
      * @param  array $data
      * @return string|false|null
      */
-    function safeShell(string $file, array $data): string|false|null
+    function safePhpShell(string $file, array $data): string|false|null
     {
         return shell_exec('php -f ' . escapeshellarg(normalizePath($file)) . ' ' . escapeshellarg(jsonEncodeBase64($data)));
     }
@@ -75,5 +79,40 @@ if (!function_exists('jsonDecodeBase64')) {
     function jsonDecodeBase64(string $json): array
     {
         return json_decode(base64_decode($json), true);
+    }
+}
+
+if (!function_exists('container')) {
+    function container(): Container
+    {
+        return App::getInstance()->getContainer();
+    }
+}
+
+if (!function_exists('trans')) {
+    function trans(string $key, array $data = []): mixed
+    {
+        return container()->get(Translator::class)->translate($key, $data);
+    }
+}
+
+if (!function_exists('transPlural')) {
+    function transPlural(string $key, ?int $count = null, array $data = []): mixed
+    {
+        return container()->get(Translator::class)->translatePlural($key, $count, $data);
+    }
+}
+
+if (!function_exists('__')) {
+    function __(string $key, array $data = []): mixed
+    {
+        return trans($key, $data);
+    }
+}
+
+if (!function_exists('___')) {
+    function ___(string $key, ?int $count = null, array $data = []): mixed
+    {
+        return transPlural($key, $count, $data);
     }
 }

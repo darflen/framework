@@ -22,7 +22,7 @@ class AppFeatureTest extends TestCase
         $this->assertSame(__DIR__, $app->getProjectDir());
         $this->assertSame([], $app->getMiddlewares());
         $this->assertSame([__DIR__ . '/routes'], $app->getRoutes());
-        $this->assertInstanceOf(App::class, $app->getApp());
+        $this->assertInstanceOf(App::class, $app->getInstance());
         $this->assertInstanceOf(Container::class, $app->getContainer());
     }
 }
