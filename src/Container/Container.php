@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Container;
 
+use Darflen\Framework\Container\Exceptions\ContainerException;
 use Darflen\Framework\Container\Exceptions\NotFoundException;
 use Override;
 use Psr\Container\ContainerInterface;
@@ -23,7 +24,15 @@ class Container implements ContainerInterface
         if (!$this->has($id)) {
             throw new NotFoundException("Service with ID: {$id} not found");
         }
-        return $this->services[$id];
+        $service = $this->services[$id];
+        try {
+            if (is_callable($service)) {
+                return $service($this);
+            }
+            return $service;
+        } catch (\Throwable $error) {
+            throw new ContainerException((string) $error);
+        }
     }
 
     #[Override]
