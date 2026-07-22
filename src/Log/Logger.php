@@ -63,7 +63,7 @@ class Logger implements LoggerInterface
     private function getTimestamp(): string
     {
         $time = new \DateTime();
-        $time = $time->format($this->config->get('logging.logDateFormat'));
+        $time = $time->format($this->config->get('logging.log_date_format'));
         return $time;
     }
 

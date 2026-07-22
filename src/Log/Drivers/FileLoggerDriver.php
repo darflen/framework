@@ -25,7 +25,7 @@ class FileLoggerDriver implements LoggerDriverInterface
         if (!$filesystem->isDirectory($loggingDirectory) || !$filesystem->isWritable($loggingDirectory)) {
             throw new RuntimeException('Log directory is not writable');
         }
-        $date = date($this->config->get('logging.fileDateFormat'));
+        $date = date($this->config->get('logging.file_date_format'));
         $this->loggingPath = $loggingDirectory . '/' . strtolower($this->config->get('app.name')) . '-' . $date . '.' . $this->config->get('logging.extension');
     }
 

@@ -26,7 +26,7 @@ final class App
         self::$instance = $this;
     }
 
-    public function create(): void
+    public function boot(): void
     {
         foreach ($this->routes as $route) {
             include_once $route;

@@ -62,4 +62,15 @@ class DBFeatureTest extends TestCase
 
         $this->assertSame(20, (int) $result);
     }
+
+    public function testTransactionRollbackThrowsException(): void
+    {
+        $database = new DB(self::$config);
+
+        $this->expectException(\RuntimeException::class);
+
+        $database->transaction(function () {
+            throw new \RuntimeException('Foobar', 1);
+        });
+    }
 }

@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use Darflen\Framework\App\App;
-use Darflen\Framework\Container\Container;
 use Darflen\Framework\Translation\Translator;
+use Psr\Container\ContainerInterface;
 
 if (!function_exists('env')) {
     function env(string $key, mixed $default = ''): mixed
@@ -83,7 +83,7 @@ if (!function_exists('jsonDecodeBase64')) {
 }
 
 if (!function_exists('container')) {
-    function container(): Container
+    function container(): ContainerInterface
     {
         return App::getInstance()->getContainer();
     }
