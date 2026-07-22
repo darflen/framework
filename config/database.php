@@ -3,7 +3,7 @@
 return [
     'mariadb' => [
         'host' => env('DB_HOST', '127.0.0.1'),
-        'port' => env('DB_PORT', 3306),
+        'port' => (int) env('DB_PORT', 3306),
         'database' => env('DB_DATABASE', 'darflen_db'),
         'username' => env('DB_USERNAME', 'root'),
         'password' => env('DB_PASSWORD', ''),
@@ -19,15 +19,15 @@ return [
     ],
     'redis' => [
         'host' => env('REDIS_HOST', '127.0.0.1'),
-        'port' => env('REDIS_PORT', 6379),
-        'database' => env('REDIS_DATABASE', 0),
+        'port' => (int) env('REDIS_PORT', 6379),
+        'database' => (int) env('REDIS_DATABASE', 0),
         'username' => env('REDIS_USERNAME', ''),
         'password' => env('REDIS_PASSWORD', ''),
-        'scheme' => env('REDIS_SCHEME', 'tcp'),
-        'read_write_timeout' => env('REDIS_READ_WRITE_TIMEOUT', 30),
+        'read_write_timeout' => (int) env('REDIS_READ_WRITE_TIMEOUT', 30),
+        'persistent' => env('REDIS_PERSISTENT', false),
+        'persistent_id' => env('REDIS_PERSISTENT_ID', 'default'),
         'options' => [
-            'prefix' => env('REDIS_PREFIX', ''),
-            'persistent' => env('REDIS_PERSISTENT', false),
+            Redis::OPT_PREFIX => env('REDIS_PREFIX', ''),
         ],
     ],
 ];

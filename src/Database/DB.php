@@ -10,7 +10,7 @@ use PDOStatement;
 
 class DB
 {
-    private PDO $connect;
+    private PDO $pdo;
 
     private Config $config;
 
@@ -19,12 +19,12 @@ class DB
         $this->config = $config;
     }
 
-    private function connect(): PDO
+    public function getInstance(): PDO
     {
-        if (isset($this->connect)) {
-            return $this->connect;
+        if (isset($this->pdo)) {
+            return $this->pdo;
         }
-        $this->connect = new PDO(
+        $this->pdo = new PDO(
             'mysql:host=' . $this->config->get('database.mariadb.host')
                 . ';dbname=' . $this->config->get('database.mariadb.database')
                 . ';port=' . $this->config->get('database.mariadb.port'),
@@ -32,25 +32,25 @@ class DB
             $this->config->get('database.mariadb.password'),
             $this->config->get('database.mariadb.options') ?? [],
         );
-        return $this->connect;
+        return $this->pdo;
     }
 
     public function rawQuery(string $query): PDOStatement
     {
-        $query = $this->connect()->query($query);
+        $query = $this->getInstance()->query($query);
         return $query;
     }
 
     public function preparedQuery(string $query, array $parameters = []): PDOStatement
     {
-        $query = $this->connect()->prepare($query);
+        $query = $this->getInstance()->prepare($query);
         $query->execute($parameters);
         return $query;
     }
 
     public function transaction(callable $callback): mixed
     {
-        $query = $this->connect();
+        $query = $this->getInstance();
         $query->beginTransaction();
         try {
             $result = $callback($this);

@@ -20,7 +20,6 @@ class HashFeatureTest extends TestCase
 
         $config = new Config();
         $config->loadConfigDirectory(dirname(__DIR__, 2) . '/config');
-        $config->set('security.encryption.key', '[d595ami5@9]uFZAPe/{4*iUGLkk,Zxr');
         self::$config = $config;
     }
 
