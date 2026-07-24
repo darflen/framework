@@ -25,4 +25,20 @@ class AppFeatureTest extends TestCase
         $this->assertInstanceOf(App::class, $app->getInstance());
         $this->assertInstanceOf(Container::class, $app->getContainer());
     }
+
+    public function testMiddlewareContainer(): void
+    {
+        $container = new Container([]);
+        $app = new App(__DIR__, $container);
+
+        $app->setMiddlewares([
+            function () {
+            },
+            function () {
+            }
+        ]);
+        $app->addMiddleware(function () {
+        });
+        $this->assertSame(3, count($app->getMiddlewares()));
+    }
 }

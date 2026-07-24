@@ -24,7 +24,7 @@ class RouteCollector
         array_pop($this->stack);
     }
 
-    public function map(string|array $methods, string $path, RequestHandlerInterface|callable $handler): self
+    public function map(string|array $methods, string $path, RequestHandlerInterface|callable|array $handler): self
     {
         $prefix = '';
         foreach ($this->stack as $stack) {
@@ -44,32 +44,32 @@ class RouteCollector
         return $this;
     }
 
-    public function get(string $path, RequestHandlerInterface|callable $handler): self
+    public function get(string $path, RequestHandlerInterface|callable|array $handler): self
     {
         return $this->map('GET', $path, $handler);
     }
 
-    public function post(string $path, RequestHandlerInterface|callable $handler): self
+    public function post(string $path, RequestHandlerInterface|callable|array $handler): self
     {
         return $this->map('POST', $path, $handler);
     }
 
-    public function put(string $path, RequestHandlerInterface|callable $handler): self
+    public function put(string $path, RequestHandlerInterface|callable|array $handler): self
     {
         return $this->map('PUT', $path, $handler);
     }
 
-    public function patch(string $path, RequestHandlerInterface|callable $handler): self
+    public function patch(string $path, RequestHandlerInterface|callable|array $handler): self
     {
         return $this->map('PATCH', $path, $handler);
     }
 
-    public function delete(string $path, RequestHandlerInterface|callable $handler): self
+    public function delete(string $path, RequestHandlerInterface|callable|array $handler): self
     {
         return $this->map('DELETE', $path, $handler);
     }
 
-    public function any(string $path, RequestHandlerInterface|callable $handler): self
+    public function any(string $path, RequestHandlerInterface|callable|array $handler): self
     {
         return $this->map('ANY', $path, $handler);
     }

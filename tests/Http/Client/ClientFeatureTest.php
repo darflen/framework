@@ -34,7 +34,7 @@ class ClientFeatureTest extends TestCase
     {
         parent::tearDown();
 
-        usleep(1000 * 25);
+        usleep(1000 * 5);
     }
 
     public static function requestBasicDataProvider(): Generator

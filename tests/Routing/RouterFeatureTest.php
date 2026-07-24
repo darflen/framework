@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Tests\Routing;
 
+use Darflen\Framework\Container\Container;
 use Darflen\Framework\Http\Factory\RequestHandlerFactory;
 use Darflen\Framework\Http\Factory\ServerRequestFactory;
 use Darflen\Framework\Http\Response;
@@ -26,7 +27,8 @@ class RouterFeatureTest extends TestCase
     {
         parent::setUp();
         $requestHandlerFactory = new RequestHandlerFactory();
-        $this->router = new Router($requestHandlerFactory);
+        $container = new Container([]);
+        $this->router = new Router($requestHandlerFactory, $container);
         $this->routeCollector = new RouteCollector();
         $this->routeCollector->map('GET', '/', function (): ResponseInterface {
             return new Response(200, '', [], 'Hello, World!');

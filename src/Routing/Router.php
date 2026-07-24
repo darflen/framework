@@ -7,6 +7,7 @@ namespace Darflen\Framework\Routing;
 use Darflen\Framework\Http\Factory\RequestHandlerFactory;
 use Darflen\Framework\Routing\Exceptions\MethodNotAllowedException;
 use Darflen\Framework\Routing\Exceptions\NotFoundException;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -14,9 +15,12 @@ class Router
 {
     private RequestHandlerFactory $requestHandlerFactory;
 
-    public function __construct(RequestHandlerFactory $requestHandlerFactory)
+    private ContainerInterface $container;
+
+    public function __construct(RequestHandlerFactory $requestHandlerFactory, ContainerInterface $container)
     {
         $this->requestHandlerFactory = $requestHandlerFactory;
+        $this->container = $container;
     }
 
     protected function matchPath(array $constraints, string $routerPath, string $path): array
@@ -59,6 +63,10 @@ class Router
                     throw new MethodNotAllowedException('Method is not allowed');
                 }
                 $handler = $route->getHandler();
+                if (is_array($handler)) {
+                    $instance = $this->container->get($handler[0]);
+                    $handler = [$instance, $handler[1]];
+                }
                 $stack = $route->getMiddlewares();
                 $stack[] = $handler;
                 $requestHandler = $this->requestHandlerFactory->createRequestHandler($stack);

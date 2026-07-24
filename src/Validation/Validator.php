@@ -21,6 +21,7 @@ class Validator
      */
     public function validateInputs(array $inputs, array $rules, array $stricts = []): self
     {
+        $this->errors = [];
         foreach ($rules as $field => $inputRules) {
             $input = $inputs[$field] ?? null;
             $isInputStrict = $stricts[$field] ?? false;
