@@ -32,13 +32,10 @@ class AppFeatureTest extends TestCase
         $app = new App(__DIR__, $container);
 
         $app->setMiddlewares([
-            function () {
-            },
-            function () {
-            }
+            function () {},
+            function () {},
         ]);
-        $app->addMiddleware(function () {
-        });
+        $app->addMiddleware(function () {});
         $this->assertSame(3, count($app->getMiddlewares()));
     }
 }

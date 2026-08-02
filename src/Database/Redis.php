@@ -28,7 +28,7 @@ class Redis
             $this->config->get('database.redis.host'),
             $this->config->get('database.redis.port'),
             $this->config->get('database.redis.read_write_timeout'),
-            $this->config->get('database.redis.persistent') ? $this->config->get('database.redis.persistent_id') : null
+            $this->config->get('database.redis.persistent') ? $this->config->get('database.redis.persistent_id') : null,
         );
         $password = $this->config->get('database.redis.username');
         $username = $this->config->get('database.redis.password');
