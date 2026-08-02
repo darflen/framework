@@ -116,3 +116,16 @@ if (!function_exists('___')) {
         return transPlural($key, $count, $data);
     }
 }
+
+if (!function_exists('asyncWork')) {
+    /**
+     * Run an asyncronous task
+     *
+     * Only work with the Darflen skeleton! DO NOT LET USER INPUTS IN THAT
+     */
+    function asyncWork(string $job, array $data): string|false|null
+    {
+        $data['_job'] = $job;
+        return safePhpShell(App::getInstance()->getProjectDir() . '/bootstrap/worker.php', $data);
+    }
+}
