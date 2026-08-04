@@ -60,7 +60,7 @@ class Router
             $matches = $this->match($route, $serverRequest);
             if ($matches['matched']) {
                 if (!in_array($method, $route->getMethods()) && !in_array('ANY', $route->getMethods())) {
-                    throw new MethodNotAllowedException('Method is not allowed');
+                    throw new MethodNotAllowedException('Method is not allowed', $serverRequest);
                 }
                 $handler = $route->getHandler();
                 if (is_array($handler)) {
@@ -74,6 +74,6 @@ class Router
                 return $requestHandler->handle($serverRequest);
             }
         }
-        throw new NotFoundException('No route matched');
+        throw new NotFoundException('No route matched', $serverRequest);
     }
 }
