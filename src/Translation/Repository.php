@@ -33,7 +33,8 @@ class Repository
 
     public function getTranslation(string $locale, string $key, mixed $default = null): mixed
     {
-        return Arr::get($this->translations[$locale], $key, $default);
+        $translations = $this->translations[$locale] ?? [];
+        return Arr::get($translations, $key, $default);
     }
 
     public function setTranslation(string $locale, string $key, mixed $value): void

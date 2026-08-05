@@ -28,9 +28,9 @@ class Validator
             foreach ($inputRules as $inputRule) {
                 if (!$inputRule->validate($input)) {
                     $this->addError($field, $inputRule);
-                }
-                if ($isInputStrict) {
-                    break;
+                    if ($isInputStrict) {
+                        break;
+                    }
                 }
             }
         }

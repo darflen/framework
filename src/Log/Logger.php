@@ -44,9 +44,9 @@ class Logger implements LoggerInterface
 
     private function format_message(string $level, string|Stringable $message, array $context = []): string
     {
-
         $currentTime = $this->getTimestamp();
         $logLevel = ucfirst(strtolower($level));
+        $original_context = $context;
         $context = Arr::dot($context);
         foreach ($context as $key => $value) {
             if (!preg_match('/^[A-Za-z_.]+$/', $key)) {
@@ -55,7 +55,7 @@ class Logger implements LoggerInterface
             $context['{' . $key . '}'] = $value;
             unset($context[$key]);
         }
-        $message = Str::interpolate($message, $context);
+        $message = Str::interpolate($message . ' ' . json_encode($original_context), $context);
         $message = $currentTime . ' ' . $logLevel . ": " . $message;
         return $message . PHP_EOL;
     }

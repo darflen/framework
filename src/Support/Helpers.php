@@ -129,3 +129,10 @@ if (!function_exists('asyncWork')) {
         return safePhpShell(App::getInstance()->getProjectDir() . '/bootstrap/worker.php', $data);
     }
 }
+
+if (!function_exists('uniqueId')) {
+    function uniqueId(): string
+    {
+        return bin2hex(openssl_random_pseudo_bytes(12));
+    }
+}

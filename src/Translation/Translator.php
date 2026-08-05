@@ -75,6 +75,9 @@ class Translator
         if (is_null($translation)) {
             return $key;
         }
+        if (!is_string($translation)) {
+            return $translation;
+        }
         return $this->parseTranslation($translation, $count, $data);
     }
 
