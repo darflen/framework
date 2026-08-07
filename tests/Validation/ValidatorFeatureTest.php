@@ -83,4 +83,18 @@ class ValidatorFeatureTest extends TestCase
         $this->assertTrue($validator->didFail());
         $this->assertSame(['number' => ['AlwaysFail'], 'fizz' => ['AlwaysFail'], 'string' => ['EqualsTo']], $validator->getErrors());
     }
+
+    public function testValidateInputsWithParameters(): void
+    {
+        $validator = new Validator();
+        $data = [
+            'foo' => 'bar',
+        ];
+        $validator->validateInputs($data, [
+            'foo' => [new EqualsTo('25')],
+        ]);
+        $this->assertFalse($validator->didPass());
+        $this->assertTrue($validator->didFail());
+        $this->assertSame(['foo' => ['EqualsTo' => ['value' => '25']]], $validator->getParameters());
+    }
 }

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Validation\Rules;
 
+use Darflen\Framework\Validation\Interfaces\ParametersAwareInterface;
 use Darflen\Framework\Validation\Interfaces\RuleInterface;
 use Override;
 
-class Max implements RuleInterface
+class Max implements RuleInterface, ParametersAwareInterface
 {
     private int $length;
 
@@ -29,5 +30,13 @@ class Max implements RuleInterface
             return count($input) <= $this->length;
         }
         return false;
+    }
+
+    #[Override]
+    public function getParameters(): array
+    {
+        return [
+            'length' => $this->length,
+        ];
     }
 }

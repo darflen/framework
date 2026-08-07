@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Validation\Rules;
 
+use Darflen\Framework\Validation\Interfaces\ParametersAwareInterface;
 use Darflen\Framework\Validation\Interfaces\RuleInterface;
 use Override;
 
-class DigitsBetween implements RuleInterface
+class DigitsBetween implements RuleInterface, ParametersAwareInterface
 {
     private int $min;
     private int $max;
@@ -26,5 +27,14 @@ class DigitsBetween implements RuleInterface
         }
         $digitCount = preg_match_all('/\d/', $input);
         return $digitCount >= $this->min && $digitCount <= $this->max;
+    }
+
+    #[Override]
+    public function getParameters(): array
+    {
+        return [
+            'min' => $this->min,
+            'max' => $this->max,
+        ];
     }
 }

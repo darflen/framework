@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Validation\Rules;
 
+use Darflen\Framework\Validation\Interfaces\ParametersAwareInterface;
 use Darflen\Framework\Validation\Interfaces\RuleInterface;
 use Override;
 
-class Between implements RuleInterface
+class Between implements RuleInterface, ParametersAwareInterface
 {
     private int $min;
     private int $max;
@@ -33,5 +34,14 @@ class Between implements RuleInterface
             return $length >= $this->min && $length <= $this->max;
         }
         return false;
+    }
+
+    #[Override]
+    public function getParameters(): array
+    {
+        return [
+            'min' => $this->min,
+            'max' => $this->max,
+        ];
     }
 }

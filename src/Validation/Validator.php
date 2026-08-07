@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Validation;
 
+use Darflen\Framework\Validation\Interfaces\ParametersAwareInterface;
 use Darflen\Framework\Validation\Interfaces\RuleInterface;
 use ReflectionClass;
 
 class Validator
 {
     private array $errors = [];
+
+    private array $parameters = [];
 
     /**
      * Validate inputs using rules and strict mode.
@@ -39,13 +42,25 @@ class Validator
 
     protected function addError(string $field, RuleInterface $rule): void
     {
-        $rule = (new ReflectionClass($rule))->getShortName();
-        $this->errors[$field][] = $rule;
+        $name = (new ReflectionClass($rule))->getShortName();
+        $parameters = $rule instanceof ParametersAwareInterface ? $rule->getParameters() : [];
+        $this->errors[$field][] = $name;
+        $this->parameters[$field][$name] = $parameters;
     }
 
     public function getErrors(): array
     {
         return $this->errors;
+    }
+
+    /**
+     * Get all the errors parameters from rule
+     *
+     * @return array
+     */
+    public function getParameters(): array
+    {
+        return $this->parameters;
     }
 
     public function didPass(): bool

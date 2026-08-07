@@ -6,9 +6,10 @@ namespace Darflen\Framework\Validation\Rules;
 
 use Darflen\Framework\Validation\Interfaces\RuleInterface;
 use Darflen\Framework\Support\Arr;
+use Darflen\Framework\Validation\Interfaces\ParametersAwareInterface;
 use Override;
 
-class NotInArray implements RuleInterface
+class NotInArray implements RuleInterface, ParametersAwareInterface
 {
     private string $key;
 
@@ -25,5 +26,13 @@ class NotInArray implements RuleInterface
         }
         $input = Arr::dot($input);
         return !isset($input[$this->key]);
+    }
+
+    #[Override]
+    public function getParameters(): array
+    {
+        return [
+            'key' => $this->key,
+        ];
     }
 }
