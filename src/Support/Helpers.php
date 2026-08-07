@@ -131,8 +131,8 @@ if (!function_exists('asyncWork')) {
 }
 
 if (!function_exists('uniqueId')) {
-    function uniqueId(): string
+    function uniqueId(int $entropy = 12): string
     {
-        return bin2hex(openssl_random_pseudo_bytes(12));
+        return bin2hex(openssl_random_pseudo_bytes($entropy));
     }
 }
