@@ -112,4 +112,10 @@ class HelpersTest extends TestCase
         $this->assertSame('foobar', ___('foo', 1, []));
         $this->assertSame('foobarbaz', ___('foo', 2, []));
     }
+
+    public function testUniqueId(): void
+    {
+        $this->assertSame(24, strlen(uniqueId()));
+        $this->assertSame(48, strlen(uniqueId(24)));
+    }
 }

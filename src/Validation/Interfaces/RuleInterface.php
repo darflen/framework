@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Darflen\Framework\Validation\Rules;
+namespace Darflen\Framework\Validation\Interfaces;
 
 interface RuleInterface
 {

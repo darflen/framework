@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Tests\Validation\Fixtures;
 
-use Darflen\Framework\Validation\Rules\RuleInterface;
+use Darflen\Framework\Validation\Interfaces\RuleInterface;
 use Override;
 
 class EqualsTo implements RuleInterface

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Darflen\Framework\Validation;
 
-use Darflen\Framework\Validation\Rules\RuleInterface;
+use Darflen\Framework\Validation\Interfaces\RuleInterface;
 use ReflectionClass;
 
 class Validator

@@ -29,6 +29,9 @@ class ContainerTest extends TestCase
 
         $this->container = new Container([
             'Request' => $mockRequest,
+            'Validator' => function (ContainerInterface $container) {
+                return $container->get('Request');
+            }
         ]);
     }
 
@@ -42,6 +45,11 @@ class ContainerTest extends TestCase
         $this->expectException(NotFoundException::class);
 
         $this->container->get('Not here!');
+    }
+
+    public function testGetWithFunction(): void
+    {
+        $this->assertSame($this->mocksClasses['Request'], $this->container->get('Validator'));
     }
 
     public function testHasWithValidId(): void
