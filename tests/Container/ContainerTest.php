@@ -31,7 +31,7 @@ class ContainerTest extends TestCase
             'Request' => $mockRequest,
             'Validator' => function (ContainerInterface $container) {
                 return $container->get('Request');
-            }
+            },
         ]);
     }
 

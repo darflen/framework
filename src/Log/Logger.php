@@ -55,7 +55,8 @@ class Logger implements LoggerInterface
             $context['{' . $key . '}'] = $value;
             unset($context[$key]);
         }
-        $message = Str::interpolate($message . ' ' . json_encode($original_context), $context);
+        $json_context = empty($original_context) ? '' : ' ' . json_encode($original_context);
+        $message = Str::interpolate($message . $json_context, $context);
         $message = $currentTime . ' ' . $logLevel . ": " . $message;
         return $message . PHP_EOL;
     }
