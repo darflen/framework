@@ -91,7 +91,7 @@ class RequestContext
     {
         $header = $this->getAuthorization() ?? '';
         preg_match('/Bearer\s(\S+)/i', $header, $matches);
-        return $matches[1];
+        return $matches[1] ?? null;
     }
 
     public function getIp(): ?string
